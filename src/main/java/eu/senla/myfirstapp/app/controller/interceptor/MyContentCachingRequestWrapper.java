@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.senla.myfirstapp.app.servlet.interceptor;
+package eu.senla.myfirstapp.app.controller.interceptor;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;

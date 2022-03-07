@@ -1,4 +1,4 @@
-package eu.senla.myfirstapp.app.servlet.student;
+package eu.senla.myfirstapp.app.controller.student;
 
 import eu.senla.myfirstapp.app.service.person.PersonService;
 import eu.senla.myfirstapp.model.auth.Role;

@@ -1,5 +1,7 @@
 package eu.senla.myfirstapp.app.service.facade;
 
+import eu.senla.myfirstapp.app.exception.IncorrectValueException;
+import eu.senla.myfirstapp.app.exception.NotFoundException;
 import eu.senla.myfirstapp.app.service.person.PersonService;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
@@ -8,9 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceView;
 
+import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class Finance {
+    public static final String PERSON_NOT_FOUND = "Person not found";
+    public static final String INCORRECT_VALUE = "Incorrect value";
     private final Map<Integer, Map<Integer, Double>> salaryHistory;
     private static final int CURRENT_MONTH = LocalDate.now().getMonthValue();
     private final PersonService personService;
@@ -81,60 +87,30 @@ public class Finance {
         }
     }
 
-    public ModelAndView getSalary(ModelAndView modelAndView, String userName) {
-        InternalResourceView internalResourceView = new InternalResourceView();
-        internalResourceView.setAlwaysInclude(true);
-        modelAndView.setView(internalResourceView);
-        modelAndView.setViewName("/admin/salaryPage");
-        Optional<? extends Person> person = personService.find(userName);
+    public Double getSalary(int id) {
+        Optional<? extends Person> person = personService.find(id);
         if (person.isEmpty() || !person.get().getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
             log.info("person == null or person role != \"TEACHER\"");
-            modelAndView.addObject("errorStringInSalaryPage",
-                    "the teacher's login is incorrect");
-            modelAndView.setStatus(HttpStatus.NOT_FOUND);
-            return modelAndView;
+            throw new NotFoundException(PERSON_NOT_FOUND);
         }
         log.info("Salary = {}", ((Teacher) person.get()).getSalary());
-        modelAndView.addObject("teacher", person.get());
-        modelAndView.setStatus(HttpStatus.OK);
-        return modelAndView;
+        return ((Teacher) person.get()).getSalary();
     }
 
-    public ModelAndView getAverageSalary(ModelAndView modelAndView, String min, String max, String userName) {
-        InternalResourceView internalResourceView = new InternalResourceView();
-        internalResourceView.setAlwaysInclude(true);
-        modelAndView.setView(internalResourceView);
-        modelAndView.setViewName("/admin/averageSalaryPage");
-        int minRange = -1;
-        int maxRange = -1;
-        if (!"".equals(min) &&
-                !"".equals(max)) {
-            minRange = Integer.parseInt(min);
-            maxRange = Integer.parseInt(max);
-        }
-        log.info("userName = {}, minRange = {}, maxRange = {}", userName, minRange, maxRange);
-
-        Optional<? extends Person> person = personService.find(userName);
+    public Double getAverageSalary(int id, int min, int max) {
+        log.info("id = {}, minRange = {}, maxRange = {}", id, min, max);
+        Optional<? extends Person> person = personService.find(id);
         log.info("Get person from db");
-
         if (person.isEmpty() || !person.get().getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
             log.info("person == null or person role != \"TEACHER\"");
-            modelAndView.addObject("errorStringInAvgSalaryPage",
-                    "the teacher's login is incorrect");
-            modelAndView.setStatus(HttpStatus.NOT_FOUND);
-            return modelAndView;
+            throw new NotFoundException(PERSON_NOT_FOUND);
         }
-        double averageSalary = averageSalary(minRange, maxRange, (Teacher) person.get());
+        Double averageSalary = averageSalary(min, max, (Teacher) person.get());
         if (averageSalary <= 0) {
             log.info("incorrect value in fields \"minRange\" or \"maxRange\"");
-            modelAndView.addObject("errorStringInAvgSalaryPage",
-                    "months are incorrect");
-            modelAndView.setStatus(HttpStatus.BAD_REQUEST);
-            return modelAndView;
+            throw new IncorrectValueException(INCORRECT_VALUE);
         }
         log.info("Average Salary = {}", averageSalary);
-        modelAndView.addObject("averageSalary", averageSalary);
-        modelAndView.setStatus(HttpStatus.OK);
-        return modelAndView;
+        return averageSalary;
     }
 }

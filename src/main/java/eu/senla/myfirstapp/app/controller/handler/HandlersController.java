@@ -1,4 +1,4 @@
-package eu.senla.myfirstapp.app.servlet.handler;
+package eu.senla.myfirstapp.app.controller.handler;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

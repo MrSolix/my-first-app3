@@ -1,6 +1,6 @@
 package eu.senla.myfirstapp.app.filter;
 
-import eu.senla.myfirstapp.app.servlet.interceptor.MyContentCachingRequestWrapper;
+import eu.senla.myfirstapp.app.controller.interceptor.MyContentCachingRequestWrapper;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 

@@ -1,6 +1,6 @@
 package eu.senla.myfirstapp.app.config;
 
-import eu.senla.myfirstapp.app.servlet.interceptor.LoggingInterceptor;
+import eu.senla.myfirstapp.app.controller.interceptor.LoggingInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
