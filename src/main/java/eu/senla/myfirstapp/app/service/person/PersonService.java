@@ -1,6 +1,7 @@
 package eu.senla.myfirstapp.app.service.person;
 
 import eu.senla.myfirstapp.model.people.Person;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,15 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class PersonService implements PersonServiceInterface {
 
     private final PersonDaoInstance personDaoInstance;
-
-    public PersonService(PersonDaoInstance personDaoInstance) {
-        this.personDaoInstance = personDaoInstance;
-    }
 
     @Override
     public Person save(Person person) {

@@ -3,16 +3,26 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.AbstractEntity;
 import eu.senla.myfirstapp.model.auth.Authority;
 import eu.senla.myfirstapp.model.auth.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -46,14 +56,6 @@ public abstract class Person extends AbstractEntity implements Printable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Collection<Authority> authorities;
-
-    public Set<String> getRolesName(Collection<Role> roles) {
-        Set<String> result = new HashSet<>();
-        if (roles != null) {
-            roles.forEach(role -> result.add(role.getName()));
-        }
-        return result;
-    }
 
     public void addRole(Role role) {
         if (roles == null) {

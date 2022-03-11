@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
 
 
 @Repository

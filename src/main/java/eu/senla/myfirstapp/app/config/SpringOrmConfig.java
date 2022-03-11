@@ -11,6 +11,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
@@ -49,7 +50,7 @@ public class SpringOrmConfig {
 
     @Bean
     public JpaTransactionManager jpaTransactionManager(@Autowired LocalContainerEntityManagerFactoryBean factoryBean) {
-        return new JpaTransactionManager(factoryBean.getObject());
+        return new JpaTransactionManager(Objects.requireNonNull(factoryBean.getObject()));
     }
 
     @Bean

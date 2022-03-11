@@ -14,10 +14,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_ALL_STUDENTS;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_STUDENT_BY_ID;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_STUDENT_BY_NAME;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ALL_STUDENTS;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_STUDENT_BY_ID;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_STUDENT_BY_NAME;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
 
 
 @Repository

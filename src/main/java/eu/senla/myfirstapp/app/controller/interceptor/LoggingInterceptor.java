@@ -1,5 +1,6 @@
 package eu.senla.myfirstapp.app.controller.interceptor;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
@@ -14,7 +15,7 @@ import java.util.Enumeration;
 public class LoggingInterceptor implements AsyncHandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
+    public boolean preHandle(@NonNull HttpServletRequest req, @NonNull HttpServletResponse resp, @NonNull Object handler) throws Exception {
         logUrl(req);
         logHeaders(req);
         return true;

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_ALL_TEACHERS;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_TEACHER_BY_ID;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_TEACHER_BY_NAME;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.PERSON_NOT_FOUND;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.REMOVE_TEACHER_FROM_GROUP;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ALL_TEACHERS;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_TEACHER_BY_ID;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_TEACHER_BY_NAME;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.REMOVE_TEACHER_FROM_GROUP;
 
 
 @Repository

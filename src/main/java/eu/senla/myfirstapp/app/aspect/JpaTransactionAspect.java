@@ -1,7 +1,6 @@
 package eu.senla.myfirstapp.app.aspect;
 
 import eu.senla.myfirstapp.app.exception.DataBaseException;
-import eu.senla.myfirstapp.app.repository.AbstractGeneralTransaction;
 import eu.senla.myfirstapp.app.repository.ConnectionType;
 import eu.senla.myfirstapp.app.repository.EntityManagerHelper;
 import eu.senla.myfirstapp.app.service.AbstractDaoInstance;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.AbstractGeneralTransaction.connectionType;
+import static eu.senla.myfirstapp.app.repository.AbstractGeneralTransaction.setConnectionType;
 
 
 @Aspect
@@ -33,7 +32,7 @@ public class JpaTransactionAspect extends AbstractDaoInstance {
         String methodName = jp.getSignature().getName();
         log.info("Transaction : {}", methodName);
         Object result;
-        connectionType = ConnectionType.MANY;
+        setConnectionType(ConnectionType.MANY);
         EntityManager em = null;
         try {
             em = helper.getObject();
@@ -41,10 +40,8 @@ public class JpaTransactionAspect extends AbstractDaoInstance {
 
             result = jp.proceed();
 
-            if (result instanceof Optional) {
-                if (((Optional) result).isEmpty()) {
-                    return Optional.empty();
-                }
+            if (result instanceof Optional && ((Optional<?>) result).isEmpty()) {
+                return Optional.empty();
             }
             helper.commitMany(em);
         } catch (Exception e) {

@@ -7,11 +7,20 @@ import eu.senla.myfirstapp.model.people.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
 @RestController
 @RequestMapping(path = "/json/students", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,7 +35,7 @@ public class StudentJsonController {
         List<Student> students = new ArrayList<>();
         for (Person person :
                 all) {
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
                 students.add(((Student) person));
             }
         }
@@ -38,7 +47,7 @@ public class StudentJsonController {
         Optional<Person> personOptional = personService.find(id);
         if (personOptional.isPresent()) {
             Person person = personOptional.get();
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
                 return ResponseEntity.ok(((Student) person));
             }
         }
@@ -47,7 +56,7 @@ public class StudentJsonController {
 
     @PostMapping()
     public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
-        if (student.getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
+        if (getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
             return ResponseEntity.ok((Student) personService.save(student));
         }
         return ResponseEntity.badRequest().build();
@@ -61,7 +70,7 @@ public class StudentJsonController {
                         .badRequest()
                         .body("Student id must be equal with id in path: " + id + " != " + student.getId());
             }
-            if (!student.getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
+            if (!getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
                 return ResponseEntity
                         .badRequest()
                         .body("Person is not student");
@@ -76,7 +85,7 @@ public class StudentJsonController {
         Optional<Person> optionalPerson = personService.find(id);
         if (optionalPerson.isPresent()) {
             Person person = optionalPerson.get();
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT))
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT))
                 return ResponseEntity.of(Optional.of(((Student) personService.remove(person))));
         }
         return ResponseEntity.notFound().build();

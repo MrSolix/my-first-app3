@@ -17,6 +17,7 @@
 package eu.senla.myfirstapp.app.controller.interceptor;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.util.WebUtils;
 
@@ -24,15 +25,23 @@ import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
     private static final String FORM_CONTENT_TYPE = "application/json";
 
-    private byte[] data;
+    private final byte[] data;
 
     private final ByteArrayOutputStream cachedContent;
 
@@ -186,7 +195,7 @@ public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
         }
 
         @Override
-        public int read(byte[] b) throws IOException {
+        public int read(@NonNull byte[] b) throws IOException {
             int count = this.is.read(b);
             writeToCache(b, 0, count);
             return count;
@@ -206,7 +215,7 @@ public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
         }
 
         @Override
-        public int read(final byte[] b, final int off, final int len) throws IOException {
+        public int read(@NonNull final byte[] b, final int off, final int len) throws IOException {
             int count = this.is.read(b, off, len);
             writeToCache(b, off, count);
             return count;

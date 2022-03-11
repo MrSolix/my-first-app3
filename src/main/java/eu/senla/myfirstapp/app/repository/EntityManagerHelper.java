@@ -32,7 +32,7 @@ public class EntityManagerHelper extends AbstractGeneralTransaction<EntityManage
 
     @Override
     public void commitSingle(EntityManager entityManager) {
-        if (ConnectionType.SINGLE.equals(connectionType)) {
+        if (ConnectionType.SINGLE.equals(getConnectionType())) {
             entityManager.getTransaction().commit();
         }
     }
@@ -40,7 +40,7 @@ public class EntityManagerHelper extends AbstractGeneralTransaction<EntityManage
     @Override
     public void commitMany(EntityManager entityManager) {
         entityManager.getTransaction().commit();
-        connectionType = ConnectionType.SINGLE;
+        setConnectionType(ConnectionType.SINGLE);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class EntityManagerHelper extends AbstractGeneralTransaction<EntityManage
 
     public void closeQuietly(EntityManager entityManager) {
         try {
-            if (entityManager != null && ConnectionType.SINGLE.equals(connectionType)) {
+            if (entityManager != null && ConnectionType.SINGLE.equals(getConnectionType())) {
                 entityManager.close();
             }
         } catch (Exception e) {

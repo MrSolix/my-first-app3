@@ -4,15 +4,29 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.grades.Grade;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -39,7 +53,7 @@ public class Student extends Person {
             orphanRemoval = true)
     private List<Grade> grades;
 
-    {
+    public Student() {
         addRole(new Role()
                 .withId(1)
                 .withName("STUDENT")
@@ -51,6 +65,7 @@ public class Student extends Person {
         return this;
     }
 
+    @Override
     public Student withId(Integer id) {
         setId(id);
         return this;

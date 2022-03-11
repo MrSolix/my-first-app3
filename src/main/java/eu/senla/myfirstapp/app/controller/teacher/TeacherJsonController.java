@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
+
 @RestController
 @RequestMapping(path = "/json/teachers", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class TeacherJsonController {
         List<Teacher> teachers = new ArrayList<>();
         for (Person person :
                 all) {
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
                 teachers.add((Teacher) person);
             }
         }
@@ -40,7 +42,7 @@ public class TeacherJsonController {
         Optional<Person> personOptional = personService.find(id);
         if (personOptional.isPresent()) {
             Person person = personOptional.get();
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
                 return ResponseEntity.ok(((Teacher) person));
             }
         }
@@ -49,7 +51,7 @@ public class TeacherJsonController {
 
     @PostMapping
     public ResponseEntity<Teacher> saveTeacher(@RequestBody Teacher teacher) {
-        if (teacher.getRolesName(teacher.getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (getRolesName(teacher.getRoles()).contains(Role.ROLE_TEACHER)) {
             return ResponseEntity.ok((Teacher) personService.save(teacher));
         }
         return ResponseEntity.badRequest().build();
@@ -63,7 +65,7 @@ public class TeacherJsonController {
                         .badRequest()
                         .body("Teacher id must be equal with id in path: " + id + " != " + teacher.getId());
             }
-            if (!teacher.getRolesName(teacher.getRoles()).contains(Role.ROLE_TEACHER)) {
+            if (!getRolesName(teacher.getRoles()).contains(Role.ROLE_TEACHER)) {
                 return ResponseEntity
                         .badRequest()
                         .body("Person is not teacher");
@@ -78,7 +80,7 @@ public class TeacherJsonController {
         Optional<Person> optionalPerson = personService.find(id);
         if (optionalPerson.isPresent()) {
             Person person = optionalPerson.get();
-            if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER))
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER))
                 return ResponseEntity.of(Optional.of(((Teacher) personService.remove(person))));
         }
         return ResponseEntity.notFound().build();

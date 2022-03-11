@@ -35,6 +35,7 @@ public class Group extends AbstractEntity {
     private Set<Student> students;
 
 
+    @Override
     public Group withId(Integer id) {
         setId(id);
         return this;

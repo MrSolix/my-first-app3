@@ -20,12 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*", "/registration", "/META-INF/resources/jsp/registrationPage.jsp").permitAll()
                 .antMatchers("/json/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().exceptionHandling().accessDeniedPage("/handlers/accessDenied")
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/main/home")
-                .and().logout()
                 .and().csrf().disable();
     }
 

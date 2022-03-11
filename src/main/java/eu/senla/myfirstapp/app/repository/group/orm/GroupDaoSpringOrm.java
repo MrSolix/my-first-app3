@@ -13,7 +13,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GROUP_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GROUP_NOT_FOUND;
 
 
 @Repository("ormGroup")

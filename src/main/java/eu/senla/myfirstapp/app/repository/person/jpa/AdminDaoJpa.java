@@ -4,9 +4,9 @@ import eu.senla.myfirstapp.model.people.Admin;
 import eu.senla.myfirstapp.model.people.Person;
 import org.springframework.stereotype.Repository;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_ADMIN_BY_ID;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_ADMIN_BY_NAME;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.GET_ALL_ADMINS;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ADMIN_BY_ID;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ADMIN_BY_NAME;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ALL_ADMINS;
 
 
 @Repository

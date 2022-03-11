@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.ERROR_FROM_SAVE;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
 
 @Slf4j
@@ -28,10 +29,10 @@ public class PersonDaoJpa implements PersonDAOInterface {
     @Override
     @JpaTransaction
     public Person save(Person person) {
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoJpa.save(person);
         }
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
             return teacherDaoJpa.save(person);
         }
         log.error(ERROR_FROM_SAVE);
@@ -69,10 +70,10 @@ public class PersonDaoJpa implements PersonDAOInterface {
     @Override
     @JpaTransaction
     public Person remove(Person person) {
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoJpa.remove(person);
         }
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
             return teacherDaoJpa.remove(person);
         }
         throw new DataBaseException(PERSON_NOT_FOUND);

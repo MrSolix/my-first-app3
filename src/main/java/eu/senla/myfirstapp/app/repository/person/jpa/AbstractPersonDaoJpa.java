@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.*;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.*;
 
 
 @Slf4j

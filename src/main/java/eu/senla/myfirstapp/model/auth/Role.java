@@ -9,9 +9,17 @@ import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -54,5 +62,13 @@ public class Role {
             users.add(person);
         }
         return this;
+    }
+
+    public static Set<String> getRolesName(Collection<Role> roles) {
+        Set<String> result = new HashSet<>();
+        if (roles != null) {
+            roles.forEach(role -> result.add(role.getName()));
+        }
+        return result;
     }
 }

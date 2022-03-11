@@ -3,7 +3,6 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.auth.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.DiscriminatorValue;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 
 @Data
-@NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -21,13 +19,14 @@ import javax.persistence.NamedQuery;
 @DiscriminatorValue("admin")
 public class Admin extends Person {
 
-    {
+    public Admin() {
         addRole(new Role()
                 .withId(3)
                 .withName("ADMIN")
                 .addPerson(this));
     }
 
+    @Override
     public Admin withId(Integer id) {
         setId(id);
         return this;

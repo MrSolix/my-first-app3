@@ -1,632 +1,638 @@
 databaseChangeLog:
   - logicalFilePath: db/changelog/db.changelog-master.yaml
-  - preConditions:
-  - changeSet:
-      id: 1
-      author: my-first-app
-      changes:
-        - createTable:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: user_name
-                  type: varchar(50)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: password
-                  type: varchar(255)
-              - column:
-                  name: name
-                  type: varchar(50)
-              - column:
-                  name: age
-                  type: INT
-              - column:
-                  name: user_type
-                  type: varchar(50)
-        - createTable:
-            tableName: authority
-            columns:
-              - column:
-                  name: id
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(50)
-                  constraints:
-                    - nullable: false
-        - createTable:
-            tableName: grades
-            columns:
-              - column:
-                  name: id
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: theme_name
-                  type: varchar(50)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: grade
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: student_id
-                  type: INT
-        - createTable:
-            tableName: "group"
-            columns:
-              - column:
-                  name: id
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: teacher_id
-                  type: INT
-        - createTable:
-            tableName: group_student
-            columns:
-              - column:
-                  name: group_id
-                  type: INT
-              - column:
-                  name: student_id
-                  type: INT
-        - createTable:
-            tableName: role
-            columns:
-              - column:
-                  name: id
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: salaries
-            columns:
-              - column:
-                  name: teacher_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: salary
-                  type: numeric
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: user_authority
-            columns:
-              - column:
-                  name: user_id
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: authority_id
-                  type: INT
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: role_id
-                  type: INT
-                  constraints:
-                    nullable: false
-  - changeSet:
-      id: 2
-      author: my-first-app
-      comment: "Create users"
-      changes:
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "5"
-              - column:
-                  name: user_name
-                  value: "admin"
-              - column:
-                  name: password
-                  value: "$2a$12$GQX1oFO7dQIUHtDrS2/pNuYRfdfgt.00MWC7YzARUOSVT5Swusg1G"
-              - column:
-                  name: name
-                  value: "admin"
-              - column:
-                  name: age
-                  value: "999"
-              - column:
-                  name: user_type
-                  value: "admin"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "6"
-              - column:
-                  name: user_name
-                  value: "student"
-              - column:
-                  name: password
-                  value: "$2a$12$iDPdhEo8ewcqwqagAVjYJ.SMES4piBWmusiZ76uoR.vKCI1aceYBW"
-              - column:
-                  name: name
-                  value: "Slavik"
-              - column:
-                  name: age
-                  value: "26"
-              - column:
-                  name: user_type
-                  value: "student"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "4"
-              - column:
-                  name: user_name
-                  value: "teacher"
-              - column:
-                  name: password
-                  value: "$2a$12$8RWIkuNE37xVh3Qj6qPZpOAENv1FPaffdtXpSNGrWJxCoe.PVk32q"
-              - column:
-                  name: name
-                  value: "Ychitel"
-              - column:
-                  name: age
-                  value: "12"
-              - column:
-                  name: user_type
-                  value: "teacher"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "3"
-              - column:
-                  name: user_name
-                  value: "teacher12"
-              - column:
-                  name: password
-                  value: "$2a$12$fRb6vuqoZlPp2bdWXd4TZ.Fj./Dx5Or47AU9xJc/TKlxZpy8YYG1u"
-              - column:
-                  name: name
-                  value: "kek"
-              - column:
-                  name: age
-                  value: "12"
-              - column:
-                  name: user_type
-                  value: "teacher"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "2"
-              - column:
-                  name: user_name
-                  value: "qwe453"
-              - column:
-                  name: password
-                  value: "$2a$12$PGIDIEUTp2M/aoQ.NF7blO9th24vNu1YbamXdoZwy9iWinqHTMMH6"
-              - column:
-                  name: name
-                  value: "qwe"
-              - column:
-                  name: age
-                  value: "123"
-              - column:
-                  name: user_type
-                  value: "student"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: "1"
-              - column:
-                  name: user_name
-                  value: "teacher1"
-              - column:
-                  name: password
-                  value: "$2a$12$3sntQS7oN3j/kLxHGtrUSOgXvd6USe3awF9.nLlTpgswWVSjjqHCG"
-              - column:
-                  name: name
-                  value: "Cheburator"
-              - column:
-                  name: age
-                  value: "124"
-              - column:
-                  name: user_type
-                  value: "teacher"
-      rollback:
-        - delete:
-            tableName: users
-            where: username in ('admin', 'teacher1', 'qwe453', 'teacher12', 'teacher', 'student')
-  - changeSet:
-      id: 3
-      author: my-first-app
-      comment: "Insert grades"
-      changes:
-        - insert:
-            tableName: grades
-            columns:
-              - column:
-                  name: id
-                  value: "176"
-              - column:
-                  name: theme_name
-                  value: "Math"
-              - column:
-                  name: grade
-                  value: "55"
-              - column:
-                  name: student_id
-                  value: "6"
-        - insert:
-            tableName: grades
-            columns:
-              - column:
-                  name: id
-                  value: "177"
-              - column:
-                  name: theme_name
-                  value: "Math"
-              - column:
-                  name: grade
-                  value: "32"
-              - column:
-                  name: student_id
-                  value: "6"
-        - insert:
-            tableName: grades
-            columns:
-              - column:
-                  name: id
-                  value: "178"
-              - column:
-                  name: theme_name
-                  value: "English"
-              - column:
-                  name: grade
-                  value: "78"
-              - column:
-                  name: student_id
-                  value: "6"
-        - insert:
-            tableName: grades
-            columns:
-              - column:
-                  name: id
-                  value: "179"
-              - column:
-                  name: theme_name
-                  value: "English"
-              - column:
-                  name: grade
-                  value: "89"
-              - column:
-                  name: student_id
-                  value: "6"
-  - changeSet:
-      id: 4
-      author: my-first-app
-      comment: "Insert authority"
-      changes:
-        - insert:
-            tableName: authority
-            columns:
-              - column:
-                  name: id
-                  value: 1
-              - column:
-                  name: name
-                  value: "READ_SALARIES"
-  - changeSet:
-      id: 5
-      author: my-first-app
-      comment: "Insert group"
-      changes:
-        - insert:
-            tableName: "group"
-            columns:
-              - column:
-                  name: id
-                  value: 19
-              - column:
-                  name: teacher_id
-                  value: 4
-        - insert:
-            tableName: "group"
-            columns:
-              - column:
-                  name: id
-                  value: 29
-              - column:
-                  name: teacher_id
-                  value: 3
-        - insert:
-            tableName: "group"
-            columns:
-              - column:
-                  name: id
-                  value: 28
-              - column:
-                  name: teacher_id
-                  value: 1
-  - changeSet:
-      id: 6
-      author: my-first-app
-      comment: "Insert group_student"
-      changes:
-        - insert:
-            tableName: group_student
-            columns:
-              - column:
-                  name: group_id
-                  value: 19
-              - column:
-                  name: student_id
-                  value: 6
-        - insert:
-            tableName: group_student
-            columns:
-              - column:
-                  name: group_id
-                  value: 29
-              - column:
-                  name: student_id
-                  value: 6
-  - changeSet:
-      id: 7
-      author: my-first-app
-      comment: "Insert roles"
-      changes:
-        - insert:
-            tableName: role
-            columns:
-              - column:
-                  name: id
-                  value: 1
-              - column:
-                  name: name
-                  value: "STUDENT"
-        - insert:
-            tableName: role
-            columns:
-              - column:
-                  name: id
-                  value: 2
-              - column:
-                  name: name
-                  value: "TEACHER"
-        - insert:
-            tableName: role
-            columns:
-              - column:
-                  name: id
-                  value: 3
-              - column:
-                  name: name
-                  value: "ADMIN"
-  - changeSet:
-      id: 8
-      author: my-first-app
-      comment: "Insert salaries"
-      changes:
-        - insert:
-            tableName: salaries
-            columns:
-              - column:
-                  name: teacher_id
-                  value: 4
-              - column:
-                  name: salary
-                  value: 2000
-        - insert:
-            tableName: salaries
-            columns:
-              - column:
-                  name: teacher_id
-                  value: 3
-              - column:
-                  name: salary
-                  value: 5000
-        - insert:
-            tableName: salaries
-            columns:
-              - column:
-                  name: teacher_id
-                  value: 1
-              - column:
-                  name: salary
-                  value: 10000
-  - changeSet:
-      id: 9
-      author: my-first-app
-      comment: "Insert user_authority"
-      changes:
-        - insert:
-            tableName: user_authority
-            columns:
-              - column:
-                  name: user_id
-                  value: 5
-              - column:
-                  name: authority_id
-                  value: 1
-  - changeSet:
-      id: 10
-      author: my-first-app
-      comment: "Insert user_role"
-      changes:
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 5
-              - column:
-                  name: role_id
-                  value: 3
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 6
-              - column:
-                  name: role_id
-                  value: 1
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 2
-              - column:
-                  name: role_id
-                  value: 1
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 4
-              - column:
-                  name: role_id
-                  value: 2
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 3
-              - column:
-                  name: role_id
-                  value: 2
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 1
-              - column:
-                  name: role_id
-                  value: 2
-  - changeSet:
-      id: addForeignKeyConstraint
-      author: my-first-app
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: user_id
-            baseTableName: user_role
-            baseTableSchemaName: public
-            constraintName: user_role_user_id_fkey
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: role_id
-            baseTableName: user_role
-            baseTableSchemaName: public
-            constraintName: user_role_role_id_fkey
-            referencedColumnNames: id
-            referencedTableName: role
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: user_id
-            baseTableName: user_authority
-            baseTableSchemaName: public
-            constraintName: user_authority_user_id_fkey
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: authority_id
-            baseTableName: user_authority
-            baseTableSchemaName: public
-            constraintName: user_authority_authority_id_fkey
-            referencedColumnNames: id
-            referencedTableName: authority
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: group_id
-            baseTableName: group_student
-            baseTableSchemaName: public
-            constraintName: student_group_id_fkey
-            referencedColumnNames: id
-            referencedTableName: "group"
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: teacher_id
-            baseTableName: salaries
-            baseTableSchemaName: public
-            constraintName: salary_teacher_id_fkey
-            onDelete: CASCADE
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: teacher_id
-            baseTableName: "group"
-            baseTableSchemaName: public
-            constraintName: group_teacher_id_fkey
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: student_id
-            baseTableName: group_student
-            baseTableSchemaName: public
-            constraintName: group_student_id_fkey
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
-        - addForeignKeyConstraint:
-            baseColumnNames: student_id
-            baseTableName: grades
-            baseTableSchemaName: public
-            constraintName: grades_student_id_fkey
-            referencedColumnNames: id
-            referencedTableName: users
-            referencedTableSchemaName: public
+  - include:
+      file: db/changelog/01/10-01-changelog-create-tables.yaml
+  - include:
+      file: db/changelog/01/10-01-changelog-alter-tables.yaml
+  - include:
+      file: db/changelog/01/11-01-changelog-insert-tables.yaml
+#  - preConditions:
+#  - changeSet:
+#      id: 1
+#      author: my-first-app
+#      changes:
+#        - createTable:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  type: BIGINT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: user_name
+#                  type: varchar(50)
+#                  constraints:
+#                    unique: true
+#                    nullable: false
+#              - column:
+#                  name: password
+#                  type: varchar(255)
+#              - column:
+#                  name: name
+#                  type: varchar(50)
+#              - column:
+#                  name: age
+#                  type: INT
+#              - column:
+#                  name: user_type
+#                  type: varchar(50)
+#        - createTable:
+#            tableName: authority
+#            columns:
+#              - column:
+#                  name: id
+#                  type: INT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(50)
+#                  constraints:
+#                    - nullable: false
+#        - createTable:
+#            tableName: grades
+#            columns:
+#              - column:
+#                  name: id
+#                  type: INT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: theme_name
+#                  type: varchar(50)
+#                  constraints:
+#                    - nullable: false
+#              - column:
+#                  name: grade
+#                  type: INT
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: student_id
+#                  type: INT
+#        - createTable:
+#            tableName: "group"
+#            columns:
+#              - column:
+#                  name: id
+#                  type: INT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: teacher_id
+#                  type: INT
+#        - createTable:
+#            tableName: group_student
+#            columns:
+#              - column:
+#                  name: group_id
+#                  type: INT
+#              - column:
+#                  name: student_id
+#                  type: INT
+#        - createTable:
+#            tableName: role
+#            columns:
+#              - column:
+#                  name: id
+#                  type: INT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(50)
+#                  constraints:
+#                    nullable: false
+#        - createTable:
+#            tableName: salaries
+#            columns:
+#              - column:
+#                  name: teacher_id
+#                  type: BIGINT
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: salary
+#                  type: numeric
+#                  constraints:
+#                    nullable: false
+#        - createTable:
+#            tableName: user_authority
+#            columns:
+#              - column:
+#                  name: user_id
+#                  type: INT
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: authority_id
+#                  type: INT
+#                  constraints:
+#                    nullable: false
+#        - createTable:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  type: INT
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: role_id
+#                  type: INT
+#                  constraints:
+#                    nullable: false
+#  - changeSet:
+#      id: 2
+#      author: my-first-app
+#      comment: "Create users"
+#      changes:
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "5"
+#              - column:
+#                  name: user_name
+#                  value: "admin"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$GQX1oFO7dQIUHtDrS2/pNuYRfdfgt.00MWC7YzARUOSVT5Swusg1G"
+#              - column:
+#                  name: name
+#                  value: "admin"
+#              - column:
+#                  name: age
+#                  value: "999"
+#              - column:
+#                  name: user_type
+#                  value: "admin"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "6"
+#              - column:
+#                  name: user_name
+#                  value: "student"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$iDPdhEo8ewcqwqagAVjYJ.SMES4piBWmusiZ76uoR.vKCI1aceYBW"
+#              - column:
+#                  name: name
+#                  value: "Slavik"
+#              - column:
+#                  name: age
+#                  value: "26"
+#              - column:
+#                  name: user_type
+#                  value: "student"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "4"
+#              - column:
+#                  name: user_name
+#                  value: "teacher"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$8RWIkuNE37xVh3Qj6qPZpOAENv1FPaffdtXpSNGrWJxCoe.PVk32q"
+#              - column:
+#                  name: name
+#                  value: "Ychitel"
+#              - column:
+#                  name: age
+#                  value: "12"
+#              - column:
+#                  name: user_type
+#                  value: "teacher"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "3"
+#              - column:
+#                  name: user_name
+#                  value: "teacher12"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$fRb6vuqoZlPp2bdWXd4TZ.Fj./Dx5Or47AU9xJc/TKlxZpy8YYG1u"
+#              - column:
+#                  name: name
+#                  value: "kek"
+#              - column:
+#                  name: age
+#                  value: "12"
+#              - column:
+#                  name: user_type
+#                  value: "teacher"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "2"
+#              - column:
+#                  name: user_name
+#                  value: "qwe453"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$PGIDIEUTp2M/aoQ.NF7blO9th24vNu1YbamXdoZwy9iWinqHTMMH6"
+#              - column:
+#                  name: name
+#                  value: "qwe"
+#              - column:
+#                  name: age
+#                  value: "123"
+#              - column:
+#                  name: user_type
+#                  value: "student"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "1"
+#              - column:
+#                  name: user_name
+#                  value: "teacher1"
+#              - column:
+#                  name: password
+#                  value: "$2a$12$3sntQS7oN3j/kLxHGtrUSOgXvd6USe3awF9.nLlTpgswWVSjjqHCG"
+#              - column:
+#                  name: name
+#                  value: "Cheburator"
+#              - column:
+#                  name: age
+#                  value: "124"
+#              - column:
+#                  name: user_type
+#                  value: "teacher"
+#      rollback:
+#        - delete:
+#            tableName: users
+#            where: username in ('admin', 'teacher1', 'qwe453', 'teacher12', 'teacher', 'student')
+#  - changeSet:
+#      id: 3
+#      author: my-first-app
+#      comment: "Insert grades"
+#      changes:
+#        - insert:
+#            tableName: grades
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "176"
+#              - column:
+#                  name: theme_name
+#                  value: "Math"
+#              - column:
+#                  name: grade
+#                  value: "55"
+#              - column:
+#                  name: student_id
+#                  value: "6"
+#        - insert:
+#            tableName: grades
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "177"
+#              - column:
+#                  name: theme_name
+#                  value: "Math"
+#              - column:
+#                  name: grade
+#                  value: "32"
+#              - column:
+#                  name: student_id
+#                  value: "6"
+#        - insert:
+#            tableName: grades
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "178"
+#              - column:
+#                  name: theme_name
+#                  value: "English"
+#              - column:
+#                  name: grade
+#                  value: "78"
+#              - column:
+#                  name: student_id
+#                  value: "6"
+#        - insert:
+#            tableName: grades
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "179"
+#              - column:
+#                  name: theme_name
+#                  value: "English"
+#              - column:
+#                  name: grade
+#                  value: "89"
+#              - column:
+#                  name: student_id
+#                  value: "6"
+#  - changeSet:
+#      id: 4
+#      author: my-first-app
+#      comment: "Insert authority"
+#      changes:
+#        - insert:
+#            tableName: authority
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 1
+#              - column:
+#                  name: name
+#                  value: "READ_SALARIES"
+#  - changeSet:
+#      id: 5
+#      author: my-first-app
+#      comment: "Insert group"
+#      changes:
+#        - insert:
+#            tableName: "group"
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 19
+#              - column:
+#                  name: teacher_id
+#                  value: 4
+#        - insert:
+#            tableName: "group"
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 29
+#              - column:
+#                  name: teacher_id
+#                  value: 3
+#        - insert:
+#            tableName: "group"
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 28
+#              - column:
+#                  name: teacher_id
+#                  value: 1
+#  - changeSet:
+#      id: 6
+#      author: my-first-app
+#      comment: "Insert group_student"
+#      changes:
+#        - insert:
+#            tableName: group_student
+#            columns:
+#              - column:
+#                  name: group_id
+#                  value: 19
+#              - column:
+#                  name: student_id
+#                  value: 6
+#        - insert:
+#            tableName: group_student
+#            columns:
+#              - column:
+#                  name: group_id
+#                  value: 29
+#              - column:
+#                  name: student_id
+#                  value: 6
+#  - changeSet:
+#      id: 7
+#      author: my-first-app
+#      comment: "Insert roles"
+#      changes:
+#        - insert:
+#            tableName: role
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 1
+#              - column:
+#                  name: name
+#                  value: "STUDENT"
+#        - insert:
+#            tableName: role
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 2
+#              - column:
+#                  name: name
+#                  value: "TEACHER"
+#        - insert:
+#            tableName: role
+#            columns:
+#              - column:
+#                  name: id
+#                  value: 3
+#              - column:
+#                  name: name
+#                  value: "ADMIN"
+#  - changeSet:
+#      id: 8
+#      author: my-first-app
+#      comment: "Insert salaries"
+#      changes:
+#        - insert:
+#            tableName: salaries
+#            columns:
+#              - column:
+#                  name: teacher_id
+#                  value: 4
+#              - column:
+#                  name: salary
+#                  value: 2000
+#        - insert:
+#            tableName: salaries
+#            columns:
+#              - column:
+#                  name: teacher_id
+#                  value: 3
+#              - column:
+#                  name: salary
+#                  value: 5000
+#        - insert:
+#            tableName: salaries
+#            columns:
+#              - column:
+#                  name: teacher_id
+#                  value: 1
+#              - column:
+#                  name: salary
+#                  value: 10000
+#  - changeSet:
+#      id: 9
+#      author: my-first-app
+#      comment: "Insert user_authority"
+#      changes:
+#        - insert:
+#            tableName: user_authority
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 5
+#              - column:
+#                  name: authority_id
+#                  value: 1
+#  - changeSet:
+#      id: 10
+#      author: my-first-app
+#      comment: "Insert user_role"
+#      changes:
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 5
+#              - column:
+#                  name: role_id
+#                  value: 3
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 6
+#              - column:
+#                  name: role_id
+#                  value: 1
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 2
+#              - column:
+#                  name: role_id
+#                  value: 1
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 4
+#              - column:
+#                  name: role_id
+#                  value: 2
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 3
+#              - column:
+#                  name: role_id
+#                  value: 2
+#        - insert:
+#            tableName: user_role
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: 1
+#              - column:
+#                  name: role_id
+#                  value: 2
+#  - changeSet:
+#      id: addForeignKeyConstraint
+#      author: my-first-app
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: user_id
+#            baseTableName: user_role
+#            baseTableSchemaName: public
+#            constraintName: user_role_user_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: role_id
+#            baseTableName: user_role
+#            baseTableSchemaName: public
+#            constraintName: user_role_role_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: role
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: user_id
+#            baseTableName: user_authority
+#            baseTableSchemaName: public
+#            constraintName: user_authority_user_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: authority_id
+#            baseTableName: user_authority
+#            baseTableSchemaName: public
+#            constraintName: user_authority_authority_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: authority
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: group_id
+#            baseTableName: group_student
+#            baseTableSchemaName: public
+#            constraintName: student_group_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: "group"
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: teacher_id
+#            baseTableName: salaries
+#            baseTableSchemaName: public
+#            constraintName: salary_teacher_id_fkey
+#            onDelete: CASCADE
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: teacher_id
+#            baseTableName: "group"
+#            baseTableSchemaName: public
+#            constraintName: group_teacher_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: student_id
+#            baseTableName: group_student
+#            baseTableSchemaName: public
+#            constraintName: group_student_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public
+#        - addForeignKeyConstraint:
+#            baseColumnNames: student_id
+#            baseTableName: grades
+#            baseTableSchemaName: public
+#            constraintName: grades_student_id_fkey
+#            referencedColumnNames: id
+#            referencedTableName: users
+#            referencedTableSchemaName: public

@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.ERROR_FROM_SAVE;
-import static eu.senla.myfirstapp.app.repository.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
+import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
 
 @Repository("ormPerson")
@@ -27,10 +28,10 @@ public class PersonDaoSpringOrm implements PersonDAOInterface {
 
     @Override
     public Person save(Person person) {
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoSpringOrm.save(person);
         }
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
             return teacherDaoSpringOrm.save(person);
         }
         log.error(ERROR_FROM_SAVE);
@@ -74,10 +75,10 @@ public class PersonDaoSpringOrm implements PersonDAOInterface {
 
     @Override
     public Person remove(Person person) {
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoSpringOrm.remove(person);
         }
-        if (person.getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
             return teacherDaoSpringOrm.remove(person);
         }
         throw new DataBaseException(PERSON_NOT_FOUND);

@@ -8,19 +8,16 @@ import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Teacher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.InternalResourceView;
 
-import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
 
 @Slf4j
@@ -42,7 +39,7 @@ public class Finance {
     private void init() {
         List<? extends Person> all = personService.findAll();
         for (Person p : all) {
-            if (p.getRolesName(p.getRoles()).contains(Role.ROLE_TEACHER)) {
+            if (getRolesName(p.getRoles()).contains(Role.ROLE_TEACHER)) {
                 Optional<? extends Person> user = personService.find(p.getId());
                 if (user.isPresent()) {
                     Teacher teacher = (Teacher) user.get();
@@ -89,7 +86,7 @@ public class Finance {
 
     public Double getSalary(int id) {
         Optional<? extends Person> person = personService.find(id);
-        if (person.isEmpty() || !person.get().getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (person.isEmpty() || !getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
             log.info("person == null or person role != \"TEACHER\"");
             throw new NotFoundException(PERSON_NOT_FOUND);
         }
@@ -101,7 +98,7 @@ public class Finance {
         log.info("id = {}, minRange = {}, maxRange = {}", id, min, max);
         Optional<? extends Person> person = personService.find(id);
         log.info("Get person from db");
-        if (person.isEmpty() || !person.get().getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
+        if (person.isEmpty() || !getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
             log.info("person == null or person role != \"TEACHER\"");
             throw new NotFoundException(PERSON_NOT_FOUND);
         }
