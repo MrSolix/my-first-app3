@@ -1,6 +1,8 @@
 package eu.senla.myfirstapp.model.auth;
 
 import eu.senla.myfirstapp.model.people.Person;
+import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class UserPrincipal implements UserDetails {
     private static final String ROLE_PREFIX = "ROLE_";
     private final Person person;
@@ -24,10 +27,10 @@ public class UserPrincipal implements UserDetails {
         List<SimpleGrantedAuthority> authorityList = person.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                 .collect(Collectors.toList());
-
         this.authorities = new ArrayList<>();
         this.authorities.addAll(rolesList);
         this.authorities.addAll(authorityList);
+        log.info("authorities" + this.authorities);
     }
 
     @Override
@@ -43,10 +46,6 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getPassword() {
         return person.getPassword();
-    }
-
-    public String getInfo() {
-        return person.infoGet();
     }
 
     @Override
@@ -67,5 +66,26 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserPrincipal)) return false;
+        UserPrincipal that = (UserPrincipal) o;
+        return Objects.equals(person, that.person) && Objects.equals(authorities, that.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(person, authorities);
+    }
+
+    @Override
+    public String toString() {
+        return "UserPrincipal{" +
+                "person=" + person +
+                ", authorities=" + authorities +
+                '}';
     }
 }

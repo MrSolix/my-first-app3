@@ -1,6 +1,6 @@
 databaseChangeLog:
   - logicalFilePath: db/changelog/db.changelog-master.yaml
   - include:
-      file: db/changelog/v_1_0_0/10-01-changelog-create-tables.yaml
+      file: db/changelog/v_1_0_0/2022/03/09/create_tables.xml
   - include:
-      file: db/changelog/v_1_0_0/11-01-changelog-insert-tables.yaml
+      file: db/changelog/v_1_0_0/2022/03/09/insert_into_table.xml

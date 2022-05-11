@@ -2,22 +2,26 @@ package eu.senla.myfirstapp.model.people;
 
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @ToString(callSuper = true)
 @Entity
 @SecondaryTable(name = "salaries", pkJoinColumns = @PrimaryKeyJoinColumn(name = "teacher_id"))
@@ -28,8 +32,9 @@ import javax.persistence.SecondaryTable;
 public class Teacher extends Person {
     @ToString.Include
     @EqualsAndHashCode.Include
-    @OneToOne(mappedBy = "teacher",
+    @OneToOne(mappedBy = "teacher",fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @Fetch(FetchMode.JOIN)
     private Group group;
     @Column(table = "salaries", name = "salary")
     private Double salary;

@@ -27,7 +27,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     private final AdminDaoJpa adminDaoJpa;
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public Person save(Person person) {
         if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoJpa.save(person);
@@ -40,7 +40,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     }
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public Optional<Person> find(Integer id) {
         Optional<Person> student = studentDaoJpa.find(id);
         if (student.isPresent()) {
@@ -54,7 +54,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     }
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public Optional<Person> find(String name) {
         Optional<Person> student = studentDaoJpa.find(name);
         if (student.isPresent()) {
@@ -68,7 +68,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     }
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public Person remove(Person person) {
         if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             return studentDaoJpa.remove(person);
@@ -80,7 +80,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     }
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public Person update(Integer id, Person person) {
         try {
             return studentDaoJpa.update(id, person);
@@ -90,7 +90,7 @@ public class PersonDaoJpa implements PersonDAOInterface {
     }
 
     @Override
-    @JpaTransaction
+//    @JpaTransaction
     public List<Person> findAll() {
         List<Person> result = new ArrayList<>();
         result.addAll(studentDaoJpa.findAll());

@@ -1,17 +1,16 @@
 package eu.senla.myfirstapp.model.people;
 
 import eu.senla.myfirstapp.model.auth.Role;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @NamedQuery(name = "findAdminByName", query = "select u from Admin u join u.roles r where u.userName = :name and r.name = 'ADMIN'")
 @NamedQuery(name = "findAdminById", query = "select u from Admin u join u.roles r where u.id = :id and r.name = 'ADMIN'")

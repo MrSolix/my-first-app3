@@ -6,6 +6,7 @@ import eu.senla.myfirstapp.app.service.person.PersonService;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Teacher;
+import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.transaction.annotation.Transactional;
 
 import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
@@ -30,12 +32,12 @@ public class Finance {
     private final PersonService personService;
 
     @Autowired
-    private Finance(PersonService personService) {
+    public Finance(PersonService personService) {
         this.personService = personService;
         salaryHistory = new ConcurrentHashMap<>();
-        init();
     }
 
+    @PostConstruct
     private void init() {
         List<? extends Person> all = personService.findAll();
         for (Person p : all) {
@@ -56,7 +58,7 @@ public class Finance {
         return salaryHistory;
     }
 
-    public double averageSalary(Integer minRange, Integer maxRange, Teacher teacher) {
+    private double averageSalary(Integer minRange, Integer maxRange, Teacher teacher) {
         int rangeCount = maxRange - minRange + 1;
         double avgSal = 0.0;
         if (minRange < 1 || maxRange > CURRENT_MONTH
@@ -77,7 +79,7 @@ public class Finance {
         return avgSal;
     }
 
-    public void saveSalary(Teacher teacher, Integer month, Double salary) {
+    private void saveSalary(Teacher teacher, Integer month, Double salary) {
         if (month >= 1 && month <= CURRENT_MONTH) {
             getSalaryHistory().putIfAbsent(teacher.getId(), new HashMap<>());
             getSalaryHistory().get(teacher.getId()).putIfAbsent(month, salary);

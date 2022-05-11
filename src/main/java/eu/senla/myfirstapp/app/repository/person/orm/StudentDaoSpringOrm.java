@@ -38,7 +38,7 @@ public class StudentDaoSpringOrm extends AbstractPersonDaoSpringOrm {
         throw new DataBaseException(PERSON_NOT_FOUND);
     }
 
-    public Student updateStudent(Student oldStudent, Student student) {
+    private Student updateStudent(Student oldStudent, Student student) {
         setPersonFields(oldStudent, student);
         Set<Group> groups = student.getGroups();
         List<Grade> grades = student.getGrades();

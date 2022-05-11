@@ -4,13 +4,12 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.grades.Grade;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -20,15 +19,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
 @NamedQuery(name = "findStudentByName", query = "select u from Student u join u.roles r where u.userName = :name and r.name = 'STUDENT'")
@@ -37,20 +37,19 @@ import java.util.Set;
 @DiscriminatorValue("student")
 public class Student extends Person {
     @ToString.Include
-    @EqualsAndHashCode.Include
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "group_student",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<Group> groups;
     @ToString.Include
-    @EqualsAndHashCode.Include
-    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "student",
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST},
             orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Grade> grades;
 
     public Student() {
@@ -161,5 +160,17 @@ public class Student extends Person {
         return result.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Student student = (Student) o;
+        return Objects.equals(groups, student.groups) && Objects.equals(grades, student.grades);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), groups, grades);
+    }
 }

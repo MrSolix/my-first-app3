@@ -3,6 +3,7 @@ package eu.senla.myfirstapp.app.service.auth;
 import eu.senla.myfirstapp.app.service.person.PersonDaoInstance;
 import eu.senla.myfirstapp.model.auth.UserPrincipal;
 import eu.senla.myfirstapp.model.people.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,11 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
-    private PersonDaoInstance personDaoInstance;
+    private final PersonDaoInstance personDaoInstance;
 
     @Autowired
-    public void setPersonDaoInstance(PersonDaoInstance personDaoInstance) {
+    public UserService(PersonDaoInstance personDaoInstance) {
         this.personDaoInstance = personDaoInstance;
     }
 
@@ -28,6 +30,9 @@ public class UserService implements UserDetailsService {
         Person person = optionalPerson.orElseThrow(() -> {
             throw new UsernameNotFoundException(String.format("User %s not found", username));
         });
-        return new UserPrincipal(person);
+        log.info("optionalPerson:" + optionalPerson.get());
+        UserPrincipal userPrincipal = new UserPrincipal(person);
+        log.info("userPrincipal" + userPrincipal);
+        return userPrincipal;
     }
 }

@@ -6,7 +6,12 @@ import eu.senla.myfirstapp.app.repository.group.jpa.GroupDaoJpa;
 import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.people.Person;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -66,12 +71,10 @@ public abstract class AbstractPersonDaoJpa implements PersonDAOInterface {
             em = helper.getObject();
             helper.begin(em);
 
-            TypedQuery<? extends Person> find = em.createNamedQuery(namedQueryById(), getType());
-            find.setParameter("id", id);
-            Person entity = find.getSingleResult();
+            Person person = em.find(getType(), id);
 
             helper.commitSingle(em);
-            return Optional.ofNullable(entity);
+            return Optional.ofNullable(person);
         } catch (Exception e) {
             helper.rollBack(em);
             log.error(ERROR_FROM_FIND);

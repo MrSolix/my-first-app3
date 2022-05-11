@@ -2,13 +2,30 @@ package eu.senla.myfirstapp.model.people.grades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.myfirstapp.model.people.Student;
-import lombok.*;
-
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-@EqualsAndHashCode
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -28,7 +45,8 @@ public class Grade implements Serializable {
     @EqualsAndHashCode.Exclude
     private Integer grade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "student_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -54,4 +72,16 @@ public class Grade implements Serializable {
         return themeName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grade grade1 = (Grade) o;
+        return Objects.equals(id, grade1.id) && Objects.equals(themeName, grade1.themeName) && Objects.equals(grade, grade1.grade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, themeName, grade);
+    }
 }

@@ -4,6 +4,9 @@ import eu.senla.myfirstapp.app.service.person.PersonService;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Student;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
