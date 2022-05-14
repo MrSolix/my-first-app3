@@ -33,7 +33,7 @@ import org.hibernate.annotations.FetchMode;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type",
         discriminatorType = DiscriminatorType.STRING)
-public abstract class Person extends AbstractEntity implements Printable {
+public abstract class Person extends AbstractEntity {
     @Column(name = "user_name")
     private String userName;
     private String password;

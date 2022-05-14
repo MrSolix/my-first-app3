@@ -103,13 +103,4 @@ public class Teacher extends Person {
         this.group = null;
         group.setTeacher(null);
     }
-
-    @Override
-    public String infoGet() {
-        return "Name: \"" + getName() +
-                "\"<br>Age: \"" + getAge() +
-                "\"<br>Role: \"" + getRoles() +
-                "\"<br>Group №: " + (group != null ? group.getId() : 0) +
-                "<br>Salary: " + getSalary();
-    }
 }

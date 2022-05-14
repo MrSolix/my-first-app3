@@ -4,10 +4,7 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.grades.Grade;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -121,44 +118,6 @@ public class Student extends Person {
     public void removeGrade(Grade grade) {
         grades.remove(grade);
         grade.setStudent(null);
-    }
-
-    @Override
-    public String infoGet() {
-        return "Name: \"" + getName() +
-                "\"<br>Age: \"" + getAge() +
-                "\"<br>Role: \"" + getRoles() +
-                "\"<br>Group(s) №: " + groupNumbersInString() +
-                "<br>Grades: " + stringOfGrades(grades);
-    }
-
-    private String groupNumbersInString() {
-        StringBuilder result = new StringBuilder();
-        int count = 0;
-        for (Group group : groups) {
-            result.append(group.getId());
-            if (count != groups.size() - 1) {
-                result.append(", ");
-            } else {
-                result.append(";");
-            }
-            count++;
-        }
-        return result.toString();
-    }
-
-    private String stringOfGrades(List<Grade> grades) {
-        StringBuilder result = new StringBuilder();
-        Map<String, List<Integer>> map = new LinkedHashMap<>();
-        for (Grade grade : grades) {
-            map.putIfAbsent(grade.getThemeName(), new ArrayList<>());
-            map.get(grade.getThemeName()).add(grade.getGrade());
-        }
-        Set<String> strings = map.keySet();
-        for (String s : strings) {
-            result.append("<br>&nbsp;&nbsp;&nbsp;&nbsp").append(s).append(": ").append(map.get(s));
-        }
-        return result.toString();
     }
 
     @Override

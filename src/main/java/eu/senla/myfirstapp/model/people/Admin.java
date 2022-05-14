@@ -50,12 +50,4 @@ public class Admin extends Person {
         setAge(age);
         return this;
     }
-
-    @Override
-    public String infoGet() {
-        return "Name: \"" + getName() +
-                "\"<br>Age: \"" + getAge() +
-                "\"<br>Role: \"" + getRoles() +
-                "\"";
-    }
 }
