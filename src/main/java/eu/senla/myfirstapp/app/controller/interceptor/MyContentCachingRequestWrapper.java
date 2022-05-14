@@ -16,15 +16,6 @@
 
 package eu.senla.myfirstapp.app.controller.interceptor;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.web.util.WebUtils;
-
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +27,14 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.web.util.WebUtils;
 
 public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
@@ -73,7 +72,7 @@ public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         if (this.inputStream == null) {
             this.inputStream = new ContentCachingInputStream(new ByteArrayInputStream(data));
         }
@@ -181,7 +180,7 @@ public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
         }
 
         @Override
-        public int read() throws IOException {
+        public int read() {
             int ch = this.is.read();
             if (ch != -1 && !this.overflow) {
                 if (contentCacheLimit != null && cachedContent.size() == contentCacheLimit) {
@@ -215,7 +214,7 @@ public class MyContentCachingRequestWrapper extends HttpServletRequestWrapper {
         }
 
         @Override
-        public int read(@NonNull final byte[] b, final int off, final int len) throws IOException {
+        public int read(@NonNull final byte[] b, final int off, final int len) {
             int count = this.is.read(b, off, len);
             writeToCache(b, off, count);
             return count;

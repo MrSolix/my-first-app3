@@ -1,11 +1,10 @@
 package eu.senla.myfirstapp.app.repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 @Component("jpaEntityManager")
 @Slf4j

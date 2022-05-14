@@ -5,10 +5,14 @@ import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Student;
 import eu.senla.myfirstapp.model.people.grades.Grade;
-import org.springframework.stereotype.Repository;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import javax.persistence.EntityManager;
-import java.util.*;
+import org.springframework.stereotype.Repository;
 
 import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ALL_STUDENTS;
 import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_STUDENT_BY_ID;
@@ -44,7 +48,7 @@ public class StudentDaoJpa extends AbstractPersonDaoJpa {
         return oldStudent;
     }
 
-    private Student setPersonFields(Student oldStudent, Student student) {
+    private void setPersonFields(Student oldStudent, Student student) {
         String userName = student.getUserName();
         String password = student.getPassword();
         String name = student.getName();
@@ -61,7 +65,6 @@ public class StudentDaoJpa extends AbstractPersonDaoJpa {
         if (age != null) {
             oldStudent.setAge(age);
         }
-        return oldStudent;
     }
 
     private void saveGroups(Student oldStudent, Set<Group> studentGroups) {
@@ -73,8 +76,7 @@ public class StudentDaoJpa extends AbstractPersonDaoJpa {
             }
         }
         oldGroups.removeAll(studentGroups);
-        for (int i = 0; i < oldGroups.size(); i++) {
-            Group group = oldGroups.get(i);
+        for (Group group : oldGroups) {
             group.removeStudent(oldStudent);
         }
     }

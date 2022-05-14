@@ -2,9 +2,8 @@ package eu.senla.myfirstapp.app.config;
 
 import eu.senla.myfirstapp.app.filter.ContentCachingFilter;
 import eu.senla.myfirstapp.app.filter.EncodingFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import javax.servlet.Filter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebApplicationConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -15,7 +14,7 @@ public class WebApplicationConfig extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ApplicationConfig.class};
+        return new Class[]{};
     }
 
     @Override

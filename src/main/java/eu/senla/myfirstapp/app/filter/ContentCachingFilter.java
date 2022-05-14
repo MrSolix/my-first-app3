@@ -1,16 +1,15 @@
 package eu.senla.myfirstapp.app.filter;
 
 import eu.senla.myfirstapp.app.controller.interceptor.MyContentCachingRequestWrapper;
-import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.util.ContentCachingResponseWrapper;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 public class ContentCachingFilter extends GenericFilterBean {
     @Override

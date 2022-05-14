@@ -5,22 +5,20 @@ import eu.senla.myfirstapp.app.repository.EntityManagerHelper;
 import eu.senla.myfirstapp.app.repository.group.jpa.GroupDaoJpa;
 import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.people.Person;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.internal.SessionImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import static eu.senla.myfirstapp.app.util.ConstantsClass.*;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_FIND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_FIND_ALL;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_REMOVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_UPDATE;
 
 
 @Slf4j

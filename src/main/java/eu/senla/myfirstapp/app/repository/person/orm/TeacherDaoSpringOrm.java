@@ -4,10 +4,9 @@ import eu.senla.myfirstapp.app.exception.DataBaseException;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Teacher;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.Query;
 import java.util.Optional;
+import javax.persistence.Query;
+import org.springframework.stereotype.Repository;
 
 import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_ALL_TEACHERS;
 import static eu.senla.myfirstapp.app.util.ConstantsClass.GET_TEACHER_BY_ID;
@@ -61,7 +60,7 @@ public class TeacherDaoSpringOrm extends AbstractPersonDaoSpringOrm {
         return em.merge(oldTeacher);
     }
 
-    private Teacher setPersonFields(Teacher oldTeacher, Teacher teacher) {
+    private void setPersonFields(Teacher oldTeacher, Teacher teacher) {
         String userName = teacher.getUserName();
         String password = teacher.getPassword();
         String name = teacher.getName();
@@ -78,7 +77,6 @@ public class TeacherDaoSpringOrm extends AbstractPersonDaoSpringOrm {
         if (age != null) {
             oldTeacher.setAge(age);
         }
-        return oldTeacher;
     }
 
     private void saveSalary(Teacher oldTeacher, Teacher teacher) {

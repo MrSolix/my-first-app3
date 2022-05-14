@@ -1,17 +1,15 @@
 package eu.senla.myfirstapp.app.repository.person.jpa;
 
-import eu.senla.myfirstapp.app.aspect.JpaTransaction;
 import eu.senla.myfirstapp.app.exception.DataBaseException;
 import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
 import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;

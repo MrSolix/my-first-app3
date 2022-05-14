@@ -5,17 +5,20 @@ import eu.senla.myfirstapp.app.repository.EntityManagerHelper;
 import eu.senla.myfirstapp.app.repository.group.GroupDAOInterface;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.Student;
+import java.util.List;
+import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Optional;
-
-import static eu.senla.myfirstapp.app.util.ConstantsClass.*;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_FIND;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_FIND_ALL;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_REMOVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
+import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_UPDATE;
 
 
 @Slf4j

@@ -2,7 +2,6 @@ package eu.senla.myfirstapp.model.people;
 
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -22,7 +21,6 @@ import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
 @Entity
 @SecondaryTable(name = "salaries", pkJoinColumns = @PrimaryKeyJoinColumn(name = "teacher_id"))
 @NamedQuery(name = "findTeacherByName", query = "select u from Teacher u join u.roles r where u.userName = :name and r.name = 'TEACHER'")
@@ -32,7 +30,7 @@ import org.hibernate.annotations.FetchMode;
 public class Teacher extends Person {
     @ToString.Include
     @EqualsAndHashCode.Include
-    @OneToOne(mappedBy = "teacher",fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "teacher", fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @Fetch(FetchMode.JOIN)
     private Group group;

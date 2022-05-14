@@ -1,11 +1,10 @@
 package eu.senla.myfirstapp.app.service.group;
 
 import eu.senla.myfirstapp.model.group.Group;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package eu.senla.myfirstapp.app.controller.student;
 
+import eu.senla.myfirstapp.app.exception.DataBaseException;
 import eu.senla.myfirstapp.app.service.person.PersonService;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
@@ -56,36 +57,39 @@ public class StudentJsonController {
     @PostMapping()
     public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
         if (getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
-            return ResponseEntity.ok((Student) personService.save(student));
+            try {
+                return ResponseEntity.ok((Student) personService.save(student));
+            } catch (DataBaseException e) {
+                return ResponseEntity.badRequest().build();
+            }
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student student) {
-        if (student != null) {
-            if (id != student.getId()) {
-                return ResponseEntity
-                        .badRequest()
-                        .body("Student id must be equal with id in path: " + id + " != " + student.getId());
-            }
-            if (!getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
-                return ResponseEntity
-                        .badRequest()
-                        .body("Person is not student");
-            }
-            return ResponseEntity.ok(personService.update(id, student));
+        if (id != student.getId()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Student id must be equal with id in path: " + id + " != " + student.getId());
         }
-        return ResponseEntity.notFound().build();
+        if (!getRolesName(student.getRoles()).contains(Role.ROLE_STUDENT)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Person is not student");
+        }
+        try {
+            return ResponseEntity.ok(personService.update(id, student));
+        } catch (DataBaseException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable int id) {
         Optional<Person> optionalPerson = personService.find(id);
-        if (optionalPerson.isPresent()) {
-            Person person = optionalPerson.get();
-            if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT))
-                return ResponseEntity.of(Optional.of(((Student) personService.remove(person))));
+        if (optionalPerson.isPresent() && getRolesName(optionalPerson.get().getRoles()).contains(Role.ROLE_STUDENT)) {
+            return ResponseEntity.of(Optional.of(((Student) personService.remove(optionalPerson.get()))));
         }
         return ResponseEntity.notFound().build();
     }

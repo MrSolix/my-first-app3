@@ -29,7 +29,6 @@ import org.hibernate.annotations.FetchMode;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString(callSuper = true)
 @Entity
 @NamedQuery(name = "findStudentByName", query = "select u from Student u join u.roles r where u.userName = :name and r.name = 'STUDENT'")
 @NamedQuery(name = "findStudentById", query = "select u from Student u join u.roles r where u.id = :id and r.name = 'STUDENT'")
@@ -105,10 +104,12 @@ public class Student extends Person {
     }
 
     public void setGrades(List<Grade> grades) {
-        if (grades != null) {
+        if (grades != null && this.grades != null) {
             this.grades.clear();
             this.grades.addAll(grades);
             grades.forEach(grade -> grade.setStudent(this));
+        } else {
+            this.grades = grades;
         }
     }
 

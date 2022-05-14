@@ -3,15 +3,14 @@ package eu.senla.myfirstapp.app.repository.group.orm;
 import eu.senla.myfirstapp.app.repository.group.GroupDAOInterface;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.Student;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import static eu.senla.myfirstapp.app.util.ConstantsClass.GROUP_NOT_FOUND;
 

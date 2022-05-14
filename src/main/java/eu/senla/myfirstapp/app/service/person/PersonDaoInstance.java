@@ -2,11 +2,10 @@ package eu.senla.myfirstapp.app.service.person;
 
 import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.app.service.AbstractDaoInstance;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.util.Map;
 
 @Component
 public class PersonDaoInstance extends AbstractDaoInstance {

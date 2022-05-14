@@ -2,11 +2,10 @@ package eu.senla.myfirstapp.app.repository.person.data;
 
 import eu.senla.myfirstapp.model.people.Admin;
 import eu.senla.myfirstapp.model.people.Person;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 
 @Component

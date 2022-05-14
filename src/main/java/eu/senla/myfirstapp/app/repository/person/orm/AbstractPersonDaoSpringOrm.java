@@ -3,16 +3,15 @@ package eu.senla.myfirstapp.app.repository.person.orm;
 import eu.senla.myfirstapp.app.repository.group.orm.GroupDaoSpringOrm;
 import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.people.Person;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import static eu.senla.myfirstapp.app.util.ConstantsClass.PERSON_NOT_FOUND;
 
