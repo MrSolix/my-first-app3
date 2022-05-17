@@ -25,22 +25,27 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class Role {
+
+    public static final String ROLE_STUDENT = "STUDENT";
+    public static final String ROLE_TEACHER = "TEACHER";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String USER_ROLE = "user_role";
+    public static final String ROLE_ID = "role_id";
+    public static final String USER_ID = "user_id";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = USER_ROLE,
+            joinColumns = @JoinColumn(name = ROLE_ID),
+            inverseJoinColumns = @JoinColumn(name = USER_ID))
     @JsonIgnore
     @ToString.Exclude
     private Collection<Person> users;
 
-    public static final String ROLE_STUDENT = "STUDENT";
-    public static final String ROLE_TEACHER = "TEACHER";
-    public static final String ROLE_ADMIN = "ADMIN";
 
     public Role withId(Integer id) {
         setId(id);
@@ -71,10 +76,10 @@ public class Role {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Role role = (Role) object;
         return Objects.equals(id, role.id) && Objects.equals(name, role.name);
     }
 

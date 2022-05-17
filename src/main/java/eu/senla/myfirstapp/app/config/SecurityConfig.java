@@ -1,6 +1,5 @@
 package eu.senla.myfirstapp.app.config;
 
-
 import eu.senla.myfirstapp.app.service.auth.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +11,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static eu.senla.myfirstapp.model.auth.Role.ROLE_ADMIN;
+
 @Configuration
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/json/**").hasAnyRole("ADMIN")
+                .antMatchers("/json/**").hasAnyRole(ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }
@@ -33,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(@Autowired UserService userService, @Autowired BCryptPasswordEncoder passwordEncoder) {
+    public DaoAuthenticationProvider daoAuthenticationProvider(@Autowired UserService userService,
+                                                               @Autowired BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);

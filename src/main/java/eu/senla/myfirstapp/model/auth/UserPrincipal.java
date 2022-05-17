@@ -29,7 +29,6 @@ public class UserPrincipal implements UserDetails {
         this.authorities = new ArrayList<>();
         this.authorities.addAll(rolesList);
         this.authorities.addAll(authorityList);
-        log.info("authorities" + this.authorities);
     }
 
     @Override
@@ -68,23 +67,15 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserPrincipal)) return false;
-        UserPrincipal that = (UserPrincipal) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof UserPrincipal)) return false;
+        UserPrincipal that = (UserPrincipal) object;
         return Objects.equals(person, that.person) && Objects.equals(authorities, that.authorities);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(person, authorities);
-    }
-
-    @Override
-    public String toString() {
-        return "UserPrincipal{" +
-                "person=" + person +
-                ", authorities=" + authorities +
-                '}';
     }
 }

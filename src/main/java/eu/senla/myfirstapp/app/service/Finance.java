@@ -1,4 +1,4 @@
-package eu.senla.myfirstapp.app.service.facade;
+package eu.senla.myfirstapp.app.service;
 
 import eu.senla.myfirstapp.app.exception.IncorrectValueException;
 import eu.senla.myfirstapp.app.exception.NotFoundException;
@@ -8,7 +8,6 @@ import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Teacher;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,10 +18,10 @@ import org.springframework.stereotype.Component;
 
 import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
-
 @Slf4j
 @Component
 public class Finance {
+
     public static final String PERSON_NOT_FOUND = "Person not found";
     public static final String INCORRECT_VALUE = "Incorrect value";
     private final Map<Integer, Map<Integer, Double>> salaryHistory;
@@ -37,10 +36,9 @@ public class Finance {
 
     @PostConstruct
     private void init() {
-        List<? extends Person> all = personService.findAll();
-        for (Person p : all) {
-            if (getRolesName(p.getRoles()).contains(Role.ROLE_TEACHER)) {
-                Optional<? extends Person> user = personService.find(p.getId());
+        for (Person person : personService.findAll()) {
+            if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
+                Optional<? extends Person> user = personService.findById(person.getId());
                 if (user.isPresent()) {
                     Teacher teacher = (Teacher) user.get();
                     for (int i = 1; i < CURRENT_MONTH; i++) {
@@ -85,29 +83,22 @@ public class Finance {
     }
 
     public Double getSalary(int id) {
-        Optional<? extends Person> person = personService.find(id);
+        Optional<? extends Person> person = personService.findById(id);
         if (person.isEmpty() || !getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
-            log.info("person == null or person role != \"TEACHER\"");
             throw new NotFoundException(PERSON_NOT_FOUND);
         }
-        log.info("Salary = {}", ((Teacher) person.get()).getSalary());
         return ((Teacher) person.get()).getSalary();
     }
 
     public Double getAverageSalary(int id, int min, int max) {
-        log.info("id = {}, minRange = {}, maxRange = {}", id, min, max);
-        Optional<? extends Person> person = personService.find(id);
-        log.info("Get person from db");
+        Optional<? extends Person> person = personService.findById(id);
         if (person.isEmpty() || !getRolesName(person.get().getRoles()).contains(Role.ROLE_TEACHER)) {
-            log.info("person == null or person role != \"TEACHER\"");
             throw new NotFoundException(PERSON_NOT_FOUND);
         }
-        Double averageSalary = averageSalary(min, max, (Teacher) person.get());
+        double averageSalary = averageSalary(min, max, (Teacher) person.get());
         if (averageSalary <= 0) {
-            log.info("incorrect value in fields \"minRange\" or \"maxRange\"");
             throw new IncorrectValueException(INCORRECT_VALUE);
         }
-        log.info("Average Salary = {}", averageSalary);
         return averageSalary;
     }
 }

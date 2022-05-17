@@ -1,7 +1,6 @@
-package eu.senla.myfirstapp.app.repository.person.data;
+package eu.senla.myfirstapp.app.repository.person;
 
 import eu.senla.myfirstapp.app.exception.DataBaseException;
-import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Student;
@@ -15,22 +14,28 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
-import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_SAVE;
-import static eu.senla.myfirstapp.app.util.ConstantsClass.ERROR_FROM_UPDATE;
+import static eu.senla.myfirstapp.app.repository.person.SpringDataPersonRepositoryImpl.DATA_PERSON;
 import static eu.senla.myfirstapp.model.auth.Role.getRolesName;
 
-@Repository("dataPerson")
+@Repository(DATA_PERSON)
 public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
+
+    public static final String STUDENT_NOT_FOUND = ", Student Not Found";
+    public static final String DATA_PERSON = "dataPerson";
+    public static final String ERROR_FROM_UPDATE = "Error from update";
+    public static final String ERROR_FROM_SAVE = "Error from save";
 
     private final PersonDAOInterface springDataPersonRepositoryImpl;
     private final SpringDataStudentRepository springDataStudentRepository;
     private final SpringDataTeacherRepository springDataTeacherRepository;
     private final SpringDataAdminRepository springDataAdminRepository;
 
-    public SpringDataPersonRepositoryImpl(@Qualifier("dataPerson") @Lazy PersonDAOInterface springDataPersonRepositoryImpl,
-                                          SpringDataStudentRepository springDataStudentRepository,
-                                          SpringDataTeacherRepository springDataTeacherRepository,
-                                          SpringDataAdminRepository springDataAdminRepository) {
+
+    public SpringDataPersonRepositoryImpl(
+            @Qualifier(DATA_PERSON) @Lazy PersonDAOInterface springDataPersonRepositoryImpl,
+            SpringDataStudentRepository springDataStudentRepository,
+            SpringDataTeacherRepository springDataTeacherRepository,
+            SpringDataAdminRepository springDataAdminRepository) {
         this.springDataPersonRepositoryImpl = springDataPersonRepositoryImpl;
         this.springDataStudentRepository = springDataStudentRepository;
         this.springDataTeacherRepository = springDataTeacherRepository;
@@ -38,7 +43,7 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
     }
 
     @Override
-    public Optional<Person> find(String name) {
+    public Optional<Person> findByName(String name) {
         Optional<Person> student = springDataStudentRepository.find(name);
         if (student.isPresent()) {
             return student;
@@ -51,7 +56,7 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
     }
 
     @Override
-    public Optional<Person> find(Integer id) {
+    public Optional<Person> findById(Integer id) {
         Optional<Person> student = springDataStudentRepository.find(id);
         if (student.isPresent()) {
             return student;
@@ -75,7 +80,7 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
             if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
                 return springDataTeacherRepository.saveAndFlush(((Teacher) person));
             }
-        } catch (ConstraintViolationException | DataIntegrityViolationException e) {
+        } catch (ConstraintViolationException | DataIntegrityViolationException runtimeException) {
             throw new DataBaseException(ERROR_FROM_SAVE);
         }
         throw new DataBaseException(ERROR_FROM_SAVE);
@@ -84,9 +89,9 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
     @Override
     public Person update(Integer id, Person person) {
         person.setId(id);
-        Optional<Person> optionalPerson = springDataPersonRepositoryImpl.find(id);
+        Optional<Person> optionalPerson = springDataPersonRepositoryImpl.findById(id);
         if (optionalPerson.isEmpty()) {
-            throw new DataBaseException(ERROR_FROM_UPDATE + ", Student Not Found");
+            throw new DataBaseException(ERROR_FROM_UPDATE + STUDENT_NOT_FOUND);
         }
         if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT) &&
                 getRolesName(optionalPerson.get().getRoles()).contains(Role.ROLE_STUDENT)) {
@@ -121,21 +126,20 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
     }
 
     @Override
-    public Person remove(Person person) {
+    public void remove(Person person) {
         if (getRolesName(person.getRoles()).contains(Role.ROLE_STUDENT)) {
             springDataStudentRepository.deleteById(person.getId());
         }
         if (getRolesName(person.getRoles()).contains(Role.ROLE_TEACHER)) {
             springDataTeacherRepository.deleteById(person.getId());
         }
-        return person;
     }
 
     @Override
     public List<Person> findAll() {
-        List<Person> result = new ArrayList<>();
-        result.addAll(springDataStudentRepository.findAll());
-        result.addAll(springDataTeacherRepository.findAll());
-        return result;
+        List<Person> personList = new ArrayList<>();
+        personList.addAll(springDataStudentRepository.findAll());
+        personList.addAll(springDataTeacherRepository.findAll());
+        return personList;
     }
 }

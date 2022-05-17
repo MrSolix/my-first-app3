@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
+import static eu.senla.myfirstapp.model.people.grades.Grade.GRADES;
 
 @Getter
 @Setter
@@ -28,25 +27,28 @@ import org.hibernate.annotations.FetchMode;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "grades")
+@Table(name = GRADES)
 public class Grade implements Serializable {
+
+    public static final String GRADES = "grades";
+    public static final String THEME_NAME = "theme_name";
+    public static final String STUDENT_ID = "student_id";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(name = "theme_name")
+    @Column(name = THEME_NAME)
     @ToString.Include
     @EqualsAndHashCode.Exclude
     private String themeName;
 
-    @Column(name = "grade")
     @EqualsAndHashCode.Exclude
     private Integer grade;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "student_id")
+    @ManyToOne
+    @JoinColumn(name = STUDENT_ID)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
@@ -67,15 +69,11 @@ public class Grade implements Serializable {
         return this;
     }
 
-    public String getThemeName() {
-        return themeName;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Grade grade1 = (Grade) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Grade grade1 = (Grade) object;
         return Objects.equals(id, grade1.id) && Objects.equals(themeName, grade1.themeName) && Objects.equals(grade, grade1.grade);
     }
 

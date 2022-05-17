@@ -19,6 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,10 +30,10 @@ public abstract class AbstractEntity implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity that = (AbstractEntity) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        AbstractEntity that = (AbstractEntity) object;
         return Objects.equals(id, that.id);
     }
 

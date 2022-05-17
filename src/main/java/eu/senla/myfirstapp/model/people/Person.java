@@ -8,11 +8,9 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -24,36 +22,49 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import static eu.senla.myfirstapp.model.people.Person.USERS;
+import static eu.senla.myfirstapp.model.people.Person.USER_TYPE;
+import static javax.persistence.DiscriminatorType.STRING;
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-@Entity(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type",
-        discriminatorType = DiscriminatorType.STRING)
+@Entity(name = USERS)
+@Inheritance(strategy = SINGLE_TABLE)
+@DiscriminatorColumn(name = USER_TYPE,
+        discriminatorType = STRING)
 public abstract class Person extends AbstractEntity {
-    @Column(name = "user_name")
+
+    public static final String USERS = "users";
+    public static final String USER_TYPE = "user_type";
+    public static final String USER_NAME = "user_name";
+    public static final String USER_ROLE = "user_role";
+    public static final String USER_ID = "user_id";
+    public static final String ROLE_ID = "role_id";
+    public static final String USER_AUTHORITY = "user_authority";
+    public static final String AUTHORITY_ID = "authority_id";
+
+    @Column(name = USER_NAME)
     private String userName;
     private String password;
-    @Column(name = "name")
     private String name;
-    @Column(name = "age")
     private Integer age;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = USER_ROLE,
+            joinColumns = @JoinColumn(name = USER_ID),
+            inverseJoinColumns = @JoinColumn(name = ROLE_ID))
     @Fetch(FetchMode.JOIN)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = USER_AUTHORITY,
+            joinColumns = @JoinColumn(name = USER_ID),
+            inverseJoinColumns = @JoinColumn(name = AUTHORITY_ID))
     @Fetch(FetchMode.JOIN)
-    @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities;
 
     public void addRole(Role role) {
@@ -66,11 +77,11 @@ public abstract class Person extends AbstractEntity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Person person = (Person) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        Person person = (Person) object;
         return Objects.equals(userName, person.userName) && Objects.equals(password, person.password) && Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(roles, person.roles) && Objects.equals(authorities, person.authorities);
     }
 

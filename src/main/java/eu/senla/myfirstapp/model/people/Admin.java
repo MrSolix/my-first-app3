@@ -3,25 +3,26 @@ package eu.senla.myfirstapp.model.people;
 import eu.senla.myfirstapp.model.auth.Role;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import static eu.senla.myfirstapp.model.auth.Role.ROLE_ADMIN;
+import static eu.senla.myfirstapp.model.people.Admin.ADMIN;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
-@NamedQuery(name = "findAdminByName", query = "select u from Admin u join u.roles r where u.userName = :name and r.name = 'ADMIN'")
-@NamedQuery(name = "findAdminById", query = "select u from Admin u join u.roles r where u.id = :id and r.name = 'ADMIN'")
-@NamedQuery(name = "findAllAdmins", query = "select u from Admin u join u.roles r where r.name = 'ADMIN'")
-@DiscriminatorValue("admin")
+@DiscriminatorValue(ADMIN)
 public class Admin extends Person {
+
+    public static final String ADMIN = "admin";
 
     public Admin() {
         addRole(new Role()
                 .withId(3)
-                .withName("ADMIN")
+                .withName(ROLE_ADMIN)
                 .addPerson(this));
     }
 
@@ -38,16 +39,6 @@ public class Admin extends Person {
 
     public Admin withPassword(String password) {
         setPassword(password);
-        return this;
-    }
-
-    public Admin withName(String name) {
-        setName(name);
-        return this;
-    }
-
-    public Admin withAge(int age) {
-        setAge(age);
         return this;
     }
 }

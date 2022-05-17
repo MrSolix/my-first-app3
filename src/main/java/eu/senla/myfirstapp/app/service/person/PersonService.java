@@ -1,5 +1,6 @@
 package eu.senla.myfirstapp.app.service.person;
 
+import eu.senla.myfirstapp.app.repository.person.PersonDAOInterface;
 import eu.senla.myfirstapp.model.people.Person;
 import java.util.List;
 import java.util.Optional;
@@ -12,39 +13,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonService implements PersonServiceInterface {
 
-    private final PersonDaoInstance personDaoInstance;
+    private final PersonDAOInterface dataPerson;
 
     @Override
     public Person save(Person person) {
-        return personDaoInstance.getRepository().save(person);
+        return dataPerson.save(person);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Person> find(Integer id) {
-        return personDaoInstance.getRepository().find(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Person> find(String name) {
-        return personDaoInstance.getRepository().find(name);
+    public Optional<Person> findById(Integer id) {
+        return dataPerson.findById(id);
     }
 
     @Override
     public Person update(Integer id, Person person) {
         person.setId(id);
-        return personDaoInstance.getRepository().save(person);
+        return dataPerson.save(person);
     }
 
     @Override
-    public Person remove(Person person) {
-        return personDaoInstance.getRepository().remove(person);
+    public void remove(Person person) {
+        dataPerson.remove(person);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Person> findAll() {
-        return personDaoInstance.getRepository().findAll();
+        return dataPerson.findAll();
     }
 }

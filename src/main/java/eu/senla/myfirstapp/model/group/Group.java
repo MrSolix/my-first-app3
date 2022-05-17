@@ -18,11 +18,19 @@ import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import static eu.senla.myfirstapp.model.group.Group.GROUP;
+
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "\"group\"")
+@Table(name = GROUP)
 public class Group extends AbstractEntity {
+
+    public static final String GROUP = "\"group\"";
+    public static final String GROUP_STUDENT = "group_student";
+    public static final String GROUP_ID = "group_id";
+    public static final String STUDENT_ID = "student_id";
+
     @ToString.Exclude
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
@@ -30,11 +38,10 @@ public class Group extends AbstractEntity {
     private Teacher teacher;
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
-            name = "group_student",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+            name = GROUP_STUDENT,
+            joinColumns = @JoinColumn(name = GROUP_ID),
+            inverseJoinColumns = @JoinColumn(name = STUDENT_ID))
     @JsonIgnore
     private Set<Student> students;
 
@@ -43,39 +50,6 @@ public class Group extends AbstractEntity {
     public Group withId(Integer id) {
         setId(id);
         return this;
-    }
-
-    public Group withTeacher(Teacher teacher) {
-        setTeacher(teacher);
-        if (teacher != null) {
-            teacher.setGroup(this);
-        }
-        return this;
-    }
-
-    public Group withStudents(Set<Student> students) {
-        setStudents(students);
-        for (Student s : students) {
-            s.addGroup(this);
-        }
-        return this;
-    }
-
-    public Group addStudent(Student student) {
-        if (!students.contains(student) && student != null) {
-            students.add(student);
-        }
-        return this;
-    }
-
-    public void removeStudent(Student student) {
-        students.remove(student);
-        student.getGroups().remove(this);
-    }
-
-    public void removeTeacher(Teacher teacher) {
-        this.teacher = null;
-        teacher.setGroup(null);
     }
 
     public Teacher getTeacher() {
@@ -88,9 +62,5 @@ public class Group extends AbstractEntity {
 
     public Set<Student> getStudents() {
         return students;
-    }
-
-    public void setStudents(Set<Student> students) {
-        this.students = students;
     }
 }

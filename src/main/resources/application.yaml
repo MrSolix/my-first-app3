@@ -11,6 +11,3 @@ spring:
     username: slavik
     password: 159357
     driver-class-name: org.postgresql.Driver
-logging:
-  level:
-    sql: debug

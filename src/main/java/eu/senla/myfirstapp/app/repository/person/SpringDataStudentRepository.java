@@ -1,4 +1,4 @@
-package eu.senla.myfirstapp.app.repository.person.data;
+package eu.senla.myfirstapp.app.repository.person;
 
 import eu.senla.myfirstapp.model.people.Person;
 import eu.senla.myfirstapp.model.people.Student;
@@ -7,14 +7,17 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public interface SpringDataStudentRepository extends JpaRepository<Student, Integer> {
-    String SELECT_STUDENT_BY_NAME = "from Student s join s.roles r where s.userName = ?1 and r.name = 'STUDENT'";
-    String SELECT_STUDENT_BY_ID = "from Student s join s.roles r where s.id = ?1 and r.name = 'STUDENT'";
-    String SELECT_ALL_STUDENTS = "from Student s join s.roles r where r.name = 'STUDENT'";
+
+    String SELECT_STUDENT_BY_NAME = "from Student s join fetch s.roles r where s.userName = ?1 and r.name = 'STUDENT'";
+    String SELECT_STUDENT_BY_ID = "from Student s join fetch s.roles r where s.id = ?1 and r.name = 'STUDENT'";
+    String SELECT_ALL_STUDENTS = "from Student s join fetch s.roles r where r.name = 'STUDENT'";
+    String UPDATE_STUDENT = "update Student s set s.userName = ?1, s.password = ?2," +
+            " s.name = ?3, s.age = ?4 where s.id = ?5";
 
     @Query(SELECT_STUDENT_BY_NAME)
     Optional<Person> find(String name);
@@ -23,11 +26,11 @@ public interface SpringDataStudentRepository extends JpaRepository<Student, Inte
     Optional<Person> find(Integer id);
 
     @Query(SELECT_ALL_STUDENTS)
+    @NonNull
     List<Student> findAll();
 
     @Modifying
-    @Query("update Student s set s.userName = ?1, s.password = ?2," +
-            " s.name = ?3, s.age = ?4 where s.id = ?5")
+    @Query(UPDATE_STUDENT)
     void update(String userName, String password,
                 String name, Integer age, Integer id);
 }

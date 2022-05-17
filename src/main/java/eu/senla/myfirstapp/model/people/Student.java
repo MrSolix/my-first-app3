@@ -1,6 +1,5 @@
 package eu.senla.myfirstapp.model.people;
 
-
 import eu.senla.myfirstapp.model.auth.Role;
 import eu.senla.myfirstapp.model.group.Group;
 import eu.senla.myfirstapp.model.people.grades.Grade;
@@ -14,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,35 +21,42 @@ import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import static eu.senla.myfirstapp.model.auth.Role.ROLE_STUDENT;
+import static eu.senla.myfirstapp.model.people.Student.STUDENT;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Entity
-@NamedQuery(name = "findStudentByName", query = "select u from Student u join u.roles r where u.userName = :name and r.name = 'STUDENT'")
-@NamedQuery(name = "findStudentById", query = "select u from Student u join u.roles r where u.id = :id and r.name = 'STUDENT'")
-@NamedQuery(name = "findAllStudents", query = "select u from Student u join u.roles r where r.name = 'STUDENT'")
-@DiscriminatorValue("student")
+@DiscriminatorValue(STUDENT)
 public class Student extends Person {
+
+    public static final String STUDENT = "student";
+    public static final String GROUP_STUDENT_TABLE_NAME = "group_student";
+    public static final String STUDENT_ID = "student_id";
+    public static final String GROUP_ID = "group_id";
+
     @ToString.Include
     @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
-            name = "group_student",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
+            name = GROUP_STUDENT_TABLE_NAME,
+            joinColumns = @JoinColumn(name = STUDENT_ID),
+            inverseJoinColumns = @JoinColumn(name = GROUP_ID))
     private Set<Group> groups;
+
     @ToString.Include
-    @OneToMany(mappedBy = "student",
+    @OneToMany(mappedBy = STUDENT,
             fetch = FetchType.LAZY,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST},
             orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     private List<Grade> grades;
 
     public Student() {
         addRole(new Role()
                 .withId(1)
-                .withName("STUDENT")
+                .withName(ROLE_STUDENT)
                 .addPerson(this));
     }
 
@@ -86,15 +91,6 @@ public class Student extends Person {
         return this;
     }
 
-    public void addGroup(Group group) {
-        groups.add(group);
-    }
-
-    public void removeGroup(Group group) {
-        groups.remove(group);
-        group.getStudents().remove(this);
-    }
-
     public Student withGrades(List<Grade> grades) {
         setGrades(grades);
         return this;
@@ -110,22 +106,12 @@ public class Student extends Person {
         }
     }
 
-    public void addGrade(Grade grade) {
-        grades.add(grade);
-        grade.setStudent(this);
-    }
-
-    public void removeGrade(Grade grade) {
-        grades.remove(grade);
-        grade.setStudent(null);
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Student student = (Student) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        Student student = (Student) object;
         return Objects.equals(groups, student.groups) && Objects.equals(grades, student.grades);
     }
 

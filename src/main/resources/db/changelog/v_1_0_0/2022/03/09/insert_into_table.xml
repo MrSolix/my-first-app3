@@ -48,18 +48,6 @@
         </sql>
     </changeSet>
 
-    <changeSet id="1646923667211-21" author="vyacheslav">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
-                SELECT COUNT(*) FROM authority
-            </sqlCheck>
-        </preConditions>
-        <sql>
-            INSERT INTO authority (id,name) VALUES
-            (1,'READ_SALARIES');
-        </sql>
-    </changeSet>
-
     <changeSet id="1646923667211-25" author="vyacheslav">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">

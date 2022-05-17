@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -18,29 +17,36 @@ import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import static eu.senla.myfirstapp.model.auth.Role.ROLE_TEACHER;
+import static eu.senla.myfirstapp.model.people.Teacher.SALARIES_TABLE_NAME;
+import static eu.senla.myfirstapp.model.people.Teacher.TEACHER;
 
 @Getter
 @Setter
 @Entity
-@SecondaryTable(name = "salaries", pkJoinColumns = @PrimaryKeyJoinColumn(name = "teacher_id"))
-@NamedQuery(name = "findTeacherByName", query = "select u from Teacher u join u.roles r where u.userName = :name and r.name = 'TEACHER'")
-@NamedQuery(name = "findTeacherById", query = "select u from Teacher u join u.roles r where u.id = :id and r.name = 'TEACHER'")
-@NamedQuery(name = "findAllTeachers", query = "select u from Teacher u join u.roles r where r.name = 'TEACHER'")
-@DiscriminatorValue("teacher")
+@SecondaryTable(name = SALARIES_TABLE_NAME, pkJoinColumns = @PrimaryKeyJoinColumn(name = Teacher.TEACHER_ID))
+@DiscriminatorValue(TEACHER)
 public class Teacher extends Person {
+
+    public static final String SALARIES_TABLE_NAME = "salaries";
+    public static final String SALARY_COLUMN_NAME = "salary";
+    public static final String TEACHER = "teacher";
+    public static final String TEACHER_ID = "teacher_id";
+
     @ToString.Include
     @EqualsAndHashCode.Include
-    @OneToOne(mappedBy = "teacher", fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = TEACHER, fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @Fetch(FetchMode.JOIN)
     private Group group;
-    @Column(table = "salaries", name = "salary")
+
+    @Column(table = SALARIES_TABLE_NAME, name = SALARY_COLUMN_NAME)
     private Double salary;
 
     public Teacher() {
         addRole(new Role()
                 .withId(2)
-                .withName("TEACHER")
+                .withName(ROLE_TEACHER)
                 .addPerson(this));
     }
 
@@ -97,10 +103,5 @@ public class Teacher extends Person {
             group.setTeacher(this);
         }
         this.group = group;
-    }
-
-    public void removeGroup(Group group) {
-        this.group = null;
-        group.setTeacher(null);
     }
 }
