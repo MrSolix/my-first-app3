@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="09-03-2022-create-table-users" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-users.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-salaries" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="salaries"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-salaries.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-authority" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="authority"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-authority.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-role" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-role.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-user_role" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-user_role.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-user_authority" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_authority"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-user_authority.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-group" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="group"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-group.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-grades" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="grades"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-grades.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-create-table-group_student" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="group_student"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-create-table-group_student.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

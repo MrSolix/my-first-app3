@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="09-03-2022-insert-into-table-users" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM users
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-users.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-salaries" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM salaries
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-salaries.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-authority" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM authority
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-authority.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-role" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM "role"
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-role.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-user_role" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM user_role
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-user_role.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-user_authority" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM user_authority
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-user_authority.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-group" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM "group"
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-group.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-grades" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM grades
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-grades.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-group_student" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM group_student
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-group_student.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

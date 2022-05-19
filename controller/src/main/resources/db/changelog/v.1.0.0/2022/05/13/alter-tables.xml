@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="13-05-2022-alter-table-users" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/13-05-2022-alter-table-users.sql"/>
+    </changeSet>
+
+    <changeSet id="13-05-2022-alter-table-salaries" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="salaries"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/13-05-2022-alter-table-salaries.sql"/>
+    </changeSet>
+
+    <changeSet id="13-05-2022-alter-table-user_role" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/13-05-2022-alter-table-user_role.sql"/>
+    </changeSet>
+
+    <changeSet id="13-05-2022-alter-table-group-student" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="group_student"/>
+            </not>
+        </preConditions>
+        <sqlFile path="data/13-05-2022-alter-table-group-student.sql"/>
+    </changeSet>
+
+</databaseChangeLog>
