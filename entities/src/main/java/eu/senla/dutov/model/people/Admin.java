@@ -5,13 +5,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import static eu.senla.dutov.model.people.Admin.ADMIN;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
 @Entity
 @DiscriminatorValue(ADMIN)
 public class Admin extends Person {

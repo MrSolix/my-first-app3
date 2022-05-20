@@ -25,7 +25,7 @@ public interface SpringDataTeacherRepository extends JpaRepository<Teacher, Inte
     @Query(SELECT_TEACHER_BY_ID)
     Optional<Person> find(Integer id);
 
-    @Query(SELECT_ALL_TEACHERS)
+//    @Query(SELECT_ALL_TEACHERS)
     @NonNull
     List<Teacher> findAll();
 

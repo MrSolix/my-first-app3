@@ -7,6 +7,7 @@ import eu.senla.dutov.service.person.PersonService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,7 @@ public class TeacherJsonController {
     }
 
     @PostMapping
-    public ResponseEntity<Teacher> saveTeacher(@RequestBody Teacher teacher) {
+    public ResponseEntity<Teacher> saveTeacher(@Valid @RequestBody Teacher teacher) {
         if (getRolesName(teacher.getRoles()).contains(ROLE_TEACHER)) {
             try {
                 return ResponseEntity.ok((Teacher) personService.save(teacher));
@@ -74,7 +75,8 @@ public class TeacherJsonController {
     }
 
     @PutMapping(ID)
-    public ResponseEntity<?> updateTeacher(@PathVariable int id, @RequestBody Teacher teacher) {
+    public ResponseEntity<?> updateTeacher(@PathVariable int id,
+                                           @Valid @RequestBody Teacher teacher) {
         if (id != teacher.getId()) {
             return ResponseEntity
                     .badRequest()
@@ -96,7 +98,7 @@ public class TeacherJsonController {
     public ResponseEntity<?> deleteTeacher(@PathVariable int id) {
         Optional<Person> optionalPerson = personService.findById(id);
         if (optionalPerson.isPresent() && getRolesName(optionalPerson.get().getRoles()).contains(ROLE_TEACHER)) {
-            personService.remove(optionalPerson.get());
+            personService.remove(id);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

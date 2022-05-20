@@ -4,7 +4,6 @@ import eu.senla.dutov.exception.DataBaseException;
 import eu.senla.dutov.model.people.Person;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.hibernate.exception.ConstraintViolationException;
@@ -29,44 +28,28 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
     private final PersonDAOInterface springDataPersonRepositoryImpl;
     private final SpringDataStudentRepository springDataStudentRepository;
     private final SpringDataTeacherRepository springDataTeacherRepository;
-    private final SpringDataAdminRepository springDataAdminRepository;
+    private final PersonRepository personRepository;
 
 
     public SpringDataPersonRepositoryImpl(
             @Qualifier(DATA_PERSON) @Lazy PersonDAOInterface springDataPersonRepositoryImpl,
             SpringDataStudentRepository springDataStudentRepository,
             SpringDataTeacherRepository springDataTeacherRepository,
-            SpringDataAdminRepository springDataAdminRepository) {
+            PersonRepository personRepository) {
         this.springDataPersonRepositoryImpl = springDataPersonRepositoryImpl;
         this.springDataStudentRepository = springDataStudentRepository;
         this.springDataTeacherRepository = springDataTeacherRepository;
-        this.springDataAdminRepository = springDataAdminRepository;
+        this.personRepository = personRepository;
     }
 
     @Override
     public Optional<Person> findByName(String name) {
-        Optional<Person> student = springDataStudentRepository.find(name);
-        if (student.isPresent()) {
-            return student;
-        }
-        Optional<Person> teacher = springDataTeacherRepository.find(name);
-        if (teacher.isPresent()) {
-            return teacher;
-        }
-        return springDataAdminRepository.find(name);
+        return personRepository.findByUserName(name);
     }
 
     @Override
     public Optional<Person> findById(Integer id) {
-        Optional<Person> student = springDataStudentRepository.find(id);
-        if (student.isPresent()) {
-            return student;
-        }
-        Optional<Person> teacher = springDataTeacherRepository.find(id);
-        if (teacher.isPresent()) {
-            return teacher;
-        }
-        return springDataAdminRepository.find(id);
+        return personRepository.findById(id);
     }
 
     @Override
@@ -115,6 +98,16 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
         throw new DataBaseException(ERROR_FROM_UPDATE);
     }
 
+    @Override
+    public void remove(int id) {
+        personRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Person> findAll() {
+        return personRepository.findAll();
+    }
+
     private void setPersonFields(Person oldPerson, Person newPerson) {
         String userName = newPerson.getUserName();
         String password = newPerson.getPassword();
@@ -124,23 +117,5 @@ public class SpringDataPersonRepositoryImpl implements PersonDAOInterface {
         if (password != null) oldPerson.setPassword(password);
         if (name != null) oldPerson.setName(name);
         if (age != null) oldPerson.setAge(age);
-    }
-
-    @Override
-    public void remove(Person person) {
-        if (getRolesName(person.getRoles()).contains(ROLE_STUDENT)) {
-            springDataStudentRepository.deleteById(person.getId());
-        }
-        if (getRolesName(person.getRoles()).contains(ROLE_TEACHER)) {
-            springDataTeacherRepository.deleteById(person.getId());
-        }
-    }
-
-    @Override
-    public List<Person> findAll() {
-        List<Person> personList = new ArrayList<>();
-        personList.addAll(springDataStudentRepository.findAll());
-        personList.addAll(springDataTeacherRepository.findAll());
-        return personList;
     }
 }

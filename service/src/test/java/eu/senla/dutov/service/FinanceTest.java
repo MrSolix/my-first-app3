@@ -1,11 +1,11 @@
-package eu.senla.myfirstapp.app.service.facade;
+package eu.senla.dutov.service;
 
-import eu.senla.myfirstapp.app.exception.IncorrectValueException;
-import eu.senla.myfirstapp.app.exception.NotFoundException;
-import eu.senla.myfirstapp.app.service.person.PersonService;
-import eu.senla.myfirstapp.model.people.Person;
-import eu.senla.myfirstapp.model.people.Student;
-import eu.senla.myfirstapp.model.people.Teacher;
+import eu.senla.dutov.exception.IncorrectValueException;
+import eu.senla.dutov.exception.NotFoundException;
+import eu.senla.dutov.model.people.Person;
+import eu.senla.dutov.model.people.Student;
+import eu.senla.dutov.model.people.Teacher;
+import eu.senla.dutov.service.person.PersonService;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -17,10 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
 class FinanceTest {
@@ -66,41 +63,41 @@ class FinanceTest {
     }
 
     private Finance getFinance(PersonService personService, int id, Optional<Person> person) {
-        when(personService.find(id)).thenReturn(person);
+        when(personService.findById(id)).thenReturn(person);
         return new Finance(personService);
     }
 
     @Test
     void GetAverageSalary_WithIdInvalid_ShouldThrowException() {
-        when(personService.find(0)).thenReturn(Optional.empty());
+        when(personService.findById(0)).thenReturn(Optional.empty());
         Finance finance = new Finance(personService);
         assertThrows(NotFoundException.class, () -> finance.getAverageSalary(0, 1, 2));
     }
 
     @Test
     void GetAverageSalary_WithRoleNotTeacher_ShouldThrowException() {
-        when(personService.find(1)).thenReturn(Optional.of(new Student()));
+        when(personService.findById(1)).thenReturn(Optional.of(new Student()));
         Finance finance = new Finance(personService);
         assertThrows(NotFoundException.class, () -> finance.getAverageSalary(1, 1, 2));
     }
 
     @Test
     void GetAverageSalary_WithMinRangeIsIncorrect_ShouldThrowException() {
-        when(personService.find(1)).thenReturn(Optional.of(teacher));
+        when(personService.findById(1)).thenReturn(Optional.of(teacher));
         Finance finance = new Finance(personService);
         assertThrows(IncorrectValueException.class, () -> finance.getAverageSalary(1, 0, 2));
     }
 
     @Test
     void GetAverageSalary_WithMinRangeMoreThanMaxRange_ShouldThrowException() {
-        when(personService.find(1)).thenReturn(Optional.of(teacher));
+        when(personService.findById(1)).thenReturn(Optional.of(teacher));
         Finance finance = new Finance(personService);
         assertThrows(IncorrectValueException.class, () -> finance.getAverageSalary(1, 2, 1));
     }
 
     @Test
     void GetAverageSalary_WithMaxRangeMoreThatCurrentMonth_ShouldThrowException() {
-        when(personService.find(1)).thenReturn(Optional.of(teacher));
+        when(personService.findById(1)).thenReturn(Optional.of(teacher));
         Finance finance = new Finance(personService);
         assertThrows(IncorrectValueException.class,
                 () -> finance.getAverageSalary(1, 1, CURRENT_MONTH + 1));
@@ -108,7 +105,7 @@ class FinanceTest {
 
     @Test
     void GetAverageSalary_WithCorrectData_ShouldReturnAverageSalary() throws NoSuchFieldException, IllegalAccessException {
-        when(personService.find(1)).thenReturn(Optional.of(teacher));
+        when(personService.findById(1)).thenReturn(Optional.of(teacher));
         Finance finance = new Finance(personService);
         Field salaryHistory = finance.getClass().getDeclaredField("salaryHistory");
         salaryHistory.setAccessible(true);

@@ -1,5 +1,7 @@
 package eu.senla.dutov.service.person;
 
+import eu.senla.dutov.exception.IncorrectValueException;
+import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.people.Person;
 import eu.senla.dutov.repository.person.PersonDAOInterface;
 import java.util.List;
@@ -28,13 +30,20 @@ public class PersonService implements PersonServiceInterface {
 
     @Override
     public Person update(Integer id, Person person) {
+        if (!id.equals(person.getId())) {
+            throw new IncorrectValueException("Passed id is not equal to person id");
+        }
         person.setId(id);
         return dataPerson.save(person);
     }
 
     @Override
-    public void remove(Person person) {
-        dataPerson.remove(person);
+    public void remove(int id) {
+        Optional<Person> optionalPerson = dataPerson.findById(id);
+        if (optionalPerson.isEmpty()) {
+            throw new NotFoundException("Person is not found");
+        }
+        dataPerson.remove(id);
     }
 
     @Override

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="09-03-2022-insert-into-table-authority-test" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM authority
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-authority-test.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-role-test" author="Dutov VA">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM "role"
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-role-test.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

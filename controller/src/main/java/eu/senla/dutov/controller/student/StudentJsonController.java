@@ -1,15 +1,15 @@
 package eu.senla.dutov.controller.student;
 
 import eu.senla.dutov.exception.DataBaseException;
-import eu.senla.dutov.model.people.Person;
 import eu.senla.dutov.model.people.Student;
-import eu.senla.dutov.service.person.PersonService;
-import java.util.ArrayList;
+import eu.senla.dutov.service.person.StudentService;
 import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +25,7 @@ import static eu.senla.dutov.model.auth.Role.getRolesName;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@Validated
 @RequestMapping(path = JSON_STUDENTS, produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
@@ -35,70 +36,36 @@ public class StudentJsonController {
     public static final String PERSON_IS_NOT_STUDENT = "Person is not student";
     public static final String ID = "/{id}";
     public static final String JSON_STUDENTS = "/json/students";
-    private final PersonService personService;
+    private final StudentService studentService;
 
     @GetMapping
     public List<Student> getAll() {
-        List<Person> allPersons = personService.findAll();
-        List<Student> students = new ArrayList<>();
-        for (Person person : allPersons) {
-            if (getRolesName(person.getRoles()).contains(ROLE_STUDENT)) {
-                students.add(((Student) person));
-            }
-        }
-        return students;
+        return studentService.findAll();
     }
 
     @GetMapping(ID)
-    public ResponseEntity<Student> getStudent(@PathVariable int id) {
-        Optional<Person> personOptional = personService.findById(id);
-        if (personOptional.isPresent()) {
-            Person person = personOptional.get();
-            if (getRolesName(person.getRoles()).contains(ROLE_STUDENT)) {
-                return ResponseEntity.ok(((Student) person));
-            }
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Student> getStudent(@PathVariable @Min(1) int id) {
+        return ResponseEntity.of(studentService.findById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
-        if (getRolesName(student.getRoles()).contains(ROLE_STUDENT)) {
-            try {
-                return ResponseEntity.ok((Student) personService.save(student));
-            } catch (DataBaseException dataBaseException) {
-                return ResponseEntity.badRequest().build();
-            }
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student) {
+        return ResponseEntity.ok(studentService.save(student));
     }
 
     @PutMapping(ID)
-    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student student) {
-        if (id != student.getId()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(STUDENT_ID_MUST_BE_EQUAL_WITH_ID_IN_PATH + id + NOT_EQUAL + student.getId());
-        }
-        if (!getRolesName(student.getRoles()).contains(ROLE_STUDENT)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(PERSON_IS_NOT_STUDENT);
-        }
+    public ResponseEntity<?> updateStudent(@PathVariable @Min(1) int id,
+                                           @RequestBody Student student) {
         try {
-            return ResponseEntity.ok(personService.update(id, student));
+            return ResponseEntity.ok(studentService.update(id, student));
         } catch (DataBaseException dataBaseException) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping(ID)
-    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
-        Optional<Person> optionalPerson = personService.findById(id);
-        if (optionalPerson.isPresent() && getRolesName(optionalPerson.get().getRoles()).contains(ROLE_STUDENT)) {
-            personService.remove(optionalPerson.get());
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<?> deleteStudent(@PathVariable @Min(1) int id) {
+        studentService.remove(id);
+        return ResponseEntity.ok().build();
     }
 }

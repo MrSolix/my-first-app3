@@ -1,5 +1,6 @@
 package eu.senla.dutov.service.group;
 
+import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.group.Group;
 import eu.senla.dutov.repository.group.SpringDataGroupRepository;
 import java.util.List;
@@ -30,8 +31,12 @@ public class GroupService implements GroupServiceInterface {
     }
 
     @Override
-    public void remove(Group group) {
-        springDataGroupRepository.delete(group);
+    public void remove(int id) {
+        Optional<Group> optionalGroup = springDataGroupRepository.findById(id);
+        if (optionalGroup.isEmpty()) {
+            throw new NotFoundException("Group is not found");
+        }
+        springDataGroupRepository.delete(optionalGroup.get());
     }
 
     @Override

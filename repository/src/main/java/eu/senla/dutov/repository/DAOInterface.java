@@ -11,7 +11,7 @@ public interface DAOInterface<T> {
 
     T update(Integer id, T t);
 
-    void remove(T t);
+    void remove(int id);
 
     List<T> findAll();
 }

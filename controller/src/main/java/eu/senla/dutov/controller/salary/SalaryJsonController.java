@@ -1,7 +1,5 @@
 package eu.senla.dutov.controller.salary;
 
-import eu.senla.dutov.exception.IncorrectValueException;
-import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.service.Finance;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,21 +25,13 @@ public class SalaryJsonController {
 
     @GetMapping(ID)
     public ResponseEntity<Double> getSalary(@PathVariable int id) {
-        try {
-            return ResponseEntity.ok(finance.getSalary(id));
-        } catch (NotFoundException notFoundException) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(finance.getSalary(id));
     }
 
     @GetMapping(ID_AVERAGE_MIN_RANGE_MIN_MAX_RANGE_MAX)
-    public ResponseEntity<Double> averageSalary(@PathVariable int id, @PathVariable int min, @PathVariable int max) {
-        try {
-            return ResponseEntity.ok(finance.getAverageSalary(id, min, max));
-        } catch (NotFoundException notFoundException) {
-            return ResponseEntity.notFound().build();
-        } catch (IncorrectValueException incorrectValueException) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Double> averageSalary(@PathVariable int id,
+                                                @PathVariable int min,
+                                                @PathVariable int max) {
+        return ResponseEntity.ok(finance.getAverageSalary(id, min, max));
     }
 }
