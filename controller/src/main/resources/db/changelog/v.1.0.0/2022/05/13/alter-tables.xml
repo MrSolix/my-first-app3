@@ -7,36 +7,28 @@
 
     <changeSet id="13-05-2022-alter-table-users" author="Dutov VA">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="users"/>
-            </not>
+            <tableExists tableName="users"/>
         </preConditions>
         <sqlFile path="data/13-05-2022-alter-table-users.sql"/>
     </changeSet>
 
     <changeSet id="13-05-2022-alter-table-salaries" author="Dutov VA">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="salaries"/>
-            </not>
+            <tableExists tableName="salaries"/>
         </preConditions>
         <sqlFile path="data/13-05-2022-alter-table-salaries.sql"/>
     </changeSet>
 
     <changeSet id="13-05-2022-alter-table-user_role" author="Dutov VA">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="user_role"/>
-            </not>
+            <tableExists tableName="user_role"/>
         </preConditions>
         <sqlFile path="data/13-05-2022-alter-table-user_role.sql"/>
     </changeSet>
 
     <changeSet id="13-05-2022-alter-table-group-student" author="Dutov VA">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="group_student"/>
-            </not>
+            <tableExists tableName="group_student"/>
         </preConditions>
         <sqlFile path="data/13-05-2022-alter-table-group-student.sql"/>
     </changeSet>

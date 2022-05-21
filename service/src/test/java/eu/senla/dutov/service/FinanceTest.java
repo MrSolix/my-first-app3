@@ -2,18 +2,17 @@ package eu.senla.dutov.service;
 
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
-import eu.senla.dutov.model.people.Person;
-import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.service.person.PersonService;
+import eu.senla.dutov.service.person.TeacherService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,7 +24,7 @@ class FinanceTest {
     static Map<Integer, Map<Integer, Double>> salaryHistory = new ConcurrentHashMap<>();
     static Teacher teacher;
 
-    PersonService personService = mock(PersonService.class);
+    TeacherService teacherService = mock(TeacherService.class);
 
     @BeforeAll
     static void beforeAll() {
@@ -42,7 +41,7 @@ class FinanceTest {
 
     @Test
     void GetSalary_WithIdEqualOne_ShouldReturnOneThousand() {
-        Finance finance = getFinance(personService, 1, Optional.of(teacher));
+        Finance finance = getFinance(teacherService, 1, teacher);
         Double actual = finance.getSalary(1);
         Double expected = 1000.0;
         assertEquals(expected, actual);
@@ -50,68 +49,57 @@ class FinanceTest {
 
     @Test
     void GetSalary_WithIdInvalid_ShouldThrowException() {
-        Finance finance = getFinance(personService, 0, Optional.empty());
-        assertThrows(NotFoundException.class, () -> {
-            finance.getSalary(0);
-        });
+        Finance finance = getFinance(teacherService, 0, null);
+        assertThrows(NotFoundException.class, () -> finance.getSalary(0));
     }
 
-    @Test
-    void GetSalary_WithRoleNotTeacher_ShouldThrowException() {
-        Finance finance = getFinance(personService, 1, Optional.of(new Student()));
-        assertThrows(NotFoundException.class, () -> finance.getSalary(1));
-    }
-
-    private Finance getFinance(PersonService personService, int id, Optional<Person> person) {
-        when(personService.findById(id)).thenReturn(person);
-        return new Finance(personService);
+    private Finance getFinance(TeacherService teacherService, int id, Teacher teacher) {
+        when(teacherService.findById(id)).thenReturn(Optional.ofNullable(teacher));
+        return new Finance(teacherService);
     }
 
     @Test
     void GetAverageSalary_WithIdInvalid_ShouldThrowException() {
-        when(personService.findById(0)).thenReturn(Optional.empty());
-        Finance finance = new Finance(personService);
+        when(teacherService.findById(0)).thenReturn(Optional.empty());
+        Finance finance = new Finance(teacherService);
         assertThrows(NotFoundException.class, () -> finance.getAverageSalary(0, 1, 2));
     }
 
     @Test
-    void GetAverageSalary_WithRoleNotTeacher_ShouldThrowException() {
-        when(personService.findById(1)).thenReturn(Optional.of(new Student()));
-        Finance finance = new Finance(personService);
-        assertThrows(NotFoundException.class, () -> finance.getAverageSalary(1, 1, 2));
-    }
-
-    @Test
     void GetAverageSalary_WithMinRangeIsIncorrect_ShouldThrowException() {
-        when(personService.findById(1)).thenReturn(Optional.of(teacher));
-        Finance finance = new Finance(personService);
+        when(teacherService.findById(1)).thenReturn(Optional.of(teacher));
+        Finance finance = new Finance(teacherService);
         assertThrows(IncorrectValueException.class, () -> finance.getAverageSalary(1, 0, 2));
     }
 
     @Test
     void GetAverageSalary_WithMinRangeMoreThanMaxRange_ShouldThrowException() {
-        when(personService.findById(1)).thenReturn(Optional.of(teacher));
-        Finance finance = new Finance(personService);
+        when(teacherService.findById(1)).thenReturn(Optional.of(teacher));
+        Finance finance = new Finance(teacherService);
         assertThrows(IncorrectValueException.class, () -> finance.getAverageSalary(1, 2, 1));
     }
 
     @Test
     void GetAverageSalary_WithMaxRangeMoreThatCurrentMonth_ShouldThrowException() {
-        when(personService.findById(1)).thenReturn(Optional.of(teacher));
-        Finance finance = new Finance(personService);
+        when(teacherService.findById(1)).thenReturn(Optional.of(teacher));
+        Finance finance = new Finance(teacherService);
         assertThrows(IncorrectValueException.class,
                 () -> finance.getAverageSalary(1, 1, CURRENT_MONTH + 1));
     }
 
     @Test
     void GetAverageSalary_WithCorrectData_ShouldReturnAverageSalary() throws NoSuchFieldException, IllegalAccessException {
-        when(personService.findById(1)).thenReturn(Optional.of(teacher));
-        Finance finance = new Finance(personService);
+        when(teacherService.findById(1)).thenReturn(Optional.of(teacher));
+        Finance finance = new Finance(teacherService);
         Field salaryHistory = finance.getClass().getDeclaredField("salaryHistory");
         salaryHistory.setAccessible(true);
         salaryHistory.set(finance, FinanceTest.salaryHistory);
         Double actual = finance.getAverageSalary(1, 1, CURRENT_MONTH);
-        Double expected = FinanceTest.salaryHistory.get(1).values().stream().reduce(Double::sum).get() / FinanceTest.salaryHistory.get(1).size();
+        Double expected = FinanceTest.salaryHistory
+                .get(1)
+                .values()
+                .stream()
+                .reduce(Double::sum).orElseThrow() / FinanceTest.salaryHistory.get(1).size();
         assertEquals(expected, actual);
     }
 }

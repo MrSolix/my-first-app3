@@ -2,11 +2,11 @@ package eu.senla.dutov.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.people.Person;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+
+import static eu.senla.dutov.model.people.Person.USER_ID;
 
 @Entity
 @Getter
@@ -31,7 +32,6 @@ public class Role {
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String USER_ROLE = "user_role";
     public static final String ROLE_ID = "role_id";
-    public static final String USER_ID = "user_id";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,14 +65,6 @@ public class Role {
             users.add(person);
         }
         return this;
-    }
-
-    public static Set<String> getRolesName(Collection<Role> roles) {
-        Set<String> result = new HashSet<>();
-        if (roles != null) {
-            roles.forEach(role -> result.add(role.getName()));
-        }
-        return result;
     }
 
     @Override

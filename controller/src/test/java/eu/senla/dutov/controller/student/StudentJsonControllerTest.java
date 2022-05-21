@@ -7,18 +7,18 @@ import eu.senla.dutov.model.group.Group;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
 import eu.senla.dutov.model.people.grades.Grade;
-import eu.senla.dutov.service.person.PersonService;
 import eu.senla.dutov.service.person.StudentService;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -168,7 +168,7 @@ class StudentJsonControllerTest {
         when(studentService.findAll()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/json/students")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isEmpty());
     }
 
@@ -177,7 +177,7 @@ class StudentJsonControllerTest {
         when(studentService.findById(6)).thenReturn(Optional.of(slavik));
 
         mockMvc.perform(get("/json/students/{id}", 6)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(6))
                 .andExpect(jsonPath("$.userName").value("student"))
                 .andExpect(jsonPath("$.password").value("$2a$12$iDPdhEo8ewcqwqagAVjYJ.SMES4piBWmusiZ76uoR.vKCI1aceYBW"))
@@ -210,7 +210,7 @@ class StudentJsonControllerTest {
         when(studentService.findById(-1)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/json/students/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -221,9 +221,9 @@ class StudentJsonControllerTest {
         when(studentService.save(student)).thenReturn(student);
 
         mockMvc.perform(post("/json/students")
-                        .content(new ObjectMapper().writeValueAsString(student))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(student))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userName").value("xcv"))
                 .andExpect(jsonPath("$.roles[0].id").value(1))
@@ -235,9 +235,9 @@ class StudentJsonControllerTest {
         Teacher teacher = new Teacher().withUserName("asdf");
 
         mockMvc.perform(post("/json/students")
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -246,9 +246,9 @@ class StudentJsonControllerTest {
         when(studentService.save(slavik)).thenThrow(DataBaseException.class);
 
         mockMvc.perform(post("/json/students")
-                        .content(new ObjectMapper().writeValueAsString(slavik))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(slavik))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -257,9 +257,9 @@ class StudentJsonControllerTest {
         when(studentService.update(slavik.getId(), slavik)).thenReturn(slavik);
 
         mockMvc.perform(put("/json/students/{id}", slavik.getId())
-                        .content(new ObjectMapper().writeValueAsString(slavik))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(slavik))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(6))
                 .andExpect(jsonPath("$.userName").value("student"))
@@ -294,9 +294,9 @@ class StudentJsonControllerTest {
         when(studentService.update(slavik.getId(), slavik)).thenThrow(DataBaseException.class);
 
         mockMvc.perform(put("/json/students/{id}", -1)
-                        .content(new ObjectMapper().writeValueAsString(slavik))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(slavik))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -304,9 +304,9 @@ class StudentJsonControllerTest {
     void updateStudentWhenStudentIdIsNotEqualPathVariableIdShouldReturnStatusBadRequest() throws Exception {
         int pathVariable = -1;
         mockMvc.perform(put("/json/students/{id}", pathVariable)
-                        .content(new ObjectMapper().writeValueAsString(slavik))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(slavik))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$")
                         .value("Student id must be equal with id in path: "
@@ -318,9 +318,9 @@ class StudentJsonControllerTest {
         slavik.setRoles(Set.of(new Role().withId(2).withName("Teacher").addPerson(slavik)));
 
         mockMvc.perform(put("/json/students/{id}", slavik.getId())
-                        .content(new ObjectMapper().writeValueAsString(slavik))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(slavik))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("Person is not student"));
     }
@@ -328,7 +328,7 @@ class StudentJsonControllerTest {
     @Test
     void deleteStudentWhenPathVariableIsIncorrectShouldReturnStatusNotFound() throws Exception {
         mockMvc.perform(delete("/json/students/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -338,7 +338,7 @@ class StudentJsonControllerTest {
         when(studentService.findById(slavik.getId())).thenReturn(Optional.of(slavik));
 
         mockMvc.perform(delete("/json/students/{id}", slavik.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -347,7 +347,7 @@ class StudentJsonControllerTest {
         when(studentService.findById(slavik.getId())).thenReturn(Optional.of(slavik));
 
         mockMvc.perform(delete("/json/students/{id}", slavik.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

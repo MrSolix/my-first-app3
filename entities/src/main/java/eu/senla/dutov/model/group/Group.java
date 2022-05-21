@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.AbstractEntity;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import java.util.Set;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import java.util.Set;
 
 import static eu.senla.dutov.model.group.Group.GROUP;
 

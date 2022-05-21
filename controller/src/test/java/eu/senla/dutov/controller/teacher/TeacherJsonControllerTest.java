@@ -4,13 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.senla.dutov.exception.DataBaseException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.group.Group;
-import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.service.person.PersonService;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import eu.senla.dutov.service.person.TeacherService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,7 +33,7 @@ class TeacherJsonControllerTest {
 
     private static MockMvc mockMvc;
 
-    private static final PersonService personService = mock(PersonService.class);
+    private static final TeacherService teacherService = mock(TeacherService.class);
 
     private static Teacher teacher;
     private static Teacher teacher1;
@@ -41,12 +41,12 @@ class TeacherJsonControllerTest {
 
     @BeforeAll
     static void setUp() {
-        mockMvc = standaloneSetup(new TeacherJsonController(personService)).build();
+        mockMvc = standaloneSetup(new TeacherJsonController(teacherService)).build();
     }
 
     @AfterEach
     void clear() {
-        Mockito.clearInvocations(personService);
+        Mockito.clearInvocations(teacherService);
     }
 
     @BeforeEach
@@ -79,14 +79,13 @@ class TeacherJsonControllerTest {
 
     @Test
     void getAllWhenListOfTeachersHasTeachersAndOneStudentShouldReturnAllTeachers() throws Exception {
-        when(personService.findAll()).thenReturn(List.of(
+        when(teacherService.findAll()).thenReturn(List.of(
                 teacher1,
                 teacher12,
-                teacher,
-                new Student()));
+                teacher));
 
         mockMvc.perform(get("/json/teachers")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].userName").value("teacher1"))
@@ -123,19 +122,19 @@ class TeacherJsonControllerTest {
 
     @Test
     void getAllWhenListOfTeachersIsEmptyShouldReturnEmptyList() throws Exception {
-        when(personService.findAll()).thenReturn(Collections.emptyList());
+        when(teacherService.findAll()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/json/teachers")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
     void getTeacherWhenPathVariableIsCorrectShouldReturnTeacher() throws Exception {
-        when(personService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
+        when(teacherService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
 
         mockMvc.perform(get("/json/teachers/{id}", teacher.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -151,31 +150,31 @@ class TeacherJsonControllerTest {
 
     @Test
     void getTeacherWhenPathVariableIsIncorrectShouldReturnStatusNotFound() throws Exception {
-        when(personService.findById(-1)).thenReturn(Optional.empty());
+        when(teacherService.findById(-1)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/json/teachers/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void getTeacherWhenFoundNotTeacherShouldReturnStatusNotFound() throws Exception {
         teacher.setRoles(Set.of(new Role().withId(1).withName("STUDENT").addPerson(teacher)));
-        when(personService.findById(4)).thenReturn(Optional.of(teacher));
+        when(teacherService.findById(4)).thenReturn(Optional.of(teacher));
 
         mockMvc.perform(get("/json/teachers/{id}", 4)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void saveTeacherWhenTeacherIsAlreadyInTheDataBaseShouldReturnStatusBadRequest() throws Exception {
-        when(personService.save(teacher)).thenThrow(DataBaseException.class);
+        when(teacherService.save(teacher)).thenThrow(DataBaseException.class);
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -184,32 +183,32 @@ class TeacherJsonControllerTest {
         teacher.setRoles(Set.of(new Role().withId(1).withName("STUDENT").addPerson(teacher)));
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void saveTeacherWhenTeachersUserNameIsNullShouldReturnStatusBadRequest() throws Exception {
         teacher.setUserName(null);
-        when(personService.save(teacher)).thenThrow(DataBaseException.class);
+        when(teacherService.save(teacher)).thenThrow(DataBaseException.class);
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void saveTeacherWhenTeacherIsValidShouldReturnTeacher() throws Exception {
-        when(personService.save(teacher)).thenReturn(teacher);
+        when(teacherService.save(teacher)).thenReturn(teacher);
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -225,12 +224,12 @@ class TeacherJsonControllerTest {
 
     @Test
     void updateTeacherWhenRequestBodyIsTeacherAndIdIsCorrectShouldReturnStudent() throws Exception {
-        when(personService.update(teacher.getId(), teacher)).thenReturn(teacher);
+        when(teacherService.update(teacher.getId(), teacher)).thenReturn(teacher);
 
         mockMvc.perform(put("/json/teachers/{id}", teacher.getId())
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -247,9 +246,9 @@ class TeacherJsonControllerTest {
     @Test
     void updateTeacherWhenIdIsNotEqualUserIdShouldReturnStatusBadRequest() throws Exception {
         mockMvc.perform(put("/json/teachers/{id}", -1)
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("Teacher id must be equal with id in path: " + -1 + " != " + teacher.getId()));
     }
@@ -258,12 +257,12 @@ class TeacherJsonControllerTest {
     void updateTeacherWhenUserIdAndPathVariableIdIsIncorrectShouldReturnStatusBadRequest() throws Exception {
         teacher.setId(-1);
         int pathVariable = -1;
-        when(personService.update(pathVariable, teacher)).thenThrow(DataBaseException.class);
+        when(teacherService.update(pathVariable, teacher)).thenThrow(DataBaseException.class);
 
         mockMvc.perform(put("/json/teachers/{id}", pathVariable)
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -272,38 +271,38 @@ class TeacherJsonControllerTest {
         teacher.setRoles(Set.of(new Role().withId(1).withName("STUDENT").addPerson(teacher)));
 
         mockMvc.perform(put("/json/teachers/{id}", teacher.getId())
-                        .content(new ObjectMapper().writeValueAsString(teacher))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(teacher))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("Person is not teacher"));
     }
 
     @Test
     void deleteTeacherWhenIdIsCorrectShouldReturnTeacher() throws Exception {
-        when(personService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
+        when(teacherService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
 
         mockMvc.perform(delete("/json/teachers/{id}", teacher.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteTeacherWhenIdIsIncorrectShouldReturnStatusNotFound() throws Exception {
-        when(personService.findById(-1)).thenReturn(Optional.empty());
+        when(teacherService.findById(-1)).thenReturn(Optional.empty());
 
         mockMvc.perform(delete("/json/teachers/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteTeacherWhenFoundNotTeacherShouldReturnStatusNotFound() throws Exception {
         teacher.setRoles(Set.of(new Role().withId(1).withName("STUDENT").addPerson(teacher)));
-        when(personService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
+        when(teacherService.findById(teacher.getId())).thenReturn(Optional.of(teacher));
 
         mockMvc.perform(delete("/json/teachers/{id}", teacher.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 }

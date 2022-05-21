@@ -3,9 +3,14 @@ package eu.senla.dutov.model.people;
 import eu.senla.dutov.model.AbstractEntity;
 import eu.senla.dutov.model.auth.Authority;
 import eu.senla.dutov.model.auth.Role;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -17,16 +22,15 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
+import static eu.senla.dutov.model.auth.Authority.AUTHORITY_ID;
+import static eu.senla.dutov.model.auth.Authority.USER_AUTHORITY;
+import static eu.senla.dutov.model.auth.Role.ROLE_ID;
+import static eu.senla.dutov.model.auth.Role.USER_ROLE;
 import static eu.senla.dutov.model.people.Person.USERS;
 import static eu.senla.dutov.model.people.Person.USER_TYPE;
 import static javax.persistence.DiscriminatorType.STRING;
@@ -46,11 +50,7 @@ public abstract class Person extends AbstractEntity {
     public static final String USERS = "users";
     public static final String USER_TYPE = "user_type";
     public static final String USER_NAME = "user_name";
-    public static final String USER_ROLE = "user_role";
     public static final String USER_ID = "user_id";
-    public static final String ROLE_ID = "role_id";
-    public static final String USER_AUTHORITY = "user_authority";
-    public static final String AUTHORITY_ID = "authority_id";
 
     @Column(name = USER_NAME)
     @Pattern(regexp = "^[a-zA-Z]+[\\w.]+[a-zA-Z]+$")

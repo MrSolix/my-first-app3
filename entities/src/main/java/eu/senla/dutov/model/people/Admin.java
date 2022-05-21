@@ -1,10 +1,11 @@
 package eu.senla.dutov.model.people;
 
 import eu.senla.dutov.model.auth.Role;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 import static eu.senla.dutov.model.people.Admin.ADMIN;
 

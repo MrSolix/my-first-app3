@@ -1,9 +1,9 @@
-package eu.senla.dutov.repository;
+package eu.senla.dutov.service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface DAOInterface<T> {
+public interface CRUDInterface<T> {
 
     T save(T t);
 

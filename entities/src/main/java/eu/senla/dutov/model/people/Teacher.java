@@ -2,6 +2,13 @@ package eu.senla.dutov.model.people;
 
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.group.Group;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -10,12 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import static eu.senla.dutov.model.people.Teacher.SALARIES_TABLE_NAME;
 import static eu.senla.dutov.model.people.Teacher.TEACHER;

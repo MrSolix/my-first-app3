@@ -34,7 +34,7 @@ class SalaryTest {
     @Test
     void getSalaryWhenIdIsCorrectShouldReturnSalary() throws Exception {
         mockMvc.perform(get("/json/salaries/{id}", 4)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(10000.0));
     }

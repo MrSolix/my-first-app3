@@ -1,26 +1,27 @@
 package eu.senla.dutov.service.person;
 
-
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
-import eu.senla.dutov.model.people.Person;
 import eu.senla.dutov.model.people.Student;
-import eu.senla.dutov.repository.DAOInterface;
 import eu.senla.dutov.repository.person.SpringDataStudentRepository;
-import java.util.List;
-import java.util.Optional;
+import eu.senla.dutov.service.CRUDInterface;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+import static eu.senla.dutov.model.auth.Role.ROLE_STUDENT;
+import static eu.senla.dutov.service.person.PersonService.setPersonFields;
+import static eu.senla.dutov.service.util.ServiceConstantClass.PASSED_ID_IS_NOT_EQUAL_TO_USER_ID;
+import static eu.senla.dutov.service.util.ServiceConstantClass.USER_IS_NOT_FOUND;
+import static java.lang.String.format;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class StudentService implements DAOInterface<Student> {
+public class StudentService implements CRUDInterface<Student> {
 
     private final SpringDataStudentRepository springDataStudentRepository;
 
@@ -30,6 +31,7 @@ public class StudentService implements DAOInterface<Student> {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Student> findById(Integer id) {
         return springDataStudentRepository.findById(id);
     }
@@ -37,13 +39,11 @@ public class StudentService implements DAOInterface<Student> {
     @Override
     public Student update(Integer id, Student student) {
         if (!id.equals(student.getId())) {
-            throw new IncorrectValueException("Passed id is not equal to student id");
+            throw new IncorrectValueException(format(PASSED_ID_IS_NOT_EQUAL_TO_USER_ID, ROLE_STUDENT));
         }
-        Optional<Student> oldStudentOptional = springDataStudentRepository.findById(id);
-        if (oldStudentOptional.isEmpty()) {
-            throw new NotFoundException("Student is not found");
-        }
-        Student oldStudent = oldStudentOptional.get();
+        Student oldStudent = springDataStudentRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException(format(USER_IS_NOT_FOUND, ROLE_STUDENT)));
         setPersonFields(oldStudent, student);
         springDataStudentRepository.update(oldStudent.getUserName(), oldStudent.getPassword(),
                 oldStudent.getName(), oldStudent.getAge(), oldStudent.getId());
@@ -52,26 +52,15 @@ public class StudentService implements DAOInterface<Student> {
 
     @Override
     public void remove(int id) {
-        Optional<Student> optionalStudent = springDataStudentRepository.findById(id);
-        if (optionalStudent.isEmpty()) {
-            throw new NotFoundException("Student is not found");
-        }
-        springDataStudentRepository.delete(optionalStudent.get());
+        springDataStudentRepository
+                .delete(springDataStudentRepository
+                        .findById(id)
+                        .orElseThrow(() -> new NotFoundException(format(USER_IS_NOT_FOUND, ROLE_STUDENT))));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Student> findAll() {
         return springDataStudentRepository.findAll();
-    }
-
-    private void setPersonFields(Person oldPerson, Person newPerson) {
-        String userName = newPerson.getUserName();
-        String password = newPerson.getPassword();
-        String name = newPerson.getName();
-        Integer age = newPerson.getAge();
-        if (userName != null) oldPerson.setUserName(userName);
-        if (password != null) oldPerson.setPassword(password);
-        if (name != null) oldPerson.setName(name);
-        if (age != null) oldPerson.setAge(age);
     }
 }
