@@ -2,13 +2,7 @@ package eu.senla.dutov.model.people.grades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.people.Student;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,10 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Objects;
-
-import static eu.senla.dutov.model.people.grades.Grade.GRADES;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -29,19 +25,15 @@ import static eu.senla.dutov.model.people.grades.Grade.GRADES;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = GRADES)
-public class Grade implements Serializable {
-
-    public static final String GRADES = "grades";
-    public static final String THEME_NAME = "theme_name";
-    public static final String STUDENT_ID = "student_id";
+@Table(name = "grades")
+public class Grade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(name = THEME_NAME)
+    @Column(name = "theme_name")
     @ToString.Include
     @EqualsAndHashCode.Exclude
     private String themeName;
@@ -50,33 +42,20 @@ public class Grade implements Serializable {
     private Integer grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = STUDENT_ID)
+    @JoinColumn(name = "student_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Student student;
-
-    public Grade withId(Integer id) {
-        setId(id);
-        return this;
-    }
-
-    public Grade withName(String themeName) {
-        setThemeName(themeName);
-        return this;
-    }
-
-    public Grade withGrade(Integer grade) {
-        setGrade(grade);
-        return this;
-    }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Grade grade1 = (Grade) object;
-        return Objects.equals(id, grade1.id) && Objects.equals(themeName, grade1.themeName) && Objects.equals(grade, grade1.grade);
+        return Objects.equals(id, grade1.id)
+                && Objects.equals(themeName, grade1.themeName)
+                && Objects.equals(grade, grade1.grade);
     }
 
     @Override

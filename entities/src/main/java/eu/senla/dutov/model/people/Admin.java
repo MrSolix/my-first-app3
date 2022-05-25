@@ -1,21 +1,16 @@
 package eu.senla.dutov.model.people;
 
 import eu.senla.dutov.model.auth.Role;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-
-import static eu.senla.dutov.model.people.Admin.ADMIN;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue(ADMIN)
-public class Admin extends Person {
-
-    public static final String ADMIN = "admin";
+@DiscriminatorValue("admin")
+public class Admin extends User {
 
     public Admin() {
         addRole(new Role()

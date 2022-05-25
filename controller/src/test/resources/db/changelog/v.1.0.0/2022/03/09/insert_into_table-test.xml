@@ -23,4 +23,31 @@
         <sqlFile path="data/09-03-2022-insert-into-table-role-test.sql"/>
     </changeSet>
 
+    <changeSet id="09-03-2022-insert-into-table-users-test" author="Dutov VA" runAlways="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM "users"
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-users-test.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-user-role-test" author="Dutov VA" runAlways="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM user_role
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-user-role-test.sql"/>
+    </changeSet>
+
+    <changeSet id="09-03-2022-insert-into-table-salaries-test" author="Dutov VA" runAlways="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM salaries
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="data/09-03-2022-insert-into-table-salaries-test.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

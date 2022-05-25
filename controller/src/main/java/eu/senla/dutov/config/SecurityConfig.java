@@ -1,5 +1,6 @@
-package eu.senla.dutov.controller.config;
+package eu.senla.dutov.config;
 
+import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.service.auth.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static eu.senla.dutov.model.auth.Role.ROLE_ADMIN;
-
 @Configuration
 @EnableWebSecurity
 @Slf4j
@@ -23,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/json/**").hasAnyRole(ROLE_ADMIN)
+                .antMatchers("/json/**").hasAnyRole(Role.ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }

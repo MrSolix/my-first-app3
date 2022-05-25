@@ -1,12 +1,9 @@
 package eu.senla.dutov.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import eu.senla.dutov.model.people.Person;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import eu.senla.dutov.model.people.User;
+import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import java.util.Collection;
-import java.util.Objects;
-
-import static eu.senla.dutov.model.people.Person.USER_ID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -26,21 +23,18 @@ import static eu.senla.dutov.model.people.Person.USER_ID;
 @NoArgsConstructor
 public class Authority {
 
-    public static final String USER_AUTHORITY = "user_authority";
-    public static final String AUTHORITY_ID = "authority_id";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
     @ManyToMany
-    @JoinTable(name = USER_AUTHORITY,
-            joinColumns = @JoinColumn(name = AUTHORITY_ID),
-            inverseJoinColumns = @JoinColumn(name = USER_ID))
+    @JoinTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "authority_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnore
     @ToString.Exclude
-    private Collection<Person> users;
+    private Collection<User> users;
 
     @Override
     public boolean equals(Object object) {

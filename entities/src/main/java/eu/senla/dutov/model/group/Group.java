@@ -4,11 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.AbstractEntity;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,35 +14,36 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import static eu.senla.dutov.model.group.Group.GROUP;
-
+@Getter
+@Setter
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = GROUP)
+@Table(name = "\"group\"")
 public class Group extends AbstractEntity {
-
-    public static final String GROUP = "\"group\"";
-    public static final String GROUP_STUDENT = "group_student";
-    public static final String GROUP_ID = "group_id";
-    public static final String STUDENT_ID = "student_id";
 
     @ToString.Exclude
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JsonIgnore
     private Teacher teacher;
+
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = GROUP_STUDENT,
-            joinColumns = @JoinColumn(name = GROUP_ID),
-            inverseJoinColumns = @JoinColumn(name = STUDENT_ID))
+            name = "group_student",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     @JsonIgnore
     private Set<Student> students;
-
 
     @Override
     public Group withId(Integer id) {
@@ -61,7 +59,16 @@ public class Group extends AbstractEntity {
         this.teacher = teacher;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Group group = (Group) o;
+        return getId() != null && Objects.equals(getId(), group.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

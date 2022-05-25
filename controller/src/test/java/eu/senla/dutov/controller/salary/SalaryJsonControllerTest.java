@@ -36,7 +36,7 @@ class SalaryJsonControllerTest {
         when(finance.getSalary(3)).thenReturn(5000.0);
 
         mockMvc.perform(get("/json/salaries/{id}", 3)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(5000.0));
     }
@@ -46,7 +46,7 @@ class SalaryJsonControllerTest {
         when(finance.getSalary(-1)).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/json/salaries/{id}", -1)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -56,7 +56,7 @@ class SalaryJsonControllerTest {
         when(finance.getAverageSalary(3, 1, 5)).thenReturn(1220.0);
 
         mockMvc.perform(get("/json/salaries/{id}/average/minRange={min}&maxRange={max}", 3, 1, 5)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(1220.0));
     }
@@ -66,7 +66,7 @@ class SalaryJsonControllerTest {
         when(finance.getAverageSalary(-1, 1, 5)).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/json/salaries/{id}/average/minRange={min}&maxRange={max}", -1, 1, 5)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -75,7 +75,7 @@ class SalaryJsonControllerTest {
         when(finance.getAverageSalary(3, -1, 5)).thenThrow(IncorrectValueException.class);
 
         mockMvc.perform(get("/json/salaries/{id}/average/minRange={min}&maxRange={max}", 3, -1, 5)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 }

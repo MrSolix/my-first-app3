@@ -2,48 +2,42 @@ package eu.senla.dutov.service;
 
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
+import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.service.person.TeacherService;
+import eu.senla.dutov.repository.subclass.person.TeacherRepository;
+import eu.senla.dutov.service.util.ServiceConstantClass;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static eu.senla.dutov.model.auth.Role.ROLE_TEACHER;
-import static eu.senla.dutov.service.util.ServiceConstantClass.INCORRECT_VALUE;
-import static eu.senla.dutov.service.util.ServiceConstantClass.USER_IS_NOT_FOUND;
-import static java.lang.String.format;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class Finance {
 
+    public static final int CURRENT_MONTH = LocalDate.now().getMonthValue();
     private final Map<Integer, Map<Integer, Double>> salaryHistory = new ConcurrentHashMap<>();
-    private static final int CURRENT_MONTH = LocalDate.now().getMonthValue();
-    private final TeacherService teacherService;
+    private final TeacherRepository teacherRepository;
 
     @PostConstruct
     private void init() {
-        for (Teacher teacher : teacherService.findAll()) {
+        List<Teacher> all = teacherRepository.findAll();
+        for (Teacher teacher : all) {
             initSalaryHistory(teacher);
         }
     }
 
     private void initSalaryHistory(Teacher teacher) {
         for (int i = 1; i < CURRENT_MONTH; i++) {
-            saveSalary(teacher, i, i * Math.random());
+            saveSalary(teacher, i, 1000.0 + Math.round(Math.random() * 10000));
         }
         saveSalary(teacher, CURRENT_MONTH, teacher.getSalary());
-    }
-
-    public Map<Integer, Map<Integer, Double>> getSalaryHistory() {
-        return salaryHistory;
     }
 
     private void saveSalary(Teacher teacher, int month, double salary) {
@@ -53,16 +47,22 @@ public class Finance {
         }
     }
 
+    public Map<Integer, Map<Integer, Double>> getSalaryHistory() {
+        return salaryHistory;
+    }
+
     public Double getSalary(int id) {
-        return teacherService.findById(id)
-                .orElseThrow(() -> new NotFoundException(format(USER_IS_NOT_FOUND, ROLE_TEACHER)))
+        return teacherRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                        .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER)))
                 .getSalary();
     }
 
     public Double getAverageSalary(int id, int min, int max) {
-        return averageSalary(min, max, teacherService
+        return averageSalary(min, max, teacherRepository
                 .findById(id)
-                .orElseThrow(() -> new NotFoundException(format(USER_IS_NOT_FOUND, ROLE_TEACHER))));
+                .orElseThrow(() -> new NotFoundException(String
+                        .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))));
     }
 
     private double averageSalary(int minRange, int maxRange, Teacher teacher) {
@@ -75,7 +75,7 @@ public class Finance {
                 || isCorrectMaxRange
                 || isCorrectRangeCount
                 || containsKeyInTheMap) {
-            throw new IncorrectValueException(INCORRECT_VALUE);
+            throw new IncorrectValueException(ServiceConstantClass.INCORRECT_VALUE);
         }
         return getAvgSal(teacher, minRange, maxRange) / rangeCount;
     }
