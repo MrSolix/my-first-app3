@@ -1,4 +1,4 @@
-package eu.senla.dutov.repository.subclass.person;
+package eu.senla.dutov.repository.user;
 
 import eu.senla.dutov.model.people.User;
 import java.util.Optional;

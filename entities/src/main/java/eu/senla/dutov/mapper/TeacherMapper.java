@@ -5,6 +5,6 @@ import eu.senla.dutov.model.dto.ResponseTeacherDto;
 import eu.senla.dutov.model.people.Teacher;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = AbstractMapper.SPRING)
 public interface TeacherMapper extends AbstractMapper<RequestTeacherDto, ResponseTeacherDto, Teacher> {
 }

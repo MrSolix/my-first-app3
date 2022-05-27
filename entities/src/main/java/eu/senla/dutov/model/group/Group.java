@@ -2,11 +2,11 @@ package eu.senla.dutov.model.group;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.AbstractEntity;
+import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -25,13 +25,12 @@ import org.hibernate.annotations.FetchMode;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper = true)
 @Entity
-@Table(name = "\"group\"")
+@Table(name = ModelConstantClass.GROUP)
 public class Group extends AbstractEntity {
 
     @ToString.Exclude
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JsonIgnore
     private Teacher teacher;
@@ -39,25 +38,11 @@ public class Group extends AbstractEntity {
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "group_student",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+            name = ModelConstantClass.GROUP_STUDENT,
+            joinColumns = @JoinColumn(name = ModelConstantClass.GROUP_ID),
+            inverseJoinColumns = @JoinColumn(name = ModelConstantClass.STUDENT_ID))
     @JsonIgnore
     private Set<Student> students;
-
-    @Override
-    public Group withId(Integer id) {
-        setId(id);
-        return this;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,9 @@
 package eu.senla.dutov.model.people;
 
+import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.group.Group;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -22,55 +22,26 @@ import org.hibernate.annotations.FetchMode;
 @Getter
 @Setter
 @Entity
-@SecondaryTable(name = "salaries", pkJoinColumns = @PrimaryKeyJoinColumn(name = "teacher_id"))
-@DiscriminatorValue("teacher")
+@SecondaryTable(name = ModelConstantClass.SALARIES,
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = ModelConstantClass.TEACHER_ID))
+@DiscriminatorValue(ModelConstantClass.TEACHER_TO_LOWER_CASE)
 public class Teacher extends User {
 
     @ToString.Include
     @EqualsAndHashCode.Include
-    @OneToOne(mappedBy = "teacher", fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(mappedBy = ModelConstantClass.TEACHER_TO_LOWER_CASE, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     private Group group;
 
-    @Column(table = "salaries", name = "salary")
+    @Column(table = ModelConstantClass.SALARIES, name = ModelConstantClass.SALARY)
     private Double salary;
 
     public Teacher() {
-        addRole(new Role()
-                .withId(2)
-                .withName(Role.ROLE_TEACHER)
-                .addPerson(this));
-    }
-
-    public void setSalary(Double salary) {
-        if (salary != null && salary >= 0) {
-            this.salary = salary;
-        } else {
-            this.salary = 0.0;
-        }
-    }
-
-    @Override
-    public Teacher withId(Integer id) {
-        setId(id);
-        return this;
-    }
-
-    public Teacher withSalary(double salary) {
-        setSalary(salary);
-        return this;
-    }
-
-    public void setGroup(Group group) {
-        if (group == null) {
-            if (this.group != null) {
-                this.group.setTeacher(null);
-            }
-        } else {
-            group.setTeacher(this);
-        }
-        this.group = group;
+        Role roleTeacher = new Role();
+        roleTeacher.setId(ModelConstantClass.ID_FOR_ROLE_TEACHER);
+        roleTeacher.setName(Role.ROLE_TEACHER);
+        roleTeacher.addUser(this);
+        addRole(roleTeacher);
     }
 
     @Override
@@ -83,6 +54,6 @@ public class Teacher extends User {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(super.hashCode(), group, salary);
     }
 }

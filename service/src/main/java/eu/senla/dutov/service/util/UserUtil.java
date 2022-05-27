@@ -2,12 +2,12 @@ package eu.senla.dutov.service.util;
 
 import eu.senla.dutov.model.people.User;
 
-public class PersonUtil {
+public class UserUtil {
 
-    private PersonUtil() {
+    private UserUtil() {
     }
 
-    public static void setPersonFields(User oldUser, User newUser) {
+    public static void setUserFields(User oldUser, User newUser) {
         String userName = newUser.getUserName();
         String password = newUser.getPassword();
         String name = newUser.getName();

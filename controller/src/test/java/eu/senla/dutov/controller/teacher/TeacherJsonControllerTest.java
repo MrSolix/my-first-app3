@@ -7,7 +7,7 @@ import eu.senla.dutov.mapper.TeacherMapper;
 import eu.senla.dutov.model.dto.GroupDto;
 import eu.senla.dutov.model.dto.RequestTeacherDto;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.service.person.TeacherService;
+import eu.senla.dutov.service.user.TeacherService;
 import java.util.Collections;
 import java.util.List;
 import javax.validation.ConstraintViolationException;

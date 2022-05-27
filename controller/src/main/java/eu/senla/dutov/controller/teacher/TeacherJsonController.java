@@ -2,7 +2,8 @@ package eu.senla.dutov.controller.teacher;
 
 import eu.senla.dutov.model.dto.RequestTeacherDto;
 import eu.senla.dutov.model.dto.ResponseTeacherDto;
-import eu.senla.dutov.service.person.TeacherService;
+import eu.senla.dutov.service.user.TeacherService;
+import eu.senla.dutov.util.ControllerConstantClass;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 
 @RestController
-@RequestMapping(path = "/json/teachers", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = ControllerConstantClass.URI_JSON_TEACHERS, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
 @Validated
@@ -36,7 +37,7 @@ public class TeacherJsonController {
         return teacherService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<ResponseTeacherDto> getTeacher(@PathVariable @Min(MIN_VALUE) int id) {
         return ResponseEntity.ok(teacherService.findById(id));
     }
@@ -46,13 +47,13 @@ public class TeacherJsonController {
         return ResponseEntity.ok(teacherService.save(teacherDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<ResponseTeacherDto> updateTeacher(@PathVariable @Min(MIN_VALUE) int id,
                                                             @Valid @RequestBody RequestTeacherDto teacherDto) {
         return ResponseEntity.ok(teacherService.update(id, teacherDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<String> deleteTeacher(@PathVariable @Min(MIN_VALUE) int id) {
         teacherService.remove(id);
         return ResponseEntity.ok().build();

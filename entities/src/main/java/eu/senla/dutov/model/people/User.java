@@ -1,6 +1,7 @@
 package eu.senla.dutov.model.people;
 
 import eu.senla.dutov.model.AbstractEntity;
+import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.auth.Authority;
 import eu.senla.dutov.model.auth.Role;
 import java.util.HashSet;
@@ -16,7 +17,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,31 +27,30 @@ import org.hibernate.annotations.FetchMode;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Slf4j
-@Entity(name = "users")
+@Entity(name = ModelConstantClass.USERS)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type",
+@DiscriminatorColumn(name = ModelConstantClass.USER_TYPE,
         discriminatorType = DiscriminatorType.STRING)
 public abstract class User extends AbstractEntity {
 
-    @Column(name = "user_name")
+    @Column(name = ModelConstantClass.USER_NAME)
     private String userName;
     private String password;
     private String name;
     private Integer age;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = ModelConstantClass.USER_ROLE,
+            joinColumns = @JoinColumn(name = ModelConstantClass.USER_ID),
+            inverseJoinColumns = @JoinColumn(name = ModelConstantClass.ROLE_ID))
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    @JoinTable(name = ModelConstantClass.USER_AUTHORITY,
+            joinColumns = @JoinColumn(name = ModelConstantClass.USER_ID),
+            inverseJoinColumns = @JoinColumn(name = ModelConstantClass.AUTHORITY_ID))
     @Fetch(FetchMode.JOIN)
     private Set<Authority> authorities;
 
@@ -73,13 +72,11 @@ public abstract class User extends AbstractEntity {
         return Objects.equals(userName, user.userName)
                 && Objects.equals(password, user.password)
                 && Objects.equals(name, user.name)
-                && Objects.equals(age, user.age)
-                && Objects.equals(roles, user.roles)
-                && Objects.equals(authorities, user.authorities);
+                && Objects.equals(age, user.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userName, password, name, age, roles, authorities);
+        return Objects.hash(super.hashCode(), userName, password, name, age);
     }
 }

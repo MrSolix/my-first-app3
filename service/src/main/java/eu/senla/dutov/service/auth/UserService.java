@@ -1,7 +1,7 @@
 package eu.senla.dutov.service.auth;
 
 import eu.senla.dutov.model.auth.UserPrincipal;
-import eu.senla.dutov.repository.subclass.person.UserRepository;
+import eu.senla.dutov.repository.user.UserRepository;
 import eu.senla.dutov.service.util.ServiceConstantClass;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

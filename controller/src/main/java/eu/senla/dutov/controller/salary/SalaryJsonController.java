@@ -1,6 +1,7 @@
 package eu.senla.dutov.controller.salary;
 
 import eu.senla.dutov.service.Finance;
+import eu.senla.dutov.util.ControllerConstantClass;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +20,18 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @Validated
 @Slf4j
 @RestController
-@RequestMapping(path = "/json/salaries", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = ControllerConstantClass.URI_JSON_SALARIES, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class SalaryJsonController {
 
     private final Finance finance;
 
-    @GetMapping("/{id}")
+    @GetMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<Double> getSalary(@PathVariable @Min(MIN_VALUE) int id) {
         return ResponseEntity.ok(finance.getSalary(id));
     }
 
-    @GetMapping("/{id}/average/minRange={min}&maxRange={max}")
+    @GetMapping(ControllerConstantClass.URI_AVERAGE_SALARY)
     public ResponseEntity<Double> getAverageSalary(@PathVariable @Min(MIN_VALUE) int id,
                                                    @PathVariable @Min(MIN_VALUE) @Max(MAX_VALUE) int min,
                                                    @PathVariable @Min(MIN_VALUE) @Max(MAX_VALUE) int max) {

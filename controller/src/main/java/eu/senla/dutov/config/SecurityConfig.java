@@ -17,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String JSON_URI = "/json/**";
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/json/**").hasAnyRole(Role.ROLE_ADMIN)
+                .antMatchers(JSON_URI).hasAnyRole(Role.ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }

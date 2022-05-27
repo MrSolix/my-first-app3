@@ -9,15 +9,18 @@ import lombok.Data;
 @Data
 public abstract class RequestUserDto {
 
+    private static final String REGEXP_FOR_USERNAME = "^[a-zA-Z]+[\\w.]+[a-zA-Z]+$";
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 1000;
     private Integer id;
 
-    @Pattern(regexp = "^[a-zA-Z]+[\\w.]+[a-zA-Z]+$")
+    @Pattern(regexp = REGEXP_FOR_USERNAME)
     @NotNull
     private String userName;
     private String password;
     private String name;
 
-    @Min(1)
-    @Max(1000)
+    @Min(MIN_VALUE)
+    @Max(MAX_VALUE)
     private Integer age;
 }

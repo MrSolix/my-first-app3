@@ -1,6 +1,7 @@
 package eu.senla.dutov.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.people.User;
 import java.util.Collection;
 import java.util.Objects;
@@ -13,13 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Getter
-@Setter
-@ToString
 @NoArgsConstructor
 public class Authority {
 
@@ -29,9 +27,9 @@ public class Authority {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "authority_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = ModelConstantClass.USER_AUTHORITY,
+            joinColumns = @JoinColumn(name = ModelConstantClass.AUTHORITY_ID),
+            inverseJoinColumns = @JoinColumn(name = ModelConstantClass.USER_ID))
     @JsonIgnore
     @ToString.Exclude
     private Collection<User> users;

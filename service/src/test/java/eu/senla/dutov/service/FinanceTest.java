@@ -3,7 +3,7 @@ package eu.senla.dutov.service;
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.repository.subclass.person.TeacherRepository;
+import eu.senla.dutov.repository.user.TeacherRepository;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -24,9 +24,9 @@ class FinanceTest {
 
     @BeforeAll
     static void beforeAll() {
-        teacher = new Teacher()
-                .withId(1)
-                .withSalary(10000);
+        teacher = new Teacher();
+        teacher.setId(1);
+        teacher.setSalary(10000.0);
 
         Map<Integer, Double> salaries = new HashMap<>();
         for (int i = 1; i < CURRENT_MONTH; i++) {

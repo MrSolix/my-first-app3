@@ -1,6 +1,7 @@
 package eu.senla.dutov.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.people.User;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +21,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Role {
 
@@ -34,32 +34,20 @@ public class Role {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = ModelConstantClass.USER_ROLE,
+            joinColumns = @JoinColumn(name = ModelConstantClass.ROLE_ID),
+            inverseJoinColumns = @JoinColumn(name = ModelConstantClass.USER_ID))
     @JsonIgnore
     @ToString.Exclude
     private Collection<User> users;
 
-
-    public Role withId(Integer id) {
-        setId(id);
-        return this;
-    }
-
-    public Role withName(String name) {
-        setName(name);
-        return this;
-    }
-
-    public Role addPerson(User user) {
+    public void addUser(User user) {
         if (users == null) {
             users = new ArrayList<>();
         }
         if (!users.contains(user)) {
             users.add(user);
         }
-        return this;
     }
 
     @Override

@@ -2,7 +2,7 @@ package eu.senla.dutov.service.auth;
 
 import eu.senla.dutov.model.auth.UserPrincipal;
 import eu.senla.dutov.model.people.Admin;
-import eu.senla.dutov.repository.subclass.person.UserRepository;
+import eu.senla.dutov.repository.user.UserRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -19,9 +19,9 @@ class AbstractUserServiceTest {
 
     @Test
     void LoadUserByUsername_WithUsernameIsCorrectData_ShouldReturnUserDetails() {
-        Admin admin = new Admin()
-                .withUserName(ADMIN)
-                .withPassword("$2a$12$GQX1oFO7dQIUHtDrS2/pNuYRfdfgt.00MWC7YzARUOSVT5Swusg1G");
+        Admin admin = new Admin();
+        admin.setUserName(ADMIN);
+        admin.setPassword("$2a$12$GQX1oFO7dQIUHtDrS2/pNuYRfdfgt.00MWC7YzARUOSVT5Swusg1G");
         admin.setAuthorities(new HashSet<>());
         Mockito.when(userRepository.findByUserName(ADMIN)).thenReturn(Optional.of(admin));
         UserService userService = new UserService(userRepository);

@@ -2,7 +2,8 @@ package eu.senla.dutov.controller.student;
 
 import eu.senla.dutov.model.dto.RequestStudentDto;
 import eu.senla.dutov.model.dto.ResponseStudentDto;
-import eu.senla.dutov.service.person.StudentService;
+import eu.senla.dutov.service.user.StudentService;
+import eu.senla.dutov.util.ControllerConstantClass;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -24,7 +25,7 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 
 @RestController
 @Validated
-@RequestMapping(path = "/json/students", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = ControllerConstantClass.URI_JSON_STUDENTS, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
 public class StudentJsonController {
@@ -36,7 +37,7 @@ public class StudentJsonController {
         return studentService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<ResponseStudentDto> getStudent(@PathVariable @Min(MIN_VALUE) int id) {
         return ResponseEntity.ok(studentService.findById(id));
     }
@@ -46,13 +47,13 @@ public class StudentJsonController {
         return ResponseEntity.ok(studentService.save(student));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<ResponseStudentDto> updateStudent(@PathVariable @Min(MIN_VALUE) int id,
                                                             @Valid @RequestBody RequestStudentDto student) {
         return ResponseEntity.ok(studentService.update(id, student));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<String> deleteStudent(@PathVariable @Min(MIN_VALUE) int id) {
         studentService.remove(id);
         return ResponseEntity.ok().build();

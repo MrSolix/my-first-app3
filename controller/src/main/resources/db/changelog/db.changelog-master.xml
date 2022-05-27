@@ -5,9 +5,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
     <include file="db/changelog/v.1.0.0/2022/03/09/create_tables.xml"/>
-
     <include file="db/changelog/v.1.0.0/2022/03/09/insert_into_table.xml"/>
-
     <include file="db/changelog/v.1.0.0/2022/05/13/alter-tables.xml"/>
 
 </databaseChangeLog>

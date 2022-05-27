@@ -3,7 +3,7 @@ package eu.senla.dutov.controller.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.senla.dutov.model.dto.RequestTeacherDto;
 import eu.senla.dutov.model.dto.ResponseTeacherDto;
-import eu.senla.dutov.service.person.TeacherService;
+import eu.senla.dutov.service.user.TeacherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

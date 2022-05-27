@@ -9,7 +9,7 @@ import eu.senla.dutov.model.dto.GradeDto;
 import eu.senla.dutov.model.dto.GroupDto;
 import eu.senla.dutov.model.dto.RequestStudentDto;
 import eu.senla.dutov.model.people.Student;
-import eu.senla.dutov.service.person.StudentService;
+import eu.senla.dutov.service.user.StudentService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -53,11 +53,11 @@ class StudentJsonControllerTest {
 
     @BeforeEach
     void setStudent() {
-        GroupDto groupDtoOneForSlavik = new GroupDto();
-        groupDtoOneForSlavik.setId(19);
+        GroupDto GroupDtoOneForSlavik = new GroupDto();
+        GroupDtoOneForSlavik.setId(19);
 
-        GroupDto groupDtoTwoForSlavik = new GroupDto();
-        groupDtoTwoForSlavik.setId(29);
+        GroupDto GroupDtoTwoForSlavik = new GroupDto();
+        GroupDtoTwoForSlavik.setId(29);
 
         GradeDto gradeDtoOneForSlavik = new GradeDto();
         gradeDtoOneForSlavik.setId(176);
@@ -91,8 +91,8 @@ class StudentJsonControllerTest {
         requestSlavikDto.setName("Slavik");
         requestSlavikDto.setAge(26);
         requestSlavikDto.setGroups(Set.of(
-                groupDtoOneForSlavik,
-                groupDtoTwoForSlavik));
+                GroupDtoOneForSlavik,
+                GroupDtoTwoForSlavik));
         requestSlavikDto.setGrades(List.of(
                 gradeDtoOneForSlavik,
                 gradeDtoTwoForSlavik,

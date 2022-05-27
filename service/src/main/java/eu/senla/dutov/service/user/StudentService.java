@@ -1,11 +1,11 @@
-package eu.senla.dutov.service.person;
+package eu.senla.dutov.service.user;
 
 import eu.senla.dutov.mapper.StudentMapper;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.dto.RequestStudentDto;
 import eu.senla.dutov.model.dto.ResponseStudentDto;
 import eu.senla.dutov.model.people.Student;
-import eu.senla.dutov.repository.subclass.person.StudentRepository;
+import eu.senla.dutov.repository.user.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +15,7 @@ public class StudentService extends AbstractUserService<RequestStudentDto, Respo
 
     public StudentService(StudentRepository studentRepository,
                           StudentMapper studentMapper) {
-        commonRepository = studentRepository;
+        jpaRepository = studentRepository;
         abstractMapper = studentMapper;
         role = Role.ROLE_STUDENT;
     }
