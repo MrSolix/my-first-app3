@@ -1,0 +1,15 @@
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/my_first_app
+    username: slavik
+    password: 159357
+    driver-class-name: org.postgresql.Driver

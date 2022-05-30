@@ -16,7 +16,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: controller/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/my_first_app
       - SPRING_DATASOURCE_USERNAME=docker
