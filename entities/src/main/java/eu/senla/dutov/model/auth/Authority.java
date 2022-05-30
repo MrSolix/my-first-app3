@@ -36,8 +36,12 @@ public class Authority {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Authority authority = (Authority) object;
         return Objects.equals(id, authority.id) && Objects.equals(name, authority.name);
     }

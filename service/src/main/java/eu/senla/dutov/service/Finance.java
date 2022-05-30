@@ -35,7 +35,8 @@ public class Finance {
 
     private void initSalaryHistory(Teacher teacher) {
         for (int i = 1; i < CURRENT_MONTH; i++) {
-            saveSalary(teacher, i, 1000.0 + Math.round(Math.random() * 10000));
+            double randomSalary = 1000.0 + Math.round(Math.random() * 10000);
+            saveSalary(teacher, i, randomSalary);
         }
         saveSalary(teacher, CURRENT_MONTH, teacher.getSalary());
     }
@@ -52,29 +53,19 @@ public class Finance {
     }
 
     public Double getSalary(int id) {
-        return teacherRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String
-                        .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER)))
-                .getSalary();
+        return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
+                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))).getSalary();
     }
 
     public Double getAverageSalary(int id, int min, int max) {
-        return averageSalary(min, max, teacherRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException(String
-                        .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))));
+        return averageSalary(min, max, teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
+                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))));
     }
 
     private double averageSalary(int minRange, int maxRange, Teacher teacher) {
         int rangeCount = maxRange - minRange + 1;
-        boolean isCorrectMinRange = minRange < 1;
-        boolean isCorrectMaxRange = maxRange > CURRENT_MONTH;
-        boolean isCorrectRangeCount = rangeCount <= 0;
-        boolean containsKeyInTheMap = !getSalaryHistory().containsKey(teacher.getId());
-        if (isCorrectMinRange
-                || isCorrectMaxRange
-                || isCorrectRangeCount
-                || containsKeyInTheMap) {
+        int zero = 0;
+        if (maxRange > CURRENT_MONTH || rangeCount <= zero) {
             throw new IncorrectValueException(ServiceConstantClass.INCORRECT_VALUE);
         }
         return getAvgSal(teacher, minRange, maxRange) / rangeCount;

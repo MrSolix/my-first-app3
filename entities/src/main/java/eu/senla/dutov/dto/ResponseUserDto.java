@@ -1,8 +1,10 @@
-package eu.senla.dutov.model.dto;
+package eu.senla.dutov.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public abstract class ResponseUserDto {
 
     private Integer id;

@@ -1,7 +1,7 @@
 package eu.senla.dutov.controller.student;
 
-import eu.senla.dutov.model.dto.RequestStudentDto;
-import eu.senla.dutov.model.dto.ResponseStudentDto;
+import eu.senla.dutov.dto.RequestStudentDto;
+import eu.senla.dutov.dto.ResponseStudentDto;
 import eu.senla.dutov.service.user.StudentService;
 import eu.senla.dutov.util.ControllerConstantClass;
 import java.util.List;
@@ -25,12 +25,13 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 
 @RestController
 @Validated
-@RequestMapping(path = ControllerConstantClass.URI_JSON_STUDENTS, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = StudentJsonController.URI_JSON_STUDENTS, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
 public class StudentJsonController {
 
     private final StudentService studentService;
+    public static final String URI_JSON_STUDENTS = "/json/students";
 
     @GetMapping
     public List<ResponseStudentDto> getAllStudents() {

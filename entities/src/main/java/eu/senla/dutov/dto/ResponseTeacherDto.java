@@ -1,10 +1,12 @@
-package eu.senla.dutov.model.dto;
+package eu.senla.dutov.dto;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class ResponseTeacherDto extends ResponseUserDto {
 
     private GroupDto group;

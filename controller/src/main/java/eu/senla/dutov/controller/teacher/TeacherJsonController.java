@@ -1,7 +1,7 @@
 package eu.senla.dutov.controller.teacher;
 
-import eu.senla.dutov.model.dto.RequestTeacherDto;
-import eu.senla.dutov.model.dto.ResponseTeacherDto;
+import eu.senla.dutov.dto.RequestTeacherDto;
+import eu.senla.dutov.dto.ResponseTeacherDto;
 import eu.senla.dutov.service.user.TeacherService;
 import eu.senla.dutov.util.ControllerConstantClass;
 import java.util.List;
@@ -24,13 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 
 @RestController
-@RequestMapping(path = ControllerConstantClass.URI_JSON_TEACHERS, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = TeacherJsonController.URI_JSON_TEACHERS, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
 @Validated
 public class TeacherJsonController {
 
     private final TeacherService teacherService;
+    public static final String URI_JSON_TEACHERS = "/json/teachers";
 
     @GetMapping
     public List<ResponseTeacherDto> getAllTeachers() {

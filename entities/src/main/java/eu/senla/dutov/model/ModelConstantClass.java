@@ -26,7 +26,6 @@ public class ModelConstantClass {
     public static final int ID_FOR_ROLE_TEACHER = 2;
     public static final int ID_FOR_ROLE_STUDENT = 1;
 
-
     private ModelConstantClass() {
     }
 }

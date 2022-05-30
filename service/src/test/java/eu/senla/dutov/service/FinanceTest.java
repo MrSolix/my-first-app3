@@ -63,13 +63,6 @@ class FinanceTest {
     }
 
     @Test
-    void GetAverageSalary_WithMinRangeIsIncorrect_ShouldThrowException() {
-        Mockito.when(teacherRepository.findById(1)).thenReturn(Optional.of(teacher));
-        Finance finance = new Finance(teacherRepository);
-        Assertions.assertThrows(IncorrectValueException.class, () -> finance.getAverageSalary(1, 0, 2));
-    }
-
-    @Test
     void GetAverageSalary_WithMinRangeMoreThanMaxRange_ShouldThrowException() {
         Mockito.when(teacherRepository.findById(1)).thenReturn(Optional.of(teacher));
         Finance finance = new Finance(teacherRepository);

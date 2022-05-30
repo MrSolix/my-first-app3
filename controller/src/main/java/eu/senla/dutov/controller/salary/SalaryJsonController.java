@@ -20,18 +20,20 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @Validated
 @Slf4j
 @RestController
-@RequestMapping(path = ControllerConstantClass.URI_JSON_SALARIES, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = SalaryJsonController.URI_JSON_SALARIES, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class SalaryJsonController {
 
     private final Finance finance;
+    private static final String URI_AVERAGE_SALARY = "/{id}/average/minRange={min}&maxRange={max}";
+    public static final String URI_JSON_SALARIES = "/json/salaries";
 
     @GetMapping(ControllerConstantClass.URI_ID)
     public ResponseEntity<Double> getSalary(@PathVariable @Min(MIN_VALUE) int id) {
         return ResponseEntity.ok(finance.getSalary(id));
     }
 
-    @GetMapping(ControllerConstantClass.URI_AVERAGE_SALARY)
+    @GetMapping(URI_AVERAGE_SALARY)
     public ResponseEntity<Double> getAverageSalary(@PathVariable @Min(MIN_VALUE) int id,
                                                    @PathVariable @Min(MIN_VALUE) @Max(MAX_VALUE) int min,
                                                    @PathVariable @Min(MIN_VALUE) @Max(MAX_VALUE) int max) {

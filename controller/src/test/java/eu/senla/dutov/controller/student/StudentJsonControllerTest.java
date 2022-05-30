@@ -1,13 +1,13 @@
 package eu.senla.dutov.controller.student;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.senla.dutov.dto.GradeDto;
+import eu.senla.dutov.dto.GroupDto;
+import eu.senla.dutov.dto.RequestStudentDto;
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.handler.ControllerExceptionHandler;
 import eu.senla.dutov.mapper.StudentMapper;
-import eu.senla.dutov.model.dto.GradeDto;
-import eu.senla.dutov.model.dto.GroupDto;
-import eu.senla.dutov.model.dto.RequestStudentDto;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.service.user.StudentService;
 import java.util.Collections;
@@ -41,7 +41,7 @@ class StudentJsonControllerTest {
     private static final StudentService studentService = mock(StudentService.class);
 
     private static RequestStudentDto requestSlavikDto;
-    private static Student slavik;
+    private static Student student;
 
     @BeforeAll
     static void setUp() {
@@ -101,7 +101,7 @@ class StudentJsonControllerTest {
                 gradeDtoFiveForSlavik
         ));
 
-        slavik = studentMapper.toModel(requestSlavikDto);
+        student = studentMapper.toModel(requestSlavikDto);
     }
 
     @Test
@@ -115,7 +115,7 @@ class StudentJsonControllerTest {
 
     @Test
     void getAllWhenListOfStudentsAreNotEmptyShouldReturnStudentList() throws Exception {
-        when(studentService.findAll()).thenReturn(studentMapper.toDTOList(List.of(slavik)));
+        when(studentService.findAll()).thenReturn(studentMapper.toDTOList(List.of(student)));
 
         mockMvc.perform(get("/json/students")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -145,7 +145,7 @@ class StudentJsonControllerTest {
 
     @Test
     void getStudentWhenUserIdIsCorrectShouldReturnStudent() throws Exception {
-        when(studentService.findById(6)).thenReturn(studentMapper.toDTO(slavik));
+        when(studentService.findById(6)).thenReturn(studentMapper.toDTO(student));
 
         mockMvc.perform(get("/json/students/{id}", 6)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -211,7 +211,7 @@ class StudentJsonControllerTest {
 
     @Test
     void updateStudentWhenRequestBodyIsStudentAndIdIsCorrectShouldReturnStudent() throws Exception {
-        when(studentService.update(requestSlavikDto.getId(), requestSlavikDto)).thenReturn(studentMapper.toDTO(slavik));
+        when(studentService.update(requestSlavikDto.getId(), requestSlavikDto)).thenReturn(studentMapper.toDTO(student));
 
         mockMvc.perform(put("/json/students/{id}", requestSlavikDto.getId())
                         .content(new ObjectMapper().writeValueAsString(requestSlavikDto))
@@ -275,7 +275,7 @@ class StudentJsonControllerTest {
 
     @Test
     void deleteStudentWhenPathVariableIsCorrectShouldReturnStudent() throws Exception {
-        when(studentService.findById(requestSlavikDto.getId())).thenReturn(studentMapper.toDTO(slavik));
+        when(studentService.findById(requestSlavikDto.getId())).thenReturn(studentMapper.toDTO(student));
 
         mockMvc.perform(delete("/json/students/{id}", requestSlavikDto.getId())
                         .contentType(MediaType.APPLICATION_JSON))

@@ -1,11 +1,11 @@
 package eu.senla.dutov.controller.teacher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.senla.dutov.dto.GroupDto;
+import eu.senla.dutov.dto.RequestTeacherDto;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.handler.ControllerExceptionHandler;
 import eu.senla.dutov.mapper.TeacherMapper;
-import eu.senla.dutov.model.dto.GroupDto;
-import eu.senla.dutov.model.dto.RequestTeacherDto;
 import eu.senla.dutov.model.people.Teacher;
 import eu.senla.dutov.service.user.TeacherService;
 import java.util.Collections;

@@ -1,14 +1,16 @@
-package eu.senla.dutov.model.dto;
+package eu.senla.dutov.dto;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class RequestStudentDto extends RequestUserDto {
 
     private Set<GroupDto> groups = new HashSet<>();

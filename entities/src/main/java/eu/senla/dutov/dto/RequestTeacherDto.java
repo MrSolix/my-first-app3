@@ -1,11 +1,13 @@
-package eu.senla.dutov.model.dto;
+package eu.senla.dutov.dto;
 
 import javax.validation.constraints.Min;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class RequestTeacherDto extends RequestUserDto {
 
     public static final int MIN_SALARY = 0;

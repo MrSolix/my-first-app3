@@ -1,10 +1,10 @@
 package eu.senla.dutov.service.user;
 
+import eu.senla.dutov.dto.RequestUserDto;
+import eu.senla.dutov.dto.ResponseUserDto;
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.mapper.AbstractMapper;
-import eu.senla.dutov.model.dto.RequestUserDto;
-import eu.senla.dutov.model.dto.ResponseUserDto;
 import eu.senla.dutov.model.people.User;
 import eu.senla.dutov.service.ServiceCRUDInterfaceDuo;
 import eu.senla.dutov.service.util.ServiceConstantClass;
@@ -14,7 +14,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class AbstractUserService<R extends RequestUserDto, T extends ResponseUserDto, U extends User> implements ServiceCRUDInterfaceDuo<R, T> {
+public abstract class AbstractUserService<R extends RequestUserDto, T extends ResponseUserDto, U extends User>
+        implements ServiceCRUDInterfaceDuo<R, T> {
 
     protected JpaRepository<U, Integer> jpaRepository;
     protected AbstractMapper<R, T, U> abstractMapper;

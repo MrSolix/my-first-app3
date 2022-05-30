@@ -52,9 +52,15 @@ public class Student extends User {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        if (!super.equals(object)) {
+            return false;
+        }
         Student student = (Student) object;
         return Objects.equals(groups, student.groups) && Objects.equals(grades, student.grades);
     }

@@ -69,8 +69,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof UserPrincipal)) return false;
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof UserPrincipal)) {
+            return false;
+        }
         UserPrincipal that = (UserPrincipal) object;
         return Objects.equals(user, that.user) && Objects.equals(authorities, that.authorities);
     }

@@ -43,8 +43,12 @@ public class Grade {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Grade grade1 = (Grade) object;
         return Objects.equals(id, grade1.id)
                 && Objects.equals(themeName, grade1.themeName)

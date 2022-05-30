@@ -46,8 +46,12 @@ public class Teacher extends User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
         Teacher teacher = (Teacher) o;
         return getId() != null && Objects.equals(getId(), teacher.getId());
     }
