@@ -43,7 +43,7 @@ public class StudentJsonController {
         return ResponseEntity.ok(studentService.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ResponseStudentDto> saveStudent(@Valid @RequestBody RequestStudentDto student) {
         return ResponseEntity.ok(studentService.save(student));
     }

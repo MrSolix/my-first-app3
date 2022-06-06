@@ -40,7 +40,7 @@ class StudentJsonControllerTest {
     private static final StudentMapper studentMapper = Mappers.getMapper(StudentMapper.class);
     private static final StudentService studentService = mock(StudentService.class);
 
-    private static RequestStudentDto requestSlavikDto;
+    private static RequestStudentDto requestStudentDto;
     private static Student student;
 
     @BeforeAll
@@ -84,16 +84,16 @@ class StudentJsonControllerTest {
         gradeDtoFiveForSlavik.setThemeName("abs");
         gradeDtoFiveForSlavik.setGrade(54);
 
-        requestSlavikDto = new RequestStudentDto();
-        requestSlavikDto.setId(6);
-        requestSlavikDto.setUserName("student");
-        requestSlavikDto.setPassword("$2a$12$iDPdhEo8ewcqwqagAVjYJ.SMES4piBWmusiZ76uoR.vKCI1aceYBW");
-        requestSlavikDto.setName("Slavik");
-        requestSlavikDto.setAge(26);
-        requestSlavikDto.setGroups(Set.of(
+        requestStudentDto = new RequestStudentDto();
+        requestStudentDto.setId(6);
+        requestStudentDto.setUserName("student");
+        requestStudentDto.setPassword("$2a$12$iDPdhEo8ewcqwqagAVjYJ.SMES4piBWmusiZ76uoR.vKCI1aceYBW");
+        requestStudentDto.setName("Slavik");
+        requestStudentDto.setAge(26);
+        requestStudentDto.setGroups(Set.of(
                 GroupDtoOneForSlavik,
                 GroupDtoTwoForSlavik));
-        requestSlavikDto.setGrades(List.of(
+        requestStudentDto.setGrades(List.of(
                 gradeDtoOneForSlavik,
                 gradeDtoTwoForSlavik,
                 gradeDtoThreeForSlavik,
@@ -101,7 +101,7 @@ class StudentJsonControllerTest {
                 gradeDtoFiveForSlavik
         ));
 
-        student = studentMapper.toModel(requestSlavikDto);
+        student = studentMapper.toModel(requestStudentDto);
     }
 
     @Test
@@ -198,11 +198,11 @@ class StudentJsonControllerTest {
 
     @Test
     void saveStudentWhenStudentIsAlreadyInTheDataBaseShouldReturnStatusBadRequest() throws Exception {
-        when(studentService.save(requestSlavikDto)).thenThrow(new DataAccessException("...") {
+        when(studentService.save(requestStudentDto)).thenThrow(new DataAccessException("...") {
         });
 
         mockMvc.perform(post("/json/students")
-                        .content(new ObjectMapper().writeValueAsString(requestSlavikDto))
+                        .content(new ObjectMapper().writeValueAsString(requestStudentDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -211,10 +211,10 @@ class StudentJsonControllerTest {
 
     @Test
     void updateStudentWhenRequestBodyIsStudentAndIdIsCorrectShouldReturnStudent() throws Exception {
-        when(studentService.update(requestSlavikDto.getId(), requestSlavikDto)).thenReturn(studentMapper.toDTO(student));
+        when(studentService.update(requestStudentDto.getId(), requestStudentDto)).thenReturn(studentMapper.toDTO(student));
 
-        mockMvc.perform(put("/json/students/{id}", requestSlavikDto.getId())
-                        .content(new ObjectMapper().writeValueAsString(requestSlavikDto))
+        mockMvc.perform(put("/json/students/{id}", requestStudentDto.getId())
+                        .content(new ObjectMapper().writeValueAsString(requestStudentDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -243,11 +243,11 @@ class StudentJsonControllerTest {
 
     @Test
     void updateStudentWhenStudentIdIsIncorrectShouldThrowException() throws Exception {
-        requestSlavikDto.setId(-1);
-        when(studentService.update(requestSlavikDto.getId(), requestSlavikDto)).thenThrow(ConstraintViolationException.class);
+        requestStudentDto.setId(-1);
+        when(studentService.update(requestStudentDto.getId(), requestStudentDto)).thenThrow(ConstraintViolationException.class);
 
         mockMvc.perform(put("/json/students/{id}", -1)
-                        .content(new ObjectMapper().writeValueAsString(requestSlavikDto))
+                        .content(new ObjectMapper().writeValueAsString(requestStudentDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -257,10 +257,10 @@ class StudentJsonControllerTest {
     @Test
     void updateStudentWhenStudentIdIsNotEqualPathVariableIdShouldReturnStatusBadRequest() throws Exception {
         int pathVariable = -1;
-        when(studentService.update(pathVariable, requestSlavikDto)).thenThrow(IncorrectValueException.class);
+        when(studentService.update(pathVariable, requestStudentDto)).thenThrow(IncorrectValueException.class);
 
         mockMvc.perform(put("/json/students/{id}", pathVariable)
-                        .content(new ObjectMapper().writeValueAsString(requestSlavikDto))
+                        .content(new ObjectMapper().writeValueAsString(requestStudentDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -275,9 +275,9 @@ class StudentJsonControllerTest {
 
     @Test
     void deleteStudentWhenPathVariableIsCorrectShouldReturnStudent() throws Exception {
-        when(studentService.findById(requestSlavikDto.getId())).thenReturn(studentMapper.toDTO(student));
+        when(studentService.findById(requestStudentDto.getId())).thenReturn(studentMapper.toDTO(student));
 
-        mockMvc.perform(delete("/json/students/{id}", requestSlavikDto.getId())
+        mockMvc.perform(delete("/json/students/{id}", requestStudentDto.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

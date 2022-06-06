@@ -14,5 +14,5 @@ public class RequestTeacherDto extends RequestUserDto {
     private GroupDto group;
 
     @Min(MIN_SALARY)
-    private Double salary;
+    private double salary;
 }

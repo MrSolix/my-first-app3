@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public abstract class RequestUserDto {
 
-    private static final String REGEXP_FOR_USERNAME = "^[a-zA-Z]+[\\w.]+[a-zA-Z]+$";
+    public static final String REGEXP_FOR_USERNAME = "^[a-zA-Z]+[\\w.]+[a-zA-Z]+$";
     private static final int MIN_VALUE = 1;
     private static final int MAX_VALUE = 1000;
     private Integer id;
