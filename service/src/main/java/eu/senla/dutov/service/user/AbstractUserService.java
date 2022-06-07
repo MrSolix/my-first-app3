@@ -30,7 +30,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
     @Transactional(readOnly = true)
     public T findById(Integer id) {
         return abstractMapper.toDTO(jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role))));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role))));
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
         }
 
         U oldUser = jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role)));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role)));
         UserUtil.setUserFields(oldUser, abstractMapper.toModel(dto));
         jpaRepository.save(oldUser);
         return abstractMapper.toDTO(oldUser);
@@ -50,7 +50,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
     @Override
     public void remove(int id) {
         jpaRepository.delete(jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role))));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role))));
     }
 
     @Override

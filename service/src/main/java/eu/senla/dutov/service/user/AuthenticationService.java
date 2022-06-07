@@ -1,7 +1,7 @@
 package eu.senla.dutov.service.user;
 
 import eu.senla.dutov.exception.NotFoundException;
-import eu.senla.dutov.exception.PasswordException;
+import eu.senla.dutov.exception.UsernameOrPasswordException;
 import eu.senla.dutov.model.jwt.JwtRequest;
 import eu.senla.dutov.model.jwt.JwtResponse;
 import eu.senla.dutov.model.people.User;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
+    private static final String USERNAME_OR_PASSWORD_IS_WRONG = "Username or password is wrong";
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
@@ -25,12 +26,12 @@ public class AuthenticationService {
     }
 
     private User checkUser(JwtRequest jwtRequest) {
-        User user = userRepository.findByUserName(jwtRequest.getUsername()).orElseThrow(() ->
-                new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, jwtRequest.getUsername())));
+        User user = userRepository.findByUserName(jwtRequest.getUserName()).orElseThrow(() ->
+                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, jwtRequest.getUserName())));
         if (passwordEncoder.matches(jwtRequest.getPassword(), user.getPassword())) {
             return user;
         } else {
-            throw new PasswordException("Password is wrong");
+            throw new UsernameOrPasswordException(USERNAME_OR_PASSWORD_IS_WRONG);
         }
     }
 }

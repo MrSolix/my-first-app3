@@ -6,6 +6,7 @@ import eu.senla.dutov.dto.RequestTeacherDto;
 import eu.senla.dutov.dto.RequestUserDto;
 import eu.senla.dutov.dto.ResponseUserDto;
 import eu.senla.dutov.exception.IncorrectValueException;
+import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.service.util.ServiceConstantClass;
 import java.util.Locale;
@@ -33,7 +34,7 @@ public class RegistrationService {
     public ResponseUserDto registration(RegistrationDto registrationDto) {
         AbstractUserService abstractUserService = serviceMap.get(registrationDto.getRole().toUpperCase(Locale.ROOT));
         if (abstractUserService == null) {
-            throw new IncorrectValueException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND,
+            throw new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND,
                     registrationDto.getRole()));
         }
         registrationDto.setPassword(passwordEncoder.encode(registrationDto.getPassword()));

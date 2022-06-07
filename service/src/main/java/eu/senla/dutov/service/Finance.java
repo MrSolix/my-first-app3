@@ -54,12 +54,12 @@ public class Finance {
 
     public Double getSalary(int id) {
         return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
-                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))).getSalary();
+                .format(ServiceConstantClass.VALUE_IS_NOT_FOUND, Role.ROLE_TEACHER))).getSalary();
     }
 
     public Double getAverageSalary(int id, int min, int max) {
         return averageSalary(min, max, teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
-                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))));
+                .format(ServiceConstantClass.VALUE_IS_NOT_FOUND, Role.ROLE_TEACHER))));
     }
 
     private double averageSalary(int minRange, int maxRange, Teacher teacher) {

@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
@@ -13,3 +16,8 @@ spring:
     username: slavik
     password: 159357
     driver-class-name: org.postgresql.Driver
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    operations-sorter: method

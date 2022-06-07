@@ -8,6 +8,9 @@ import eu.senla.dutov.service.user.AuthenticationService;
 import eu.senla.dutov.service.user.RegistrationService;
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -29,13 +32,15 @@ public class AuthController {
     private final RegistrationService registrationService;
 
     @PostMapping(URI_AUTH)
-    @PermitAll
+    @Operation(summary = "Authentication user")
+    @ApiResponse(responseCode = "200", description = "Authentication is successful")
     public ResponseEntity<JwtResponse> authentication(@RequestBody JwtRequest jwtRequest) {
         return ResponseEntity.ok(authenticationService.authentication(jwtRequest));
     }
 
     @PostMapping(URI_REGISTER)
-    @PermitAll
+    @Operation(summary = "Registration user")
+    @ApiResponse(responseCode = "200", description = "Registration is successful")
     public ResponseEntity<ResponseUserDto> registerUser(@RequestBody @Valid RegistrationDto registrationDto) {
         return ResponseEntity.ok(registrationService.registration(registrationDto));
     }
