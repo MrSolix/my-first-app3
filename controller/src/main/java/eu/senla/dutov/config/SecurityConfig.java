@@ -15,20 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -37,8 +23,9 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String JSON_URI = "/json/**";
-    public static final String AUTH_URI = "/auth";
-    public static final String REGISTER_URI = "/register";
+    private static final String AUTH_URI = "/auth";
+    private static final String REGISTER_URI = "/register";
+    private static final String SWAGGER_URI = "/swagger**";
     private final JwtFilter jwtFilter;
 
     @Override
@@ -46,10 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
+                .and().authorizeRequests()
                 .antMatchers(JSON_URI).hasAnyRole(Role.ROLE_ADMIN)
-                .antMatchers(AUTH_URI, REGISTER_URI).permitAll()
+                .antMatchers(AUTH_URI, REGISTER_URI, SWAGGER_URI).permitAll()
 //                .anyRequest().authenticated()
                 .and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

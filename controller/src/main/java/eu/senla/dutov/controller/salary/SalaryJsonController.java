@@ -2,6 +2,7 @@ package eu.senla.dutov.controller.salary;
 
 import eu.senla.dutov.service.Finance;
 import eu.senla.dutov.util.ControllerConstantClass;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @RestController
 @RequestMapping(path = SalaryJsonController.URI_JSON_SALARIES, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class SalaryJsonController {
 
     private final Finance finance;

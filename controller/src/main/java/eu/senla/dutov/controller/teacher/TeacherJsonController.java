@@ -4,6 +4,7 @@ import eu.senla.dutov.dto.RequestTeacherDto;
 import eu.senla.dutov.dto.ResponseTeacherDto;
 import eu.senla.dutov.service.user.TeacherService;
 import eu.senla.dutov.util.ControllerConstantClass;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -28,6 +29,7 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
+@SecurityRequirement(name = "bearerAuth")
 public class TeacherJsonController {
 
     private final TeacherService teacherService;

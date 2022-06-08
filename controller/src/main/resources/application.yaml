@@ -1,7 +1,9 @@
 spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: my_mongodb
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
@@ -19,5 +21,3 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
-  swagger-ui:
-    operations-sorter: method

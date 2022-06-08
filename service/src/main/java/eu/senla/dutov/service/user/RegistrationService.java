@@ -5,7 +5,6 @@ import eu.senla.dutov.dto.RequestStudentDto;
 import eu.senla.dutov.dto.RequestTeacherDto;
 import eu.senla.dutov.dto.RequestUserDto;
 import eu.senla.dutov.dto.ResponseUserDto;
-import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.service.util.ServiceConstantClass;

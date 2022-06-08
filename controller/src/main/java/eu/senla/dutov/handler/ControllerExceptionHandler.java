@@ -2,9 +2,8 @@ package eu.senla.dutov.handler;
 
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
-import javax.validation.ConstraintViolationException;
-
 import eu.senla.dutov.exception.UsernameOrPasswordException;
+import javax.validation.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

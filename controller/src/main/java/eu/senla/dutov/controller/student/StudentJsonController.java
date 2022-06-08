@@ -4,11 +4,10 @@ import eu.senla.dutov.dto.RequestStudentDto;
 import eu.senla.dutov.dto.ResponseStudentDto;
 import eu.senla.dutov.service.user.StudentService;
 import eu.senla.dutov.util.ControllerConstantClass;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -30,7 +29,7 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @RequestMapping(path = StudentJsonController.URI_JSON_STUDENTS, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
-@Api(tags = "Students")
+@SecurityRequirement(name = "bearerAuth")
 public class StudentJsonController {
 
     private final StudentService studentService;

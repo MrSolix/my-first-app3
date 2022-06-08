@@ -6,11 +6,9 @@ import eu.senla.dutov.model.jwt.JwtRequest;
 import eu.senla.dutov.model.jwt.JwtResponse;
 import eu.senla.dutov.service.user.AuthenticationService;
 import eu.senla.dutov.service.user.RegistrationService;
-import javax.annotation.security.PermitAll;
-import javax.validation.Valid;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
