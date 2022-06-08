@@ -5,7 +5,7 @@ import eu.senla.dutov.dto.ResponseTeacherDto;
 import eu.senla.dutov.mapper.TeacherMapper;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.repository.user.TeacherRepository;
+import eu.senla.dutov.repository.jpa.user.TeacherRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

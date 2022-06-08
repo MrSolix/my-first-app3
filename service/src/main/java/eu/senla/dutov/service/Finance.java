@@ -4,7 +4,7 @@ import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.repository.user.TeacherRepository;
+import eu.senla.dutov.repository.jpa.user.TeacherRepository;
 import eu.senla.dutov.service.util.ServiceConstantClass;
 import java.time.LocalDate;
 import java.util.HashMap;

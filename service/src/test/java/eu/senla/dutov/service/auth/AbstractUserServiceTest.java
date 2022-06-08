@@ -2,7 +2,7 @@ package eu.senla.dutov.service.auth;
 
 import eu.senla.dutov.model.auth.UserPrincipal;
 import eu.senla.dutov.model.people.Admin;
-import eu.senla.dutov.repository.user.UserRepository;
+import eu.senla.dutov.repository.jpa.user.UserRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
