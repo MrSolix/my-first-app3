@@ -2,8 +2,7 @@ package eu.senla.dutov.controller.salary;
 
 import eu.senla.dutov.service.Finance;
 import eu.senla.dutov.util.ControllerConstantClass;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -14,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import static eu.senla.dutov.util.ControllerConstantClass.MAX_VALUE;
 import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 
@@ -22,6 +24,7 @@ import static eu.senla.dutov.util.ControllerConstantClass.MIN_VALUE;
 @RestController
 @RequestMapping(path = SalaryJsonController.URI_JSON_SALARIES, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@SecurityRequirement(name = ControllerConstantClass.BEARER_AUTH)
 public class SalaryJsonController {
 
     private final Finance finance;

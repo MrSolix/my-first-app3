@@ -43,7 +43,7 @@ class StudentTest {
     @Test
     void getAllStudents() throws Exception {
         mockMvc.perform(get("/json/students")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -51,7 +51,7 @@ class StudentTest {
     @Test
     void getStudentWhenIdIsCorrectShouldReturnStudent() throws Exception {
         mockMvc.perform(get("/json/students/{id}", STUDENT_ID)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -59,7 +59,7 @@ class StudentTest {
     @Test
     void getStudentWhenIdIsCorrectButNotStudentShouldReturnStatusNotFound() throws Exception {
         mockMvc.perform(get("/json/students/{id}", TEACHER_ID)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -67,7 +67,7 @@ class StudentTest {
     @Test
     void getStudentWhenIdIsIncorrectShouldReturnStatusNotFound() throws Exception {
         mockMvc.perform(get("/json/students/{id}", INCORRECT_ID)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -78,9 +78,9 @@ class StudentTest {
         responseStudentDto.setUserName("testStudent");
 
         mockMvc.perform(post("/json/students")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(responseStudentDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(responseStudentDto)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -91,9 +91,9 @@ class StudentTest {
         student.setId(null);
 
         mockMvc.perform(post("/json/students")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -106,9 +106,9 @@ class StudentTest {
         student.setAge(0);
 
         mockMvc.perform(post("/json/students")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -119,9 +119,9 @@ class StudentTest {
         student.setAge(99);
 
         mockMvc.perform(put("/json/students/{id}", student.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -131,9 +131,9 @@ class StudentTest {
         ResponseStudentDto student = studentService.findById(STUDENT_ID);
 
         mockMvc.perform(put("/json/students/{id}", INCORRECT_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -145,9 +145,9 @@ class StudentTest {
         student.setAge(0);
 
         mockMvc.perform(put("/json/students/{id}", student.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -157,9 +157,9 @@ class StudentTest {
         ResponseStudentDto student = studentService.findById(STUDENT_ID);
 
         mockMvc.perform(put("/json/students/{id}", OTHER_STUDENT_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -170,9 +170,9 @@ class StudentTest {
         student.setId(8);
 
         mockMvc.perform(put("/json/students/{id}", student.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(student)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(student)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -180,8 +180,8 @@ class StudentTest {
     @Test
     void deleteStudentWhenIdIsCorrectShouldReturnStatusOk() throws Exception {
         mockMvc.perform(delete("/json/students/{id}", STUDENT_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -189,8 +189,8 @@ class StudentTest {
     @Test
     void deleteStudentWhenStudentIsNotFoundShouldReturnStatusNotFound() throws Exception {
         mockMvc.perform(delete("/json/students/{id}", TEACHER_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -198,8 +198,8 @@ class StudentTest {
     @Test
     void deleteStudentWhenIdIsIncorrectShouldReturnStatusBadRequest() throws Exception {
         mockMvc.perform(delete("/json/students/{id}", INCORRECT_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }

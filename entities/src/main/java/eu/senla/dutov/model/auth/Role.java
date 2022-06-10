@@ -3,9 +3,11 @@ package eu.senla.dutov.model.auth;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.people.User;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Getter

@@ -3,17 +3,18 @@ package eu.senla.dutov.service;
 import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.repository.user.TeacherRepository;
+import eu.senla.dutov.repository.jpa.user.TeacherRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class FinanceTest {
 

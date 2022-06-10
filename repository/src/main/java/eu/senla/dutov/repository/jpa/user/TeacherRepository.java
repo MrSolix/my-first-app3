@@ -1,4 +1,4 @@
-package eu.senla.dutov.repository.user;
+package eu.senla.dutov.repository.jpa.user;
 
 import eu.senla.dutov.model.people.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;

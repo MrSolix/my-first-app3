@@ -9,9 +9,10 @@ import eu.senla.dutov.model.people.User;
 import eu.senla.dutov.service.ServiceCRUDInterfaceDuo;
 import eu.senla.dutov.service.util.ServiceConstantClass;
 import eu.senla.dutov.service.util.UserUtil;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 public abstract class AbstractUserService<R extends RequestUserDto, T extends ResponseUserDto, U extends User>
@@ -30,7 +31,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
     @Transactional(readOnly = true)
     public T findById(Integer id) {
         return abstractMapper.toDTO(jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role))));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role))));
     }
 
     @Override
@@ -41,7 +42,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
         }
 
         U oldUser = jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role)));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role)));
         UserUtil.setUserFields(oldUser, abstractMapper.toModel(dto));
         jpaRepository.save(oldUser);
         return abstractMapper.toDTO(oldUser);
@@ -50,7 +51,7 @@ public abstract class AbstractUserService<R extends RequestUserDto, T extends Re
     @Override
     public void remove(int id) {
         jpaRepository.delete(jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.USER_IS_NOT_FOUND, role))));
+                .orElseThrow(() -> new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, role))));
     }
 
     @Override

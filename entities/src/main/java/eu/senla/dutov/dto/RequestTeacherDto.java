@@ -1,9 +1,10 @@
 package eu.senla.dutov.dto;
 
-import javax.validation.constraints.Min;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.Min;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
@@ -14,5 +15,5 @@ public class RequestTeacherDto extends RequestUserDto {
     private GroupDto group;
 
     @Min(MIN_SALARY)
-    private Double salary;
+    private double salary;
 }

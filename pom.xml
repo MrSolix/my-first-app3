@@ -25,6 +25,9 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <liquibase-core.version>4.5.0</liquibase-core.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <springdoc-openapi-ui.version>1.6.8</springdoc-openapi-ui.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
     </properties>
     <dependencies>
         <dependency>
@@ -82,6 +85,20 @@
                     <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
     </dependencies>
 

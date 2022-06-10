@@ -2,14 +2,15 @@ package eu.senla.dutov.service.auth;
 
 import eu.senla.dutov.model.auth.UserPrincipal;
 import eu.senla.dutov.model.people.Admin;
-import eu.senla.dutov.repository.user.UserRepository;
-import java.util.HashSet;
-import java.util.Optional;
+import eu.senla.dutov.repository.jpa.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.HashSet;
+import java.util.Optional;
 
 class AbstractUserServiceTest {
 

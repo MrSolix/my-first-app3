@@ -4,17 +4,18 @@ import eu.senla.dutov.exception.IncorrectValueException;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.people.Teacher;
-import eu.senla.dutov.repository.user.TeacherRepository;
+import eu.senla.dutov.repository.jpa.user.TeacherRepository;
 import eu.senla.dutov.service.util.ServiceConstantClass;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
@@ -54,12 +55,12 @@ public class Finance {
 
     public Double getSalary(int id) {
         return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
-                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))).getSalary();
+                .format(ServiceConstantClass.VALUE_IS_NOT_FOUND, Role.ROLE_TEACHER))).getSalary();
     }
 
     public Double getAverageSalary(int id, int min, int max) {
         return averageSalary(min, max, teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(String
-                .format(ServiceConstantClass.USER_IS_NOT_FOUND, Role.ROLE_TEACHER))));
+                .format(ServiceConstantClass.VALUE_IS_NOT_FOUND, Role.ROLE_TEACHER))));
     }
 
     private double averageSalary(int minRange, int maxRange, Teacher teacher) {

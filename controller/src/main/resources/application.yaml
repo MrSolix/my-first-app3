@@ -1,4 +1,8 @@
 spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/my_mongodb
+      database: my_mongodb
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
@@ -13,3 +17,7 @@ spring:
     username: slavik
     password: 159357
     driver-class-name: org.postgresql.Driver
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
