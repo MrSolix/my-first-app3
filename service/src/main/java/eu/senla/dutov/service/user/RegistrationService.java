@@ -8,11 +8,12 @@ import eu.senla.dutov.dto.ResponseUserDto;
 import eu.senla.dutov.exception.NotFoundException;
 import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.service.util.ServiceConstantClass;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationService {

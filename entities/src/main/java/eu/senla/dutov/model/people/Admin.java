@@ -2,6 +2,7 @@ package eu.senla.dutov.model.people;
 
 import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.auth.Role;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 

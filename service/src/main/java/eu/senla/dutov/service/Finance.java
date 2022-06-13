@@ -6,15 +6,16 @@ import eu.senla.dutov.model.auth.Role;
 import eu.senla.dutov.model.people.Teacher;
 import eu.senla.dutov.repository.jpa.user.TeacherRepository;
 import eu.senla.dutov.service.util.ServiceConstantClass;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component

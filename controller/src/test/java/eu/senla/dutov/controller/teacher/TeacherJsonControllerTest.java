@@ -8,9 +8,6 @@ import eu.senla.dutov.handler.ControllerExceptionHandler;
 import eu.senla.dutov.mapper.TeacherMapper;
 import eu.senla.dutov.model.people.Teacher;
 import eu.senla.dutov.service.user.TeacherService;
-import java.util.Collections;
-import java.util.List;
-import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +17,10 @@ import org.mockito.Mockito;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import javax.validation.ConstraintViolationException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -102,7 +103,7 @@ class TeacherJsonControllerTest {
                 teacherMapper.toDTO(teacherOne)));
 
         mockMvc.perform(get("/json/teachers")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].userName").value("teacher1"))
@@ -130,7 +131,7 @@ class TeacherJsonControllerTest {
         when(teacherService.findAll()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/json/teachers")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isEmpty());
     }
 
@@ -139,7 +140,7 @@ class TeacherJsonControllerTest {
         when(teacherService.findById(requestTeacherDto.getId())).thenReturn(teacherMapper.toDTO(teacherOne));
 
         mockMvc.perform(get("/json/teachers/{id}", requestTeacherDto.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -154,7 +155,7 @@ class TeacherJsonControllerTest {
         when(teacherService.findById(-1)).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/json/teachers/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -164,9 +165,9 @@ class TeacherJsonControllerTest {
         });
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -177,9 +178,9 @@ class TeacherJsonControllerTest {
         });
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -188,9 +189,9 @@ class TeacherJsonControllerTest {
         when(teacherService.save(requestTeacherDto)).thenReturn(teacherMapper.toDTO(teacherOne));
 
         mockMvc.perform(post("/json/teachers")
-                        .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -205,9 +206,9 @@ class TeacherJsonControllerTest {
         when(teacherService.update(requestTeacherDto.getId(), requestTeacherDto)).thenReturn(teacherMapper.toDTO(teacherOne));
 
         mockMvc.perform(put("/json/teachers/{id}", requestTeacherDto.getId())
-                        .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4))
                 .andExpect(jsonPath("$.userName").value("teacher"))
@@ -223,9 +224,9 @@ class TeacherJsonControllerTest {
         when(teacherService.update(requestTeacherDto.getId(), requestTeacherDto)).thenThrow(ConstraintViolationException.class);
 
         mockMvc.perform(put("/json/teachers/{id}", -1)
-                        .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .content(new ObjectMapper().writeValueAsString(requestTeacherDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -234,7 +235,7 @@ class TeacherJsonControllerTest {
         when(teacherService.findById(requestTeacherDto.getId())).thenReturn(teacherMapper.toDTO(teacherOne));
 
         mockMvc.perform(delete("/json/teachers/{id}", requestTeacherDto.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -243,7 +244,7 @@ class TeacherJsonControllerTest {
         doThrow(ConstraintViolationException.class).when(teacherService).remove(-1);
 
         mockMvc.perform(delete("/json/teachers/{id}", -1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 }

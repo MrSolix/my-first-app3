@@ -1,8 +1,9 @@
 package eu.senla.dutov.model.jwt;
 
-import java.io.Serializable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
 
 @RequiredArgsConstructor
 @Getter

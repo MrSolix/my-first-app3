@@ -9,9 +9,10 @@ import eu.senla.dutov.model.people.User;
 import eu.senla.dutov.service.ServiceCRUDInterfaceDuo;
 import eu.senla.dutov.service.util.ServiceConstantClass;
 import eu.senla.dutov.service.util.UserUtil;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 public abstract class AbstractUserService<R extends RequestUserDto, T extends ResponseUserDto, U extends User>

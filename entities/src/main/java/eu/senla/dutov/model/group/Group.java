@@ -5,15 +5,6 @@ import eu.senla.dutov.model.AbstractEntity;
 import eu.senla.dutov.model.ModelConstantClass;
 import eu.senla.dutov.model.people.Student;
 import eu.senla.dutov.model.people.Teacher;
-import java.util.Objects;
-import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +12,16 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter

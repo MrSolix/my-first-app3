@@ -36,7 +36,8 @@ public class AuthenticationService {
 
     private User checkUser(JwtRequest jwtRequest) {
         User user = userRepository.findByUserName(jwtRequest.getUserName()).orElseThrow(() ->
-                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, jwtRequest.getUserName())));
+                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND,
+                        jwtRequest.getUserName())));
         if (passwordEncoder.matches(jwtRequest.getPassword(), user.getPassword())) {
             return user;
         } else {
