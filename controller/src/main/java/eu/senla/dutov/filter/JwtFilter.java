@@ -21,8 +21,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String BEARER = "Bearer ";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
+    private static final int INDEX = 7;
 
     private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
@@ -47,8 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(AUTHORIZATION);
         if (StringUtils.hasText(bearer) && bearer.startsWith(BEARER)) {
-            int beginIndex = 7;
-            return bearer.substring(beginIndex);
+            return bearer.substring(INDEX);
         }
         return null;
     }

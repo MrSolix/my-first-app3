@@ -10,11 +10,10 @@ import eu.senla.dutov.repository.jpa.user.UserRepository;
 import eu.senla.dutov.repository.mongo.UserTimeStampRepository;
 import eu.senla.dutov.service.util.JwtTokenUtil;
 import eu.senla.dutov.service.util.ServiceConstantClass;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,8 @@ public class AuthenticationService {
 
     private User checkUser(JwtRequest jwtRequest) {
         User user = userRepository.findByUserName(jwtRequest.getUserName()).orElseThrow(() ->
-                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, jwtRequest.getUserName())));
+                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND,
+                        jwtRequest.getUserName())));
         if (passwordEncoder.matches(jwtRequest.getPassword(), user.getPassword())) {
             return user;
         } else {
