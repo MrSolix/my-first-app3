@@ -20,15 +20,17 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private static final String USERNAME_OR_PASSWORD_IS_WRONG = "Username or password is wrong";
+    private static final long UTC_3 = 3L;
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserTimeStampRepository userTimeStampRepository;
 
     public JwtResponse authentication(JwtRequest jwtRequest) {
-        JwtResponse jwtResponse = new JwtResponse(jwtTokenUtil.generateToken(checkUser(jwtRequest).getUserName()));
+        JwtResponse jwtResponse = new JwtResponse(jwtTokenUtil.generateToken(ServiceConstantClass.USER_NAME,
+                checkUser(jwtRequest).getUserName()));
         userTimeStampRepository.save(UserTimeStamp.builder()
-                .timeStamp(LocalDateTime.now())
+                .timeStamp(LocalDateTime.now().plusHours(UTC_3))
                 .userName(jwtRequest.getUserName())
                 .build());
         return jwtResponse;
