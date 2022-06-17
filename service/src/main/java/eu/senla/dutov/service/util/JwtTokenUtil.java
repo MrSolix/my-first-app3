@@ -21,11 +21,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class JwtTokenUtil {
 
-    private static final long JWT_TOKEN_VALIDITY = 180000;
     private static final String SECRET_KEY = "secret-key";
 
-    @Value(SECRET_KEY)
-    private String secret;
+    @Value("${jwt.validity}")
+    private long jwtValidity;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, claims -> claims.get(ServiceConstantClass.USER_NAME, String.class));
@@ -38,7 +37,7 @@ public class JwtTokenUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -49,8 +48,8 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + jwtValidity))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
     }
 
     public boolean validateToken(String token) {

@@ -20,3 +20,5 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+jwt:
+  validity: 180000
