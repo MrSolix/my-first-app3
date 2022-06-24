@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven-Default'
-        jdk 'OpenJDK-11'
-    }
 
     stages {
         stage('Clean previous version') {
