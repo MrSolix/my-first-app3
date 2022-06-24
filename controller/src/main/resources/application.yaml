@@ -22,3 +22,5 @@ springdoc:
     path: /api-docs
 jwt:
   validity: 180000
+sonarqube:
+  token: sqp_662523b9e5b9296ceab56afb05a942c153f103ad
