@@ -14,7 +14,7 @@ pipeline {
                     sh 'docker rm -f postgres-db'
                     sh 'docker rm -f postgres-db-test'
                     sh 'docker rm -f my-app'
-                    sh 'docker rmi my-first-app_app'
+                    sh 'docker rmi my-pipeline_app'
                 }
             }
         }
