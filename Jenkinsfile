@@ -25,17 +25,18 @@ pipeline {
             }
         }
 
+        stage('Docker deployment') {
+            steps {
+                sh 'docker-compose -f docker-compose.yaml up -d'
+            }
+        }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
             }
         }
 
-        stage('Docker deployment') {
-            steps {
-                sh 'docker-compose -f docker-compose.yaml up -d'
-            }
-        }
 //         stage('SonarQube check') {
 //             steps {
 //                 withSonarQubeEnv(credentialsId: 'sonar-tipa',
