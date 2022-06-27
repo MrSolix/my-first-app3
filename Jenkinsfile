@@ -10,8 +10,9 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                     sh 'mvn clean'
+                    sh 'docker rm -f my-mongo-container'
                     sh 'docker rm -f postgres-db'
-                    sh 'docker rm -f my-first-app'
+                    sh 'docker rm -f my-app'
                     sh 'docker rmi my-first-app_app'
                 }
             }
