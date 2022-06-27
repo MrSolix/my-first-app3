@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  mongo:
+    image: "mongo"
+    container_name: "my-mongo-container"
+    environment:
+      - MONGO_INITDB_DATABASE=my_mongodb
+      - MONGO_INITDB_ROOT_USERNAME=docker
+      - MONGO_INITDB_ROOT_PASSWORD=docker
+    volumes:
+      - ~/apps/mongo:/data/db
+    ports:
+      - "27017:27017"
+
   postgres:
     container_name: postgres
     image: postgres:14.2
@@ -19,14 +31,17 @@ services:
       dockerfile: controller/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/my_first_app
+      - SPRING_DATA_MONGODB_URI=mongodb://docker:docker@mongo:27017/
       - SPRING_DATASOURCE_USERNAME=docker
       - SPRING_DATASOURCE_PASSWORD=docker
     ports:
       - "8080:8080"
     links:
       - postgres
+      - mongo
     depends_on:
       - postgres
+      - mongo
 
 volumes:
   postgres-data:
