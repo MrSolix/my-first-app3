@@ -33,7 +33,7 @@ services:
       POSTGRES_USER: "docker"
       POSTGRES_PASSWORD: "docker"
     ports:
-      - "5433:5433"
+      - "5433:5432"
     restart: always
     volumes:
       - posrgres-data-test:/var/lib/postgresql/data
