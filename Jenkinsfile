@@ -17,6 +17,12 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                sh 'mvn install -DskipTests=true'
+            }
+        }
+
         stage('Docker deployment') {
             steps {
                 sh 'docker-compose -f docker-compose.yaml up -d'
@@ -28,13 +34,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
-        stage('Build') {
-            steps {
-                sh 'mvn install -DskipTests=true'
-            }
-        }
-
 //         stage('SonarQube check') {
 //             steps {
 //                 withSonarQubeEnv(credentialsId: 'sonar-tipa',
