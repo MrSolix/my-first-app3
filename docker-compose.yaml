@@ -45,19 +45,19 @@ services:
       dockerfile: controller/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/my_first_app
-      - SPRING_DATASOURCE_URL_TEST=jdbc:postgresql://postgres-test:5432/my_first_app_test
+      - SPRING_DATASOURCE_URL_TEST=jdbc:postgresql://postgres-test:5433/my_first_app_test
       - SPRING_DATA_MONGODB_URI=mongodb://docker:docker@mongo:27017/
       - SPRING_DATASOURCE_USERNAME=docker
       - SPRING_DATASOURCE_PASSWORD=docker
     ports:
       - "8080:8080"
     links:
-      - postgres-test
       - postgres
+      - postgres-test
       - mongo
     depends_on:
-      - postgres-test
       - postgres
+      - postgres-test
       - mongo
 
 volumes:
