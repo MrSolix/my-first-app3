@@ -30,13 +30,13 @@ pipeline {
             }
         }
 
-//         stage('SonarQube check') {
-//             steps {
-//                 withSonarQubeEnv(credentialsId: 'sonar-tipa',
-//                 installationName: 'local-sonarqube') {
-//                     sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
-//                 }
-//             }
-//         }
+        stage('SonarQube check') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'sonar-tipa',
+                installationName: 'local-sonarqube') {
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184:sonar'
+                }
+            }
+        }
     }
 }
