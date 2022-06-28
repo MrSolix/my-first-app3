@@ -12,7 +12,6 @@ pipeline {
                     sh 'mvn clean'
                     sh 'docker rm -f my-mongo-container'
                     sh 'docker rm -f postgres-db'
-                    sh 'docker rm -f postgres-db-test'
                     sh 'docker rm -f my-app'
                     sh 'docker rmi my-pipeline_app'
                 }
@@ -25,17 +24,17 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
         stage('Docker deployment') {
             steps {
                 sh 'docker-compose -f docker-compose.yaml up -d'
             }
         }
-
-//         stage('Test') {
-//             steps {
-//                 sh 'mvn test'
-//             }
-//         }
 
 //         stage('SonarQube check') {
 //             steps {
