@@ -4,8 +4,10 @@ import org.junit.ClassRule;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+@Configuration
 public class ContainerConfig {
 
     @ClassRule
