@@ -1,13 +1,13 @@
 package eu.senla.dutov.controller.config;
 
 import org.junit.ClassRule;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-@Configuration
+@SpringBootTest
 public class ContainerConfig {
 
     @ClassRule
