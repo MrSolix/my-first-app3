@@ -11,7 +11,17 @@
 
     <artifactId>controller</artifactId>
 
+    <properties>
+        <postgresql.test.version>1.17.2</postgresql.test.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.test.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>eu.senla</groupId>
             <artifactId>service</artifactId>
