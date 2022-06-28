@@ -25,18 +25,18 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-#  postgres-test:
-#    container_name: postgres-db-test
-#    image: postgres:14.2
-#    environment:
-#      POSTGRES_DB: "my_first_app_test"
-#      POSTGRES_USER: "docker"
-#      POSTGRES_PASSWORD: "docker"
-#    ports:
-#      - "5433:5432"
-#    restart: always
-#    volumes:
-#      - posrgres-data-test:/var/lib/postgresql-test/data
+  postgres-test:
+    container_name: postgres-db-test
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: "my_first_app_test"
+      POSTGRES_USER: "docker"
+      POSTGRES_PASSWORD: "docker"
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - posrgres-data-test:/var/lib/postgresql-test/data
 
   app:
     container_name: my-app
@@ -45,7 +45,7 @@ services:
       dockerfile: controller/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/my_first_app
-#      - SPRING_DATASOURCE_URL_TEST=jdbc:postgresql://postgres-test:5432/my_first_app_test
+      - SPRING_DATASOURCE_URL_TEST=jdbc:postgresql://postgres-test:5432/my_first_app_test
       - SPRING_DATA_MONGODB_URI=mongodb://docker:docker@mongo:27017/
       - SPRING_DATASOURCE_USERNAME=docker
       - SPRING_DATASOURCE_PASSWORD=docker
@@ -53,13 +53,13 @@ services:
       - "8080:8080"
     links:
       - postgres
-#      - postgres-test
+      - postgres-test
       - mongo
     depends_on:
       - postgres
-#      - postgres-test
+      - postgres-test
       - mongo
 
 volumes:
   postgres-data:
-#  posrgres-data-test:
+  posrgres-data-test:
