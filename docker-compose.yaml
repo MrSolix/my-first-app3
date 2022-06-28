@@ -36,7 +36,7 @@ services:
       - "5433:5432"
     restart: always
     volumes:
-      - posrgres-data-test:/var/lib/postgresql/data
+      - posrgres-data-test:/var/lib/postgresql-test/data
 
   app:
     container_name: my-app
