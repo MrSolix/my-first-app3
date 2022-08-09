@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.0"
 services:
   mongodb:
     container_name: mongodb
@@ -8,20 +8,7 @@ services:
     - "27017:27017"
 
   postgres:
-    container_name: postgres
-    image: postgres:14.2
-    environment:
-      POSTGRES_DB: "my_first_app"
-      POSTGRES_USER: "docker"
-      POSTGRES_PASSWORD: "docker"
-    ports:
-      - "5432:5432"
-    restart: always
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-
-  postgres-test:
-    container_name: postgres
+    container_name: postgres-db
     image: postgres:14.2
     environment:
       POSTGRES_DB: "my_first_app"
@@ -34,6 +21,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   app:
+    container_name: my-app
     build:
       context: .
       dockerfile: controller/Dockerfile
@@ -52,4 +40,3 @@ services:
 
 volumes:
   postgres-data:
-  mongodb-data:

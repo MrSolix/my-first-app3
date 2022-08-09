@@ -32,6 +32,7 @@ public class AuthController {
     private static final String REGISTRATION_USER = "Registration user";
     private static final String REGISTRATION_IS_SUCCESSFUL = "Registration is successful";
     private static final String AUTHENTICATION_IS_SUCCESSFUL = "Authentication is successful";
+
     private final AuthenticationService authenticationService;
     private final RegistrationService registrationService;
 

@@ -6,6 +6,7 @@ public class ServiceConstantClass {
     public static final String VALUE_IS_NOT_FOUND = "%s is not found";
     public static final String PASSED_ID_IS_NOT_EQUAL_TO_USER_ID = "Passed id is not equal to %s id";
     public static final String INCORRECT_VALUE = "Incorrect value";
+    public static final String USER_NAME = "username";
 
     private ServiceConstantClass() {
     }

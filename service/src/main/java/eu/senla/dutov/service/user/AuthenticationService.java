@@ -10,26 +10,27 @@ import eu.senla.dutov.repository.jpa.user.UserRepository;
 import eu.senla.dutov.repository.mongo.UserTimeStampRepository;
 import eu.senla.dutov.service.util.JwtTokenUtil;
 import eu.senla.dutov.service.util.ServiceConstantClass;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private static final String USERNAME_OR_PASSWORD_IS_WRONG = "Username or password is wrong";
+    private static final long UTC_3 = 3L;
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserTimeStampRepository userTimeStampRepository;
 
     public JwtResponse authentication(JwtRequest jwtRequest) {
-        JwtResponse jwtResponse = new JwtResponse(jwtTokenUtil.generateToken(checkUser(jwtRequest).getUserName()));
+        JwtResponse jwtResponse = new JwtResponse(jwtTokenUtil.generateToken(ServiceConstantClass.USER_NAME,
+                checkUser(jwtRequest).getUserName()));
         userTimeStampRepository.save(UserTimeStamp.builder()
-                .timeStamp(LocalDateTime.now())
+                .timeStamp(LocalDateTime.now().plusHours(UTC_3))
                 .userName(jwtRequest.getUserName())
                 .build());
         return jwtResponse;
@@ -37,7 +38,8 @@ public class AuthenticationService {
 
     private User checkUser(JwtRequest jwtRequest) {
         User user = userRepository.findByUserName(jwtRequest.getUserName()).orElseThrow(() ->
-                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND, jwtRequest.getUserName())));
+                new NotFoundException(String.format(ServiceConstantClass.VALUE_IS_NOT_FOUND,
+                        jwtRequest.getUserName())));
         if (passwordEncoder.matches(jwtRequest.getPassword(), user.getPassword())) {
             return user;
         } else {

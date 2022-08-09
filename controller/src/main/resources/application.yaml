@@ -21,4 +21,7 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
-  swagger-ui:
+jwt:
+  validity: 180000
+sonarqube:
+  token: "bred: sqp_fb597f68c82597d9e720b34a31981819a79939d4"
