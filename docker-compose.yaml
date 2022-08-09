@@ -1,6 +1,26 @@
 version: "3.8"
 services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    ports:
+    - "27017:27017"
+
   postgres:
+    container_name: postgres
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: "my_first_app"
+      POSTGRES_USER: "docker"
+      POSTGRES_PASSWORD: "docker"
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  postgres-test:
     container_name: postgres
     image: postgres:14.2
     environment:
@@ -25,8 +45,11 @@ services:
       - "8080:8080"
     links:
       - postgres
+      - mongodb
     depends_on:
       - postgres
+      - mongodb
 
 volumes:
   postgres-data:
+  mongodb-data:

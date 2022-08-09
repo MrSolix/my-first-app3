@@ -1,8 +1,9 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/my_mongodb
-      database: my_mongodb
+      host: localhost
+      port: 27017
+      database: my_database
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
